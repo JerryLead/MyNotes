@@ -3,6 +3,9 @@
 
 Found 191 matching posts for `oom` in Apache Spark User [List](http://apache-spark-user-list.1001560.n3.nabble.com/template/NamlServlet.jtp?macro=search_page&node=1&query=oom).
 
+at [here](http://apache-spark-user-list.1001560.n3.nabble.com/template/NamlServlet.jtp?macro=search_page&node=1&query=%22out+of+memory%22&days=0&i=96)
+at [here](http://apache-spark-user-list.1001560.n3.nabble.com/template/NamlServlet.jtp?macro=search_page&node=1&query=%22out+of+memory%22&days=0&i=36)
+[JIRA](https://issues.apache.org/jira/browse/SPARK-671?jql=project%20%3D%20SPARK%20AND%20text%20~%20%22out%20of%20memory%22)
 Labels:
 
 - Driver (Dr): error occurs in driver
@@ -89,9 +92,107 @@ because we can consume many data from kafka during batch duration and then get o
 
 	In general, one problem with Spark today is that you can OOM under certain configurations, and it's possible you'll need to change from the default configuration if you're using doing very memory-intensive jobs. However, there are very few cases where Spark would simply fail as a matter of course -- for instance, you can always increase the number of partitions to decrease the size of any given one. or repartition data to eliminate skew.
 	
+18. [OutofMemory: Failed on spark/examples/bagel/WikipediaPageRank.scala](http://apache-spark-user-list.1001560.n3.nabble.com/OutofMemory-Failed-on-spark-examples-bagel-WikipediaPageRank-scala-td6040.html)
 
+	I am running a 30GB Wikipedia dataset on a 7-server cluster. Using WikipediaPageRank underexample/Bagel.
 
-## Spark (D)
+	The problem is that the job will fail after several stages because of OutofMemory Error. The reason might be that the default executor's memory size is 512M.
+
+19. [How to efficiently join this two complicated rdds](http://apache-spark-user-list.1001560.n3.nabble.com/How-to-efficiently-join-this-two-complicated-rdds-td1665.html#a1749)
+
+	we have implement this way, we use pyspark, and standalone mode. We collect the new RDD2 in each iteration. The java heap memory costed by the driver program increases Gradually. And finally Collapse with OutOfMemory Error.
+	
+20. [OutOfMemoryError with basic kmeans](http://apache-spark-user-list.1001560.n3.nabble.com/OutOfMemoryError-with-basic-kmeans-td1651.html#a1653)
+
+	I'm trying to run a basic version of kmeans (not the mllib version), on 250gb of data on 8 machines (each with 8 cores, and 60gb of ram).  I've tried many configurations, but keep getting an OutOfMemory error (at the bottom). 
+
+21. [Serializer or Out-of-Memory issues?](http://apache-spark-user-list.1001560.n3.nabble.com/Serializer-or-Out-of-Memory-issues-td8533.html)
+
+	ERROR TaskSchedulerImpl: Lost executor 0 on localhost: OutOfMemoryError
+	
+22. [Long running time for GraphX pagerank in dataset com-Friendster](http://apache-spark-user-list.1001560.n3.nabble.com/Long-running-time-for-GraphX-pagerank-in-dataset-com-Friendster-td4511.html#a4533)
+
+	I was running some pagerank tests of GraphX in my 8 nodes cluster. I allocated each worker 32G memory and 8 CPU cores. The LiveJournal dataset used 370s, which in my mind is reasonable. But when I tried the com-Friendster data triggers out of memory.
+
+23. [Partitioning - optimization or requirement?](http://apache-spark-user-list.1001560.n3.nabble.com/Partitioning-optimization-or-requirement-td3359.html)
+
+	I'm often running out of memory when doing unbalanced joins (ie. cardinality of some joined elements much larger than others).  Raising the memory ceiling fixes the problem, but that's *a slippery slope*.
+	
+24. [trouble with broadcast variables on pyspark](http://apache-spark-user-list.1001560.n3.nabble.com/trouble-with-broadcast-variables-on-pyspark-td1301.html#a1308)
+
+	The driver JVM is hitting OutOfMemoryErrors, but the python process is taking even more memory. 
+
+25. [Exception in thread "DAGScheduler" java.lang.OutOfMemoryError: GC overhead limit exceeded](http://apache-spark-user-list.1001560.n3.nabble.com/Exception-in-thread-quot-DAGScheduler-quot-java-lang-OutOfMemoryError-GC-overhead-limit-exceeded-td833.html)
+	
+	I run a job that plans 3105 tasks. 3104 tasks out of 3105 tasks run OK, then the tasks start failing and after 36K failed tasks, I get following. Is the master running out of memory ?
+26. [Spark streaming on load run - How to increase single node capacity?](http://apache-spark-user-list.1001560.n3.nabble.com/Spark-streaming-on-load-run-How-to-increase-single-node-capacity-td6953.html)
+	Increased the number of working threads from local[2] to local[4] and local[8] and started getting: 
+	 - outofmemoryerror: could not create native thread. 
+	- RDD elements were being processed as empty values - as if the garbage collector or something inside Spark was cleaning them before time. 
+
+27. [Memory allocation in the driver](http://apache-spark-user-list.1001560.n3.nabble.com/Memory-allocation-in-the-driver-td8406.html)
+
+	If you read this and have heap allocation bothering you on calling "first". To get rid of the heap allocation error, increase the driver's memory or shrink size of first partition.
+	
+28. [Akka error with largish job (works fine for smaller versions)](http://apache-spark-user-list.1001560.n3.nabble.com/Akka-error-with-largish-job-works-fine-for-smaller-versions-td3097.html#a3209)
+	
+	all the workers ran out of memory.
+	
+	All I'm doing is data.map(r => (getKey(r),r)).sortByKey().map(_._2).coalesce(n).saveAsTextFile(), where n is the original number of files in the dataset.
+	
+	I took a look at a workers memory before it ran out using jmap and jhat; they indicated file handles as the biggest memory user (which I guess makes sense for a sort) - but the total was nowhere close to 200g
+29. [Spark limitations question](http://apache-spark-user-list.1001560.n3.nabble.com/Spark-limitations-question-td3296.html)
+
+	I have two tests: 
+	1. join Base to itself, sum the "nums" and write out to HDFS 
+	2. same as 1 except join Base to Skewed 
+30. [Memory vs. disk - how to spill data into disk](http://apache-spark-user-list.1001560.n3.nabble.com/Memory-vs-disk-how-to-spill-data-into-disk-td1383.html)
+
+	
+31. [Spark stalling during shuffle (maybe a memory issue)](http://apache-spark-user-list.1001560.n3.nabble.com/Spark-stalling-during-shuffle-maybe-a-memory-issue-td6067.html)
+
+	At this point Spark-related activity on the hadoop cluster completely halts .. there's no network activity, disk IO or CPU activity, and individual tasks are not completing and the job just sits in this state.  At this point we just kill the job & a re-start of the Spark server service is required. 
+	
+	So we upped the spark.akka.frameSize value to 128 MB and still observed the same behavior.  It's happening not necessarily when data is being sent back to the driver, but when there is an inter-cluster shuffle, for example during a groupByKey.
+	
+	If the distribution of the keys in your groupByKey is skewed (some keys appear way more often than others) you should consider modifying your job to use reduceByKey instead wherever possible.
+32. [pyspark join crash](http://apache-spark-user-list.1001560.n3.nabble.com/pyspark-join-crash-td6938.html)
+
+	In PySpark, the data processed by each reduce task needs to fit in memory within the Python process, so you should use more tasks to process this dataset. Data is spilled to disk across tasks. 
+	
+	I think the problem is that once unpacked in Python, the objects take considerably more space, as they are stored as Python objects in a Python dictionary. 
+	
+	I’m not sure whether there’s a great way to inspect a Python process’s memory, but looking at what consumes memory in a reducer process would be useful. 
+	
+33. [FileNotFoundException when using persist(DISK_ONLY)](http://apache-spark-user-list.1001560.n3.nabble.com/FileNotFoundException-when-using-persist-DISK-ONLY-td7291.html)
+
+	I'm thinking that the FileNotFoundExceptions are due to tasks being cancelled/restarted and the root cause is the OutOfMemoryError.
+	
+	Otherwise, I figure next steps would be to enable more debugging levels in the spark code to see what much memory the code is trying to allocate. At this point, I'm wondering if the block could be in the GB range.
+
+34. [spark streaming rate limiting from kafka](http://apache-spark-user-list.1001560.n3.nabble.com/spark-streaming-rate-limiting-from-kafka-td8590.html#a8592)
+
+	In my use case, if I need to stop spark streaming for a while, data would accumulate a lot on kafka topic-partitions. After I restart spark streaming job, the worker's heap will go out of memory on the fetch of the 1st batch.
+
+35. [advice on maintaining a production spark cluster?](http://apache-spark-user-list.1001560.n3.nabble.com/advice-on-maintaining-a-production-spark-cluster-td5848.html#a6124)
+
+	We've had occasional problems with running out of memory on the driver side (esp. with large broadcast variables) so that may be related.  
+
+36. [Spark Processing Large Data Stuck](http://apache-spark-user-list.1001560.n3.nabble.com/Spark-Processing-Large-Data-Stuck-td8075.html#a8077)
+	
+	I run the pagerank example processing a large data set, 5GB in size, using 48 machines. The root cause is the out of memory error - verified this by monitoring the memory. 
+	
+37. [Problems with broadcast large datastructure](http://apache-spark-user-list.1001560.n3.nabble.com/Problems-with-broadcast-large-datastructure-td331.html#a491)
+	
+	If your object size > 10MB you may need to change spark.akka.frameSize.
+
+	400MB isn't really that big. Broadcast is expected to work with several GB of data and in even larger clusters (100s of machines).
+	
+	if you are using the default HttpBroadcast, then akka isn't used to move the broadcasted data. But block manager can run out of memory if you repetitively broadcast large objects. Another scenario is that the master isn't receiving any heartbeats from the blockmanager because the control messages are getting dropped due to bulk data movement. Can you provide a bit more details on your network setup?
+	
+
+	
+##Spark (D)
 1. [com.google.protobuf out of memory](http://apache-spark-user-list.1001560.n3.nabble.com/com-google-protobuf-out-of-memory-td6357.html#a6373) (D)
 	
 	I am getting a OutOfMemoryError in class ByteString.java from package com.google.protobuf when processing very large data using spark 0.9. 
@@ -146,7 +247,9 @@ because we can consume many data from kafka during batch duration and then get o
 	- PERFORMANCE: 
 		- Is it a good idea to perform all the filters first, and then the groupBy customer, or should we do the reverse? 
 		- In the second situation, how can we filter on the values? I didn't see a filterValues method in the PairRDD API ? 
+6. [computation slows down 10x because of cached RDDs](http://apache-spark-user-list.1001560.n3.nabble.com/computation-slows-down-10x-because-of-cached-RDDs-td2480.html)
 
+	I think what happened is the following: all the nodes generated some garbage that put them very close to the threshold for a full GC in the first few runs of the program (when you cached the RDDs), but on the subsequent queries, only a few nodes are hitting full GC per query, so every query sees a slowdown but the problem persists for a while.
 
 ## Interesting questions
 
@@ -169,12 +272,15 @@ because we can consume many data from kafka during batch duration and then get o
 	
 	Try [heapaudit](https://github.com/foursquare/heapaudit)
 
-11. I want to know that in the case when the size of HBase Table grows larger than the size of RAM available in the cluster, will the application fail, or will there be an impact in performance ?
+11. I want to know that in the case when the size of HBase Table grows larger than the size of RAM available in the cluster, will the application fail, or will there be an impact in performance?
+12. What I can not understand is there any easy way to say when we have out of memory situation please spill data into disk.
 
 ## Solutions:
 1. If the foldByKey solution doesn't work for you, my team uses RDD.persist(DISK_ONLY) to avoid OOM errors.
 2. Is your RDD of Strings?  If so, you should make sure to use the Kryo serializer instead of the default Java one.  It stores strings as UTF8 rather than Java's default UTF16 representation, which can save you half the memory usage in the right situation.
 3. If an individual partition becomes too large to fit in memory then the usual approach would be to repartition to more partitions, so each one is smaller. Hopefully then it would fit.
+4. resource contention. -Xmx cannot be achieved.
+5. 
 
 
 ## Knowledge
@@ -186,8 +292,52 @@ because we can consume many data from kafka during batch duration and then get o
 4.  In general, one problem with Spark today is that you can OOM under certain configurations, and it's possible you'll need to change from the default configuration if you're using doing very memory-intensive jobs. However, there are very few cases where Spark would simply fail as a matter of course -- for instance, you can always increase the number of partitions to decrease the size of any given one. or repartition data to eliminate skew.
 5.  groupByKey is an expensive transformation, and collecting all the data to driver side may simply cause OOM if the data can’t fit in the driver node.
 6.  If your job is using external sorting to avoid OOMing (which it will warn you about in the executor logs with messages like "Spilling in-memory map..."), then you may have arbitrarily many files open. This is very unlikely to happen if you've split your input into as many files as you said, though.
+7.  The more I think about it the problem is not about /tmp, its more about the workers not having enough memory. Blocks of received data could be falling out of memory before it is getting processed. BTW, what is the storage level that you are using for your input stream? If you are using MEMORY_ONLY, then try MEMORY_AND_DISK. That is safer because it ensure that if received data falls out of memory it will be at least saved to disk.
+8. "In all cases, we recommend allocating only at most 75% of the memory for Spark; leave the rest for the operating system and buffer cache."
+9. log of JVM
+
+		# Native memory allocation (malloc) failed to allocate 2097152 bytes for committing reserved memory.
+		# Possible reasons:
+		#   The system is out of physical RAM or swap space
+		#   In 32 bit mode, the process size limit was hit
+		# Possible solutions:
+		#   Reduce memory load on the system
+		#   Increase physical memory or swap space
+		#   Check if swap backing store is full
+		#   Use 64 bit Java on a 64 bit OS
+		#   Decrease Java heap size (-Xmx/-Xms)
+		#   Decrease number of Java threads
+		#   Decrease Java thread stack sizes (-Xss)
+		#   Set larger code cache with -XX:ReservedCodeCacheSize=
+		# This output file may be truncated or incomplete.
+		#
+		#  Out of Memory Error (os_linux.cpp:2761), pid=31426, tid=139549745604352
+		#
+		# JRE version: OpenJDK Runtime Environment (7.0_51-b02) (build 1.7.0_51-mockbuild_2014_01_15_01_39-b00)
+		# Java VM: OpenJDK 64-Bit Server VM (24.45-b08 mixed mode linux-amd64 ) 
+10. Spark automatically removes old RDDs from the cache when you make new ones. Unpersist forces it to remove them right away. In both cases though, note that Java doesn’t garbage-collect the objects released until later.
+
+11. In my experiment, I have 20 machine, each machine own 2 executor, and I used the default parallelize, which is 8, so there  320  tasks in one stage in total.
+
+	Then the workers will send 320*(400M/8)=16G data back to the driver, this seem very big. but I get from log that after serialize, the data size send back to driver is just 446 byte in each task. 
+	
+	broadcast is supposed to send data from the driver to the executors and not the other direction. 
+	
+	Size calculation is correct, but broadcast happens from the driver to the workers. 
+
+	btw, your code is broadcasting 400MB 30 times, which are not being evicted from the cache fast enough, which, I think, is causing blockManagers to run out of memory.
 
 ## Ideas
 1. display and control the memory usage of code.
 2. off-heap approach
 3. weak references
+4. let the error occurs in single node, then can help debug
+5. test on small dataset
+6. monitor the memory usage and estimate the data size and then decide to how to store the data
+7. add counters
+8. detection of memory-bloat
+
+## Problem
+1. data becomes large
+2. configuration
+3. 
