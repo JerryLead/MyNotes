@@ -3,9 +3,6 @@
 
 Found 191 matching posts for `oom` in Apache Spark User [List](http://apache-spark-user-list.1001560.n3.nabble.com/template/NamlServlet.jtp?macro=search_page&node=1&query=oom).
 
-at [here](http://apache-spark-user-list.1001560.n3.nabble.com/template/NamlServlet.jtp?macro=search_page&node=1&query=%22out+of+memory%22&days=0&i=96)
-at [here](http://apache-spark-user-list.1001560.n3.nabble.com/template/NamlServlet.jtp?macro=search_page&node=1&query=%22out+of+memory%22&days=0&i=36)
-[JIRA](https://issues.apache.org/jira/browse/SPARK-671?jql=project%20%3D%20SPARK%20AND%20text%20~%20%22out%20of%20memory%22)
 Labels:
 
 - Driver (Dr): error occurs in driver
@@ -15,6 +12,35 @@ Labels:
 	- R: we can reproduce the problem for further study  
 	- D: just description which cannot be reproduced
 - V: valuable 
+
+## Very important
+1. [Pass "cached" blocks directly to disk if memory is not large enough](https://issues.apache.org/jira/browse/SPARK-1777)
+	Currently in Spark we entirely unroll a partition and then check whether it will cause us to exceed the storage limit. This has an obvious problem - if the partition itself is enough to push us over the storage limit (and eventually over the JVM heap), it will cause an OOM.
+	
+	New configurations.
+
+	spark.storage.bufferFraction - the value of M as a fraction of the storage memory. (default: 0.2)
+	
+	spark.storage.safetyFraction - a margin of safety in case size estimation is slightly off. This is the equivalent of the existing spark.shuffle.safetyFraction. (default 0.9)
+	
+	For more detail, see the [design document](https://issues.apache.org/jira/secure/attachment/12651793/spark-1777-design-doc.pdf). Tests pending for performance and memory usage patterns.
+
+2. [Changes to SizeEstimator more accurate](https://issues.apache.org/jira/browse/SPARK-385)
+
+	This patch is motivated by an observation that the amount of heap space used by
+the BoundedMemoryCache is often much larger than what we account for. 
+
+	The object size and reference size are changed based on
+the architecture in use and if or not CompressedOops are in use by the JVM. This
+results in the object size changing from 8 to 12 or 16 and references being
+either 4 or 8 bytes long. 
+
+3. [Pluggable interface for shuffles](https://issues.apache.org/jira/browse/SPARK-2044)
+	
+	Discuss the sort-based shuffle
+
+	
+
 
 ## Spark 
 1. [trouble with "join" on large RDDs](http://apache-spark-user-list.1001560.n3.nabble.com/trouble-with-quot-join-quot-on-large-RDDs-td3864.html#a4039) (Ex, R)
@@ -190,8 +216,32 @@ because we can consume many data from kafka during batch duration and then get o
 	
 	if you are using the default HttpBroadcast, then akka isn't used to move the broadcasted data. But block manager can run out of memory if you repetitively broadcast large objects. Another scenario is that the master isn't receiving any heartbeats from the blockmanager because the control messages are getting dropped due to bulk data movement. Can you provide a bit more details on your network setup?
 	
+38. [shuffle memory requirements](http://apache-spark-user-list.1001560.n3.nabble.com/shuffle-memory-requirements-td4048.html#a4133)
 
+	val hrdd = sc.hadoopRDD(..)
 	
+	val res = hrdd.partitionBy(myCustomPartitioner).reduceKey(..).mapPartitionsWithIndex( some code to save those partitions )
+
+	 I'm getting OutOfMemoryErrors on the read side of partitionBy shuffle. My custom partitioner generates over 20,000 partitions, so there are 20,000 tasks reading the shuffle files. On problems with low partitions (~ 1000), the job completes successfully. 
+	
+39. [extremely slow k-means version](http://apache-spark-user-list.1001560.n3.nabble.com/extremely-slow-k-means-version-td4489.html#a4492)
+
+	Now, why I'm here for, this version runs EXTREMELY slow and gets outOfHeapMemory exceptions for data input that the original algorithm easily solves in ~5seconds. I'm trying to pinpoint what exactly is causing this huge difference. 
+
+	This means that a) all points will be sent across the network in a cluster, which is slow (and Spark goes through this sending code path even in local mode so it serializes the data), and b) you’ll get out of memory errors if that Seq is too big. 
+	
+40. [Help: WARN AbstractNioSelector: Unexpected exception in the selector loop. java.lang.OutOfMemoryError: Java heap space](http://apache-spark-user-list.1001560.n3.nabble.com/Help-WARN-AbstractNioSelector-Unexpected-exception-in-the-selector-loop-java-lang-OutOfMemoryError-Je-td8633.html#a8637)
+
+	It seems that the driver program gets out of memory. 
+In Windows Task Manager, the driver program's memory constantly grows until 
+around 3,434,796, then java OutOfMemory exception occurs. 
+
+41. [Do not materialize partitions when DISK_ONLY storage level is used](https://issues.apache.org/jira/browse/SPARK-942)
+	
+	If an operation returns a generating iterator (i.e. one that creates return values as the 'next' method is called), for example as the result of a 'flatMap' call on an RDD, the CacheManager first completely unrolls the iterator into an Array buffer before passing it to the blockManager (CacheManager.scala:74). Only after the entire iterator has been put into a buffer does it check if there is enough space in memory to store the data (BlockManager.scala:608). 
+In the attached test, the code can complete the operation of 'saveAsTextFile' of text strings if it is called directly on the result RDD of a flatMap operation, this is because it is given an iterator result, and works on the map-then-save operation as the results are generated. In the other branch, a 'persist' is called, and the cacheManger first tries to un-roll the entire iterator before deciding to store it too disk, this will cause a Memory Error (on systems with -Xmx512m)
+
+
 ##Spark (D)
 1. [com.google.protobuf out of memory](http://apache-spark-user-list.1001560.n3.nabble.com/com-google-protobuf-out-of-memory-td6357.html#a6373) (D)
 	
@@ -222,7 +272,35 @@ because we can consume many data from kafka during batch duration and then get o
 1. [Out of memory when spark streaming](http://apache-spark-user-list.1001560.n3.nabble.com/help-me-Out-of-memory-when-spark-streaming-td5854.html)
 
 	I send data to spark streaming through Zeromq at a speed of 600 records per second, but the spark streaming only handle 10 records per 5 seconds( set it in streaming program)
+2. [Any advice for using big spark.cleaner.delay value in Spark Streaming?](http://apache-spark-user-list.1001560.n3.nabble.com/Any-advice-for-using-big-spark-cleaner-delay-value-in-Spark-Streaming-td4895.html#a4909)
+
+	Spark Streaming is most useful when you want the processing results based on incoming data streams within seconds of receiving the data. In case, you want to do aggregations across a day's data and do it in real time and continuously (e.g. every 5 second, count records received in last 1 day), then you probably have to do something a little bit smarter - have per-10-minute / per-hour counts, which gets continuously together with the latest partial-hour counts.
 	
+## System-related issues
+1. [PySpark runs out of memory with large broadcast variables](https://issues.apache.org/jira/browse/SPARK-1065)
+
+	PySpark's driver components may run out of memory when broadcasting large variables (say 1 gigabyte).
+2. [Spark runs out of memory on fork/exec (affects both pipes and python)](https://issues.apache.org/jira/browse/SPARK-671)
+
+	Because the JVM uses fork/exec to launch child processes, any child process initially has the memory footprint of its parent. In the case of a large Spark JVM that spawns many child processes (for Pipe or Python support), this quickly leads to kernel memory exhaustion.
+3. [Local spark-shell Runs Out of Memory With Default Settings](https://issues.apache.org/jira/browse/SPARK-1392)
+	
+	running the spark-shell locally in out of the box configuration, and attempting to cache all the attached data, spark OOMs with: java.lang.OutOfMemoryError: GC overhead limit exceeded
+You can work around the issue by either decreasing spark.storage.memoryFraction or increasing SPARK_MEM.
+4. [ExternalAppendOnlyMap can still OOM if one key is very large](https://issues.apache.org/jira/browse/SPARK-1823)
+
+	If the values for one key do not collectively fit into memory, then the map will still OOM when you merge the spilled contents back in.
+
+	This is a problem especially for PySpark, since we hash the keys (Python objects) before a shuffle, and there are only so many integers out there in the world, so there could potentially be many collisions.
+	
+5. [2GB limit in spark for blocks](https://issues.apache.org/jira/browse/SPARK-1476)
+
+	The underlying abstraction for blocks in spark is a ByteBuffer : which limits the size of the block to 2GB with [proposal](https://issues.apache.org/jira/secure/attachment/12652276/2g_fix_proposal.pdf)
+
+	
+
+
+
 ## Memory-related issues
 1. [Spark Memory Bounds](http://apache-spark-user-list.1001560.n3.nabble.com/Spark-Memory-Bounds-td6456.html#a6500) (VD)
 
@@ -280,7 +358,9 @@ because we can consume many data from kafka during batch duration and then get o
 2. Is your RDD of Strings?  If so, you should make sure to use the Kryo serializer instead of the default Java one.  It stores strings as UTF8 rather than Java's default UTF16 representation, which can save you half the memory usage in the right situation.
 3. If an individual partition becomes too large to fit in memory then the usual approach would be to repartition to more partitions, so each one is smaller. Hopefully then it would fit.
 4. resource contention. -Xmx cannot be achieved.
-5. 
+5. If you are running a local standalone Spark cluster, you can set the amount of memory that the worker can use by setting `spark.executor.memory`.
+6. You can increase the number of partitions created from the text file, and increase the number of reducers. This lowers the memory usage of each task. See Spark tuning guide.
+7. If you are still running out of memory, you can try our latest Spark 0.9 (or the master branch). Shuffles have been modified to automatically spill to disk when it needs more than available memory. 0.9 is undergoing community voting and will be released very soon.
 
 
 ## Knowledge
@@ -327,6 +407,27 @@ because we can consume many data from kafka during batch duration and then get o
 
 	btw, your code is broadcasting 400MB 30 times, which are not being evicted from the cache fast enough, which, I think, is causing blockManagers to run out of memory.
 
+12. BlockManager is like a distributed key-value store for large blobs (called blocks) of data. It has a master-worker architecture (loosely it is like the HDFS file system) where the BlockManager at the workers store the data blocks and BlockManagerMaster stores the metadata for what blocks are stored where. All the cached RDD's partitions and shuffle data are stored and managed by the BlockManager. It also transfers the blocks between the workers as needed (shuffles etc all happen through the block manager). Specifically for spark streaming, the data received from outside is stored in the BlockManager of the worker nodes, and the IDs of the blocks are reported to the BlockManagerMaster.
+
+13. MapOutputTrackers is a simpler component that keeps track of the location of the output of the map stage, so that workers running the reduce stage knows which machines to pull the data from. That also has the master-worker component - master has the full knowledge of the mapoutput and the worker component on-demand pulls that knowledge from the master component when the reduce tasks are executed on the worker.
+
+14. If you call DStream.persist (persist == cache = true), then all RDDs generated by the DStream will be persisted in the cache (in the BlockManager). As new RDDs are generated and persisted, old RDDs from the same DStream will fall out of memory. either by LRU or explicitly if spark.streaming.unpersist is set to true. 
+
+15. In my experience, you don't need much horsepower on the master or worker nodes.  If you're bringing large data back to the driver (e.g. with .take or .collect) you can cause OOMs on the driver, so bump the heap if that's the case.  But the majority of your memory requirements will be in the executors, which are JVMs that the Worker spins up for each application (in the standalone mode cluster).
+
+16. [Join : Giving incorrect result](http://apache-spark-user-list.1001560.n3.nabble.com/Join-Giving-incorrect-result-td6910.html#a7125)
+
+	There was indeed a bug, specifically in the way join tasks spill to disk (which happened when you had more concurrent tasks competing for memory).
+	
+17. [create a self destructing iterator that releases records from hash maps](https://issues.apache.org/jira/browse/SPARK-2255)
+
+	This is a small thing to do that can help out with GC pressure. For aggregations (and potentially joins), we don't really need to hold onto the key value pairs as soon as we have iterate over them. We can create a self destructing iterator for AppendOnlyMap / ExternalAppendOnlyMap that removes references to the key value pair as the iterator goes through records so those memory can be freed quickly.
+	
+	This is very similar to the memory management of aggregation in shuffles. 
+
+	This mechanism relies on the accuracy of size estimation, however, which is not guaranteed. 
+
+
 ## Ideas
 1. display and control the memory usage of code.
 2. off-heap approach
@@ -336,8 +437,8 @@ because we can consume many data from kafka during batch duration and then get o
 6. monitor the memory usage and estimate the data size and then decide to how to store the data
 7. add counters
 8. detection of memory-bloat
+9. Sharing the available space between tasks
 
 ## Problem
 1. data becomes large
 2. configuration
-3. 
