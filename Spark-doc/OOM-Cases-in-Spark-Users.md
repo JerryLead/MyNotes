@@ -1,6 +1,10 @@
 # OOM Cases in Spark
 ## [Apache Spark User List](http://apache-spark-user-list.1001560.n3.nabble.com/)
 
+at [here](https://issues.apache.org/jira/browse/SPARK-1777?jql=project%20%3D%20SPARK%20AND%20text%20~%20%22oom%22)
+
+at Spark-1777
+
 Found 191 matching posts for `oom` in Apache Spark User [List](http://apache-spark-user-list.1001560.n3.nabble.com/template/NamlServlet.jtp?macro=search_page&node=1&query=oom).
 
 Labels:
@@ -15,6 +19,7 @@ Labels:
 
 ## Very important
 1. [Pass "cached" blocks directly to disk if memory is not large enough](https://issues.apache.org/jira/browse/SPARK-1777)
+
 	Currently in Spark we entirely unroll a partition and then check whether it will cause us to exceed the storage limit. This has an obvious problem - if the partition itself is enough to push us over the storage limit (and eventually over the JVM heap), it will cause an OOM.
 	
 	New configurations.
@@ -241,6 +246,40 @@ around 3,434,796, then java OutOfMemory exception occurs.
 	If an operation returns a generating iterator (i.e. one that creates return values as the 'next' method is called), for example as the result of a 'flatMap' call on an RDD, the CacheManager first completely unrolls the iterator into an Array buffer before passing it to the blockManager (CacheManager.scala:74). Only after the entire iterator has been put into a buffer does it check if there is enough space in memory to store the data (BlockManager.scala:608). 
 In the attached test, the code can complete the operation of 'saveAsTextFile' of text strings if it is called directly on the result RDD of a flatMap operation, this is because it is given an iterator result, and works on the map-then-save operation as the results are generated. In the other branch, a 'persist' is called, and the cacheManger first tries to un-roll the entire iterator before deciding to store it too disk, this will cause a Memory Error (on systems with -Xmx512m)
 
+42. [ExternalAppendOnlyMap can still OOM if one key is very large](https://issues.apache.org/jira/browse/SPARK-1823)
+
+	If the values for one key do not collectively fit into memory, then the map will still OOM when you merge the spilled contents back in.
+	
+43. [Support external sorting for RDD#sortByKey()](https://issues.apache.org/jira/browse/SPARK-983)
+
+	Currently, RDD#sortByKey() is implemented by a mapPartitions which creates a buffer to hold the entire partition, then sorts it. This will cause an OOM if an entire partition cannot fit in memory, which is especially problematic for skewed data. Rather than OOMing, the behavior should be similar to the ExternalAppendOnlyMap, where we fallback to disk if we detect memory pressure.
+	
+44. [Reduce memory footprint of DiskBlockManager.blockToFileSegmentMap](https://issues.apache.org/jira/browse/SPARK-946)
+
+	blockToFileSegmentMap right now is taking up ~400 bytes per FileSegment. In large shuffles (e.g., >1000 mappers/executor and >1000 reducers), this can lead to several GB used just for this map, which is leading to OOM
+	
+45. [GraphX should have messageRDD to enable OutOfCore messages](https://issues.apache.org/jira/browse/SPARK-1531)
+	
+	For some message intensively computation on some bigger graph, it will throw OOM exceptions.
+	
+46. [Driver program should not put a block in memory](https://issues.apache.org/jira/browse/SPARK-821)
+
+	Often the driver/master node has ram allocated than the worker nodes.
+	
+	In the case the user runs take or first on a cached RDD, the task can get launched locally on the master, and then the master would attempt to put the first block (or first few blocks) in memory, leading to OOM on the master.
+	
+47. [DiskStore should use > 8kB buffer when doing writes](https://issues.apache.org/jira/browse/SPARK-741)
+
+	If this means each split buffer is < 8kB, bump up to at least 8kB (we'd rather OOM then have terrible disk throughput, so at least people can figure out what's wrong)
+	
+
+	
+
+
+
+
+
+	
 
 ##Spark (D)
 1. [com.google.protobuf out of memory](http://apache-spark-user-list.1001560.n3.nabble.com/com-google-protobuf-out-of-memory-td6357.html#a6373) (D)
@@ -328,6 +367,17 @@ You can work around the issue by either decreasing spark.storage.memoryFraction 
 6. [computation slows down 10x because of cached RDDs](http://apache-spark-user-list.1001560.n3.nabble.com/computation-slows-down-10x-because-of-cached-RDDs-td2480.html)
 
 	I think what happened is the following: all the nodes generated some garbage that put them very close to the threshold for a full GC in the first few runs of the program (when you cached the RDDs), but on the subsequent queries, only a few nodes are hitting full GC per query, so every query sees a slowdown but the problem persists for a while.
+7. [OutOfMemoryErrors can cause workers to hang indefinitely](https://issues.apache.org/jira/browse/SPARK-599)
+
+	Handling and reporting failures due to OutOfMemoryError can be complicated because the OutOfMemoryError exception can be raised at many different locations, depending on which allocation caused the error.
+	
+	I think we might want to deal with this using a timeout instead of trying to catch the error. Do you know whether any threads continue running at all when there's an OOM? Somehow I doubt it.
+8. [web ui stage page becomes unresponsive when the number of tasks is large](https://issues.apache.org/jira/browse/SPARK-2017)
+
+	Currently, for our jobs, I run with spark.ui.retainedStages=3 (so that there is some visibility into past stages) : this is to prevent OOM's in the master when number of tasks per stage is not low (50k for example is not very high imo)
+	
+	
+	
 
 ## Interesting questions
 
