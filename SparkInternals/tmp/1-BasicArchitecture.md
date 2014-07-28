@@ -9,7 +9,7 @@
 - Worker 节点上常驻 Worker 守护进程，与 Master 节点通信。
 - Driver 官方解释是 “The process running the main() function of the application and creating the SparkContext”。其实就是用户自己写的 Spark 程序，比如 WordCount.scala。如果 Driver program 在 Master 上运行，比如在 Master 上运行
 ```
-	./bin/run-example SparkPi
+	./bin/run-example SparkPi 10
 ```
 那么 SparkPi 就是 Master 上的 Driver。如果是 YARN 集群，那么 Dirver 可能被调度到 Worker 节点上运行（比如上图中的 Worker Node 2）。
 		
