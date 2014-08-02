@@ -187,7 +187,7 @@ Cartesian 对两个 RDD 做笛卡尔集，生成的 CartesianRDD 中 partition �
 
 **9) coalesce(numPartitions, shuffle = false)**
 
-![NarrowDependency](../svgFigures/coalesce.pdf)
+![Coalesce](figures/Coalesce.pdf)
 
 coalesce() 可以将 parent RDD 的 partition 个数进行调整，比如从 5 个减少到 3 个，或者从 5 个增加到 10 个。需要注意的是当 shuffle = false 的时候，是不能增加 partition 个数的（不能从 5 个变为 10 个）。
 
