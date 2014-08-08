@@ -200,6 +200,16 @@ coalesce() 的核心问题是如何确立 CoalescedRDD 中 partition 和 parent 
 
 等价于 coalesce(numPartitions, shuffle = true)
 
+## Primitive transformation
+CombineByKey()
+```scala
+ def combineByKey[C](createCombiner: V => C,
+      mergeValue: (C, V) => C,
+      mergeCombiners: (C, C) => C,
+      partitioner: Partitioner,
+      mapSideCombine: Boolean = true,
+      serializer: Serializer = null): RDD[(K, C)]
+```
 ## 小结
 至此，我们讨论了如何生成 job 的逻辑执行图，这些图也是 Spark 看似简单的 API 背后的复杂计算逻辑及数据依赖关系。
 

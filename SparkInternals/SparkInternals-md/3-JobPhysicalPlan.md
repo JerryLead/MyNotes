@@ -22,7 +22,7 @@
 - 第一个 task 太大，碰到 ShuffleDependency 后，不得不计算 shuffle 以来的 RDDs 的所有 partitions，而且都在这一个 task 里面计算。
 - 需要设计精妙的算法来判断哪个 RDD 中的哪些 partition 需要 cache。而且 cache 会占用存储空间。
 
-虽然这是个不靠谱的想法，但有一个可取之处，即**pipeline 思想：数据用的时候再算，而且数据是流到要计算的位置的**。比如在第一个 task 中，从  FlatMappedValuesRDD 中的 partition 向前推，只计算要用的 RDDs 及 partitions。在第二个 task 中，从 CoGroupedRDD 到 FlatMappedValuesRDD 计算过程中，不需要存储中间结果，即 MappedValuesRDD 中 partition 的全部数据。更进一步，从下图的 record 粒度来讲，第一个 pattern 中先算 g(f(record1))，然后原始 record1 和 f(record1) 都可以丢掉，然后再算 g(f(record2))，丢掉中间结果，最后算 g(f(record3))。对于第二个 pattern 中的 g，record1 进入 g 后，理论上可以丢掉（除非被手动 cache）。其他 pattern 同理。
+虽然这是个不靠谱的想法，但有一个可取之处，即**pipeline 思想：数据用的时候再算，而且数据是流到要计算的位置的**。比如在第一个 task 中，从  FlatMappedValuesRDD 中的 partition 向前推算，只计算要用的（依赖的） RDDs 及 partitions。在第二个 task 中，从 CoGroupedRDD 到 FlatMappedValuesRDD 计算过程中，不需要存储中间结果，即 MappedValuesRDD 中 partition 的全部数据。更进一步，从下图的 record 粒度来讲，第一个 pattern 中先算 g(f(record1))，然后原始 record1 和 f(record1) 都可以丢掉，然后再算 g(f(record2))，丢掉中间结果，最后算 g(f(record3))。对于第二个 pattern 中的 g，record1 进入 g 后，理论上可以丢掉（除非被手动 cache）。其他 pattern 同理。
 
 ![Dependency](figures/pipeline.pdf)
 
@@ -62,6 +62,8 @@
 对于有 parent stage 的 stage，只要所有 parent stages 中最后的 RDD 中数据已经计算好，经过 shuffle 后，问题就又回到了计算 “没有 parent stage 的 stage”。
 
 > 代码实现：每个 RDD 包含的 getDependency() 负责确立 RDD 的数据依赖，compute() 方法负责接收 parent RDDs 或者 data block 流入的 records，进行计算，然后输出 record。经常可以在 RDD 中看到这样的代码`firstParent[T].iterator(split, context).map(f)`。firstParent 表示该 RDD 依赖的第一个 parent RDD，iterator() 表示 parentRDD 中的 records 是一个一个流入该 RDD 的，map(f) 表示每流入一个 recod 就对其进行 f(record) 操作，输出 record。为了统一接口，这段 compute() 仍然返回一个 iterator，来迭代 map(f) 输出的 records。
+
+总结一下：整个 computing chain 根据数据依赖关系自后向前建立，遇到 ShuffleDependency 后形成 stage。在每个 stage 中，每个 RDD 中的 compute() 使用 parentRDD.iter() 来将 parent RDDs 中的数据 pull 过来。
 
 如果要自己设计一个 RDD，那么需要注意的是 compute() 只负责定义 parent RDDs => output records 的计算逻辑，具体依赖哪些 parent RDDs 由 `getDependency()` 定义，具体依赖 parent RDD 中的哪些 partitions 由 `dependency.getParents()` 定义。
  
