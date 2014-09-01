@@ -167,7 +167,7 @@ ExternalAppendOnlyMap 持有一个 AppendOnlyMap，shuffle 来的一个个 (K, V
 整个 insert-merge-aggregate 的过程有三点需要进一步探讨一下：
 - 内存剩余空间检测
 
-	与 Hadoop MapReduce 规定 reducer 中 70% 的空间可用于 shuffle-sort 类似，Spark 也规定 executor 中 `spark.shuffle.memoryFraction * spark.shuffle.safetyFraction`  的空间（默认是`0.3 * 0.8`）可用于 ExternalOnlyAppendMap。Spark 略保守是不是？更保守的是这 24％ 的空间不是完全用于一个  ExternalOnlyAppendMap 的，而是由在 executor 上同时运行的所有 reducer 共享的。为此，exectuor 专门持有一个 `ShuffleMemroyMap: HashMap[threadId, occupiedMemory]` 来监控每个 reducer 中 ExternalOnlyAppendMap 占用的内存量。每次 AppendOnlyMap 要扩展时，都会计算 **ShuffleMemroyMap 中所有 reducer 已占用的内存 ＋ 扩展后的内存** 是会否会大于内存限制，大于就会将 AppendOnlyMap spill 到磁盘。有一点需要注意的是前 1000 个 records 进入 AppendOnlyMap 的时候不会启动**是否要 spill** 的检查，需要扩展时就直接在内存中扩展。
+	与 Hadoop MapReduce 规定 reducer 中 70% 的空间可用于 shuffle-sort 类似，Spark 也规定 executor 中 `spark.shuffle.memoryFraction * spark.shuffle.safetyFraction`  的空间（默认是`0.3 * 0.8`）可用于 ExternalOnlyAppendMap。Spark 略保守是不是？更保守的是这 24％ 的空间不是完全用于一个  ExternalOnlyAppendMap 的，而是由在 executor 上同时运行的所有 reducer 共享的。为此，exectuor 专门持有一个 `ShuffleMemroyMap: HashMap[threadId, occupiedMemory]` 来监控每个 reducer 中 	ExternalOnlyAppendMap 占用的内存量。每次 AppendOnlyMap 要扩展时，都会计算 **ShuffleMemroyMap 中所有 reducer 已占用的内存 ＋ 扩展后的内存** 是会否会大于内存限制，大于就会将 AppendOnlyMap spill 到磁盘。有一点需要注意的是前 1000 个 records 进入 AppendOnlyMap 的时候不会启动**是否要 spill** 的检查，需要扩展时就直接在内存中扩展。
 
 - AppendOnlyMap 大小估计
 
