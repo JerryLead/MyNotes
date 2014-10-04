@@ -4,16 +4,22 @@
 
 1. [out of Memory Error in Hadoop](http://stackoverflow.com/questions/8464048/out-of-memory-error-in-hadoop)  
 	Large spill buffer, map phase
+	
 2. [Out of memory error in Mapreduce shuffle phase](http://stackoverflow.com/questions/19298357/out-of-memory-error-in-mapreduce-shuffle-phase)  
 	Large soft buffer, shuffle phase
+	
 3. [Shuffle In Memory OutOfMemoryError](http://hadoop-common.472056.n3.nabble.com/Shuffle-In-Memory-OutOfMemoryError-td433197.html)  
 	Large soft buffer, shuffle phase
+	
 4. [Reducer's Heap out of memory](http://stackoverflow.com/questions/8705911/reducers-heap-out-of-memory)  
 	Large soft buffer, shuffle phase, add reducer number, there is not any hotspots with bad key distribution.
+	
 5. [Why the identity mapper can get out of memory?](http://stackoverflow.com/questions/12302708/why-the-identity-mapper-can-get-out-of-memory)  
 	shuffle phase, I realized that looking deep at the OOM traces. The exceptions were raised in functions of Hadoop related with shuffling.
-6. [hive error run select query](http://stackoverflow.com/questions/16152726/hive-error-run-select-query/16153533#16153533)
+	
+6. [hive error run select query](http://stackoverflow.com/questions/16152726/hive-error-run-select-query/16153533#16153533)  
 	large hard buffer, map phase
+	
 7. [pig join gets OutOfMemoryError in reducer when mapred.job.shuffle.input.buffer.percent=0.70](http://stackoverflow.com/questions/17162679/pig-join-gets-outofmemoryerror-in-reducer-when-mapred-job-shuffle-input-buffer-p/18227433#18227433)  
 	Large soft buffer, shuffle phase
 	
@@ -27,7 +33,10 @@
 2. [Hot spot value in UDF](http://stackoverflow.com/questions/8705911/reducers-heap-out-of-memory)  
 	Another source of this problem is a Java UDF that is aggregating way too much data. For example, if you have a UDF that goes through a data bag and collects the records into some sort of list data structure, you may be blowing your memory with a hot spot value.
 	
+3. [Efficient Sharded Positional Indexer](http://www.cs.cmu.edu/~lezhao/TA/2010/HW2/)  
+For frequent terms such as "the", the reducer output record may exceed the memory limit of the JVM, resulting in out of memory error. This is because Hadoop keeps the whole record (in this case the whole postings list for "the") in memory before sending it to disk. 
 	
+	One way to avoid such error is to partition these large postings into manageable sized chunks, and output several records for the same key (the word "the").
 ## Large external data
 1. [Hive Map join : out of memory Exception](http://stackoverflow.com/questions/18913928/hive-map-join-out-of-memory-exception)  
 	Large table cached in memory,  one big Table (10G) and small Table (230 MB). Is the small table in the join really the smaller table in your data? 
@@ -106,8 +115,30 @@
 		data_2_group = group data_2 by $1.record1; 
 		jj = join data_1_group by group, data_2_group by group;
 
-8. [Fail to join large groups](http://stackoverflow.com/questions/22281188/fail-to-join-large-groups)  
+8. [Why does the last reducer stop with java heap error during merge step](http://stackoverflow.com/questions/15541900/why-does-the-last-reducer-stop-with-java-heap-error-during-merge-step)  
 	reduce-join in reduce(), large group, source code
+	
+		ArrayList<Text> valuesList = new ArrayList<Text>();
+		while(ite.hasNext()) {
+			Text t = ite.next();
+			Text txt = new Text();
+			txt.set(t.toString());
+			valuesList.add(txt);
+		}
+		
+	I will have lots and lots of values associated with a single key inside the reducer. 
+	
+9. [Why does the last reducer stop with java heap error during merge step](http://stackoverflow.com/questions/15541900/why-does-the-last-reducer-stop-with-java-heap-error-during-merge-step/15558435#15558435)  
+
+10. [OOM exception in Hadoop Reduce child](http://stackoverflow.com/questions/12831076/oom-exception-in-hadoop-reduce-child)  
+	All values in a group are appended into a StringBuilder. 
+	
+		StringBuilder adjVertexStr = new StringBuilder();
+		long itcount= 0;
+		while(values.hasNext()) {
+			adjVertexStr.append(values.next().toString()).append(" ");
+			itcount++;
+		}
 	
 	
 ## Unknown
@@ -196,3 +227,6 @@
 
 14. [Limit CPU / Stack for Java method call?](http://stackoverflow.com/questions/1081466/limit-cpu-stack-for-java-method-call)  
  	still about NLP library (Standford NER)
+
+15. [ArrayList Issue in Reducer](http://stackoverflow.com/questions/16884595/arraylist-issue-in-reducer/16887748#16887748)  
+	has the reduce-level objects: ArrayList
