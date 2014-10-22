@@ -149,7 +149,7 @@
 
 	| Key: IntWritable | Value: org.apache.pig.data.BinSedesTuple | 
 	|----------------:|------------------:|
-	| 16 B | 120,457,968 B |
+	| 16 B | 37,021,312 B |
 	
 ## Reduce
 

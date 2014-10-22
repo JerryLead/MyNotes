@@ -3,6 +3,7 @@
 ## Large framework buffer
 
 1. [out of Memory Error in Hadoop](http://stackoverflow.com/questions/8464048/out-of-memory-error-in-hadoop)  
+
 	Large spill buffer, map phase
 	
 2. [Out of memory error in Mapreduce shuffle phase](http://stackoverflow.com/questions/19298357/out-of-memory-error-in-mapreduce-shuffle-phase)  
@@ -11,20 +12,25 @@
 3. [Shuffle In Memory OutOfMemoryError](http://hadoop-common.472056.n3.nabble.com/Shuffle-In-Memory-OutOfMemoryError-td433197.html)  
 	Large soft buffer, shuffle phase
 	
-4. [Reducer's Heap out of memory](http://stackoverflow.com/questions/8705911/reducers-heap-out-of-memory)  
-	Large soft buffer, shuffle phase, add reducer number, there is not any hotspots with bad key distribution.
+
 	
-5. [Why the identity mapper can get out of memory?](http://stackoverflow.com/questions/12302708/why-the-identity-mapper-can-get-out-of-memory)  
+4. [Why the identity mapper can get out of memory?](http://stackoverflow.com/questions/12302708/why-the-identity-mapper-can-get-out-of-memory)  
 	shuffle phase, I realized that looking deep at the OOM traces. The exceptions were raised in functions of Hadoop related with shuffling.
 	
-6. [hive error run select query](http://stackoverflow.com/questions/16152726/hive-error-run-select-query/16153533#16153533)  
+5. [hive error run select query](http://stackoverflow.com/questions/16152726/hive-error-run-select-query/16153533#16153533)  
 	large hard buffer, map phase
 	
-7. [pig join gets OutOfMemoryError in reducer when mapred.job.shuffle.input.buffer.percent=0.70](http://stackoverflow.com/questions/17162679/pig-join-gets-outofmemoryerror-in-reducer-when-mapred-job-shuffle-input-buffer-p/18227433#18227433)  
+6. [pig join gets OutOfMemoryError in reducer when mapred.job.shuffle.input.buffer.percent=0.70](http://stackoverflow.com/questions/17162679/pig-join-gets-outofmemoryerror-in-reducer-when-mapred-job-shuffle-input-buffer-p/18227433#18227433)  
 	Large soft buffer, shuffle phase
 	
-8. [CDH 4.1: Error running child : java.lang.OutOfMemoryError: Java heap space](http://stackoverflow.com/questions/13674190/cdh-4-1-error-running-child-java-lang-outofmemoryerror-java-heap-space)  
+7. [CDH 4.1: Error running child : java.lang.OutOfMemoryError: Java heap space](http://stackoverflow.com/questions/13674190/cdh-4-1-error-running-child-java-lang-outofmemoryerror-java-heap-space)  
 	One could also try setting the mapred.job.shuffle.input.buffer.percent to 20%. By default, this is set to 70%, which could be a lot if you are working on a very large set of data.
+
+
+## Improper data partition
+
+4. [Reducer's Heap out of memory](http://stackoverflow.com/questions/8705911/reducers-heap-out-of-memory)  
+	Large soft buffer, shuffle phase, add reducer number, there is not any hotspots with bad key distribution.
 
 ## Hot spot of  a particular key
 1. [Reducer's Heap out of memory-Join](http://stackoverflow.com/questions/8705911/reducers-heap-out-of-memory)  
@@ -61,7 +67,7 @@ For frequent terms such as "the", the reducer output record may exceed the memor
 		 
 ## Large intermediate computing results
 1. [million of map outputs for one map input. is it efficient?](http://stackoverflow.com/questions/12466527/million-of-map-outputs-for-one-map-input-is-it-efficient)  
-	treat the whole file as a record and trigger the OOM error while processing it.
+	Too large the record, the user treats the whole file as a record and trigger the OOM error while processing it.
 
 2. [Standford NLP: java.lang.OutOfMemoryError on running Hadoop job](http://stackoverflow.com/questions/20247185/java-lang-outofmemoryerror-on-running-hadoop-job)  
 	map phase, lemmatize(value) generates too large objects.  
@@ -178,7 +184,7 @@ For frequent terms such as "the", the reducer output record may exceed the memor
 		from 
 		  tab_name;
   
- 8. [Out of heap error when creating Index in Apache Hive](http://stackoverflow.com/questions/25501502/out-of-heap-error-when-creating-index-in-apache-hive)  
+8.  [Out of heap error when creating Index in Apache Hive](http://stackoverflow.com/questions/25501502/out-of-heap-error-when-creating-index-in-apache-hive)  
 	In order to speed up other types of queries we would however have liked to try adding an index to the table but when we execute the “alter” statement to actually build it this fails with "java.lang.OutOfMemoryError.
 	
 	
@@ -205,12 +211,13 @@ For frequent terms such as "the", the reducer output record may exceed the memor
 7. [Hadoop UniqValueCount Map and Aggregate Reducer for Large Dataset (1 billion records)](http://stackoverflow.com/questions/14404263/hadoop-uniqvaluecount-map-and-aggregate-reducer-for-large-dataset-1-billion-rec)  
 	reducer receives too many values, <k, list(v)> group is too large
 	
-8. [Efficient way to delete multiple rows in HBase](http://stackoverflow.com/questions/4618980/efficient-way-to-delete-multiple-rows-in-hbase/22249241#22249241)  
+8.  [Efficient way to delete multiple rows in HBase](http://stackoverflow.com/questions/4618980/efficient-way-to-delete-multiple-rows-in-hbase/22249241#22249241)  
 			
 		 List<Delete> deletes = new ArrayList<Delete>();
    		 int bufferSize = 10000000; // this is needed so I don't run out of memory as I have a huge amount of data ! so this is a simple in memory buffer
  
- 9. [How to increase number of reducer in canopy clustering algorithm](http://stackoverflow.com/questions/25993572/how-to-increase-number-of-reducer-in-canopy-clustering-algorithm/25996314#25996314)  
+ 
+9.  [How to increase number of reducer in canopy clustering algorithm](http://stackoverflow.com/questions/25993572/how-to-increase-number-of-reducer-in-canopy-clustering-algorithm/25996314#25996314)  
 	A single reducer is used to return canopy centers away from each other. Using more reducers would give wrong results.
 
 10. [Hadoop Pipes: how to pass large data records to map/reduce tasks](http://stackoverflow.com/questions/4021828/hadoop-pipes-how-to-pass-large-data-records-to-map-reduce-tasks/4027315#4027315)  

@@ -8,6 +8,12 @@ coord_font = {'family' : 'serif',
         'weight' : 'normal',
         'size'   : 13,
         }
+
+####### figure set ############
+#0.05, 0.08, 0.97, 0.93, 0.29, 0.37
+###############################
+
+
 #########################
 # figure a MemWordCount
 #########################
@@ -24,7 +30,7 @@ plt.xticks((np.arange(10)+1)*1000, (np.arange(10)+1))
 
 plt.title('a: MemWordCount-map()')
 plt.grid(color='gray')
-plt.annotate('p = 0.99 \nrObj = 2.15MB \ny = 0.043 * x + 4.6', xy=(1000, 365),  xycoords='data',
+plt.annotate('p = 0.99 \ny = 0.043 * x + 4.6 \n$\Delta$s = 2.15MB \nlastRec = 151KB \niResult = 128KB', xy=(1000, 290),  xycoords='data',
                 xytext=(0, 0), textcoords='offset points',
                 #bbox=dict(boxstyle="round", fc="0.8"),
     
@@ -56,7 +62,7 @@ plt.xlabel('Map Input Records', fontsize = 13)
 plt.ylabel('Size(objects in map()) (MB)', fontsize = 13)
 plt.xticks((np.arange(10)+1), (np.arange(10)+1))
 
-plt.annotate('rObj = 385MB', xy=(2, 350),  xycoords='data',
+plt.annotate('$\Delta$s = 385MB \nlastRec = 9MB \niResult = 385MB', xy=(2, 300),  xycoords='data',
                 xytext=(0, 0), textcoords='offset points',
                 #bbox=dict(boxstyle="round", fc="0.8"),
     
@@ -75,7 +81,7 @@ slope, intercept, r_value, p_value, slope_std_error = stats.linregress(x, y)
 predict_y = intercept + slope * x
 print(intercept, slope)
 
-
+ 
 ######################
 # figure c PigMapJoin
 ######################
@@ -160,7 +166,7 @@ plt.xticks((np.arange(8)+1)*100000,(np.arange(8)+1)*100)
 #                                 fc="0.6", ec="none",
 #                                 connectionstyle="angle3,angleA=0,angleB=-80"),
 #                 )
-plt.annotate('p = 0.97 \nIn 263rd group \nrObj = 96.2MB \ncObj = 0MB \ny = 0.000229 * x + 20.4', xy=(90000, 260),  xycoords='data',
+plt.annotate('In 263rd (k,list(v)) group \np = 0.97 \ny = 0.000229 * x + 20.4 \nreduce-level objs = 0MB \n$\Delta$s = 96.2MB \nlastRec = 320B \niResult = 92KB', xy=(90000, 230),  xycoords='data',
                  xytext=(0, 0), textcoords='offset points',
                  #bbox=dict(boxstyle="round", fc="0.8"),
                  )
@@ -202,7 +208,7 @@ y = np.array(objs[0:len(objs) - 1])
 slope, intercept, r_value, p_value, slope_std_error = stats.linregress(x, y)
 predict_y = intercept + slope * x
 print(intercept, slope)
-plt.annotate('p = 0.99 \nIn 1st group \nrObj = 855.6MB \ncObj = 0MB \ny = 23.78 * x - 13.9', xy=(3, 780),  xycoords='data',
+plt.annotate('In 1st (k,list(v)) group \np = 0.99 \ny = 23.78 * x - 13.9 \nreduce-level objs = 0MB \n$\Delta$s = 855.6MB \nlastRec = 31MB \niResult = 35MB', xy=(3, 690),  xycoords='data',
                 xytext=(0, 0), textcoords='offset points',
                 #bbox=dict(boxstyle="round", fc="0.8"),
                 )
@@ -232,7 +238,7 @@ y = np.array(objs[0:len(objs) - 1])
 slope, intercept, r_value, p_value, slope_std_error = stats.linregress(x, y)
 predict_y = intercept + slope * x
 print(intercept, slope)
-plt.annotate('p = 0.99 \nIn 1st group\nrObj = 71KB \ncObj = 0MB \ny = 0.000164 * x - 0.53', xy=(900000, 800),  xycoords='data',
+plt.annotate('In 1st (k,list(v)) group \np = 0.99 \ny = 0.000164 * x - 0.53 \nrecord-level objs = 0MB \n$\Delta$s = 71KB \nlastRec = 288B \niResult = 588B', xy=(900000, 690),  xycoords='data',
                 xytext=(0, 0), textcoords='offset points',
                 #bbox=dict(boxstyle="round", fc="0.8"),
                 )
@@ -264,11 +270,13 @@ y = np.array(objs1[0:len(objs1) - 1])
 slope, intercept, r_value, p_value, slope_std_error = stats.linregress(x, y)
 predict_y = intercept + slope * x
 print(intercept, slope)
-plt.annotate('p = 0.98 \nIn 3897853rd group\nrObj = 115.7MB \ncObj = 0MB \ny =  16.76 * x + 4.40', xy=(2, 295),  xycoords='data',
+plt.annotate('In 3897853rd (k,list(v)) group \np = 0.98 \ny = 16.76 * x + 4.40 \nrecord-level objs = 0MB \n$\Delta$s = 115.7MB \nlastRec = 30MB \niResult = 30MB', xy=(2, 255),  xycoords='data',
                 xytext=(0, 0), textcoords='offset points',
                 #bbox=dict(boxstyle="round", fc="0.8"),
                 )
-
+#===============================================================================
+# 
+#===============================================================================
 
 
 plt.show()
