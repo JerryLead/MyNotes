@@ -1,22 +1,25 @@
 # OOM Cases in Hadoop
 
 ## Large framework buffer
-1. [out of Memory Error in Hadoop](http://stackoverflow.com/questions/8464048/out-of-memory-error-in-hadoop)  
+1. [out of Memory Error in Hadoop](http://stackoverflow.com/questions/8464048/out-of-memory-error-in-hadoop)  [StackOverflow]
 
 	Large spill buffer, map phase
 	
-2. [Out of memory error in Mapreduce shuffle phase](http://stackoverflow.com/questions/19298357/out-of-memory-error-in-mapreduce-shuffle-phase)  
+2. [Out of memory error in Mapreduce shuffle phase](http://stackoverflow.com/questions/19298357/out-of-memory-error-in-mapreduce-shuffle-phase)   [StackOverflow]
+
 	Large soft buffer, shuffle phase
 	
-3. [pig join gets OutOfMemoryError in reducer when mapred.job.shuffle.input.buffer.percent=0.70](http://stackoverflow.com/questions/17162679/pig-join-gets-outofmemoryerror-in-reducer-when-mapred-job-shuffle-input-buffer-p/18227433#18227433)  
+3. [pig join gets OutOfMemoryError in reducer when mapred.job.shuffle.input.buffer.percent=0.70](http://stackoverflow.com/questions/17162679/pig-join-gets-outofmemoryerror-in-reducer-when-mapred-job-shuffle-input-buffer-p/18227433#18227433)   [StackOverflow]
+
 	Large soft buffer, shuffle phase
 
-4. [CDH 4.1: Error running child : java.lang.OutOfMemoryError: Java heap space](http://stackoverflow.com/questions/13674190/cdh-4-1-error-running-child-java-lang-outofmemoryerror-java-heap-space)  
+4. [CDH 4.1: Error running child : java.lang.OutOfMemoryError: Java heap space](http://stackoverflow.com/questions/13674190/cdh-4-1-error-running-child-java-lang-outofmemoryerror-java-heap-space)   [StackOverflow]
+
 	One could also try setting the mapred.job.shuffle.input.buffer.percent to 20%. By default, this is set to 70%, which could be a lot if you are working on a very large set of data.
 	
 ## Improper data partition
 
-1. [Reducer's Heap out of memory](http://stackoverflow.com/questions/8705911/reducers-heap-out-of-memory)  
+1. [Reducer's Heap out of memory](http://stackoverflow.com/questions/8705911/reducers-heap-out-of-memory)     [StackOverflow]
 	Large soft buffer, shuffle phase, add reducer number, there is not any hotspots with bad key distribution.
 
 ## HotSpot Key
@@ -165,3 +168,9 @@ For frequent terms such as "the", the reducer output record may exceed the memor
 		}
 	
 	
+### Span multiple groups
+
+1. [Getting java heap space error while running a mapreduce code for large dataset](http://stackoverflow.com/questions/23042829/getting-java-heap-space-error-while-running-a-mapreduce-code-for-large-dataset) [StackOverflow]
+
+	But the reducer number is only one.
+2. [
