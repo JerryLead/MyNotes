@@ -43,6 +43,7 @@
 For frequent terms such as "the", the reducer output record may exceed the memory limit of the JVM, resulting in out of memory error. This is because Hadoop keeps the whole record (in this case the whole postings list for "the") in memory before sending it to disk. 
 	
 	One way to avoid such error is to partition these large postings into manageable sized chunks, and output several records for the same key (the word "the").
+	
 ## Large external data
 1. [Hive Map join : out of memory Exception](http://stackoverflow.com/questions/18913928/hive-map-join-out-of-memory-exception)  
 	Large table cached in memory,  one big Table (10G) and small Table (230 MB). Is the small table in the join really the smaller table in your data? 
@@ -237,3 +238,7 @@ For frequent terms such as "the", the reducer output record may exceed the memor
 
 15. [ArrayList Issue in Reducer](http://stackoverflow.com/questions/16884595/arraylist-issue-in-reducer/16887748#16887748)  
 	has the reduce-level objects: ArrayList
+16. [will-reducer-out-of-java-heap-space](http://stackoverflow.com/questions/16116022/will-reducer-out-of-java-heap-space)
+	
+17. [Optimizing Data Partitioning for Data-Parallel Computing](http://research.microsoft.com/pubs/146685/Ke.pdf)
+	

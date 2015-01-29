@@ -173,4 +173,3 @@ For frequent terms such as "the", the reducer output record may exceed the memor
 1. [Getting java heap space error while running a mapreduce code for large dataset](http://stackoverflow.com/questions/23042829/getting-java-heap-space-error-while-running-a-mapreduce-code-for-large-dataset) [StackOverflow]
 
 	But the reducer number is only one.
-2. [
