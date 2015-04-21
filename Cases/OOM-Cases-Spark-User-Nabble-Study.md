@@ -156,98 +156,378 @@ whether it can help
 	Source code : No
 	
 21. [Partitioning - optimization or requirement?](http://apache-spark-user-list.1001560.n3.nabble.com/Partitioning-optimization-or-requirement-tp3359.html)
+
+	Root cause: Hotspot key (doing unbalanced joins (ie. cardinality of some joined elements much larger than others)  
+	Pattern: Hotspot key
+	Reproducible: No  
+	Source code : No
+	
 22. [tiers of caching](http://apache-spark-user-list.1001560.n3.nabble.com/tiers-of-caching-tp8927.html)
+
+	Root cause: (graphx liberally cache RDDs for efficiency, which makes sense. however it can also leave a long trail of unused yet cached RDDs, that might push other RDDs out of memory.)    
+	Pattern: Too many rdds cached in memory  
+	Reproducible: No   
+	Source code : No
+	
 23. [Buffering for Socket streams](http://apache-spark-user-list.1001560.n3.nabble.com/Buffering-for-Socket-streams-tp22164.html)
+
+	Root cause: (writing large files to HDFS via Socket streamer)  
+	Pattern: Unknown
+	Reproducible: No  
+	Source code : No
+	
 24. [configuration needed to run twitter(25GB) dataset](http://apache-spark-user-list.1001560.n3.nabble.com/configuration-needed-to-run-twitter-25GB-dataset-tp11044.html)
+	
+	Occuring phase: GraphX iteration large graph.  
+	Root cause: Unknown  
+	Pattern: Unknown
+	Reproducible: No  
+	Source code : No
+	
 25. [how to debug ExecutorLostFailure](http://apache-spark-user-list.1001560.n3.nabble.com/how-to-debug-ExecutorLostFailure-tp15646.html)
-26. [HQL function Rollup and Cube](http://apache-spark-user-list.1001560.n3.nabble.com/HQL-function-Rollup-and-Cube-tp22241.html)
-27. [Transform RDD[List]](http://apache-spark-user-list.1001560.n3.nabble.com/Transform-RDD-List-tp11948.html)
-28. [What is Seq[V] in updateStateByKey?](http://apache-spark-user-list.1001560.n3.nabble.com/What-is-Seq-V-in-updateStateByKey-tp5049.html)
+
+	Root cause: Unknown  
+	Pattern: Unknown  
+	Reproducible: No  
+	Source code : No
+	
 29. [OutOfMemory of spark streaming on standalone in 5 minutes, but run normal on local mode](http://apache-spark-user-list.1001560.n3.nabble.com/OutOfMemory-of-spark-streaming-on-standalone-in-5-minutes-but-run-normal-on-local-mode-tp21352.html)
+
+	Root cause: Input data => socketTextStream => store data onto HDFS  
+	Pattern: Unknown  
+	Reproducible: No  
+	Source code : No
+	
 30. [Spark streaming](http://apache-spark-user-list.1001560.n3.nabble.com/Spark-streaming-tp22255.html)
+
+	Root cause: Unknown
+	Pattern: Unknown  
+	Reproducible: No  
+	Source code : No
+
 31. [How to join two PairRDD together?](http://apache-spark-user-list.1001560.n3.nabble.com/How-to-join-two-PairRDD-together-tp12729.html)
-32. [computation slows down 10x because of cached RDDs](http://apache-spark-user-list.1001560.n3.nabble.com/computation-slows-down-10x-because-of-cached-RDDs-tp2480.html)
-33. [Memory & compute-intensive tasks](http://apache-spark-user-list.1001560.n3.nabble.com/Memory-compute-intensive-tasks-tp9643.html)
-34. [Running Spark shell on YARN](http://apache-spark-user-list.1001560.n3.nabble.com/Running-Spark-shell-on-YARN-tp12186.html)
+
+	Symptom: adding the same key to every element, and joining  
+	Root cause: Unknown
+	Pattern: Unknown  
+	Reproducible: No  
+	Source code : No
+
 35. [[SQL] Set Parquet block size?](http://apache-spark-user-list.1001560.n3.nabble.com/SQL-Set-Parquet-block-size-tp16039.html)
-36. [Limit # of parallel parquet decompresses](http://apache-spark-user-list.1001560.n3.nabble.com/Limit-of-parallel-parquet-decompresses-tp22022.html)
+
+	Symptom: Out of Memory issues when writing parquet files. The rdd we are saving to parquet have a fairly high number of columns (in the thousands, around 3k for the moment).   
+	Root cause: Unknown
+	Pattern: Unknown  
+	Reproducible: No  
+	Source code : No
+	
 37. [trouble with broadcast variables on pyspark](http://apache-spark-user-list.1001560.n3.nabble.com/trouble-with-broadcast-variables-on-pyspark-tp1301.html)
-38. [Spark Streaming + Kafka + Mesos/Marathon strangeness](http://apache-spark-user-list.1001560.n3.nabble.com/Spark-Streaming-Kafka-Mesos-Marathon-strangeness-tp3285.html)
-39. [Hung spark executors don't count toward worker memory limit](http://apache-spark-user-list.1001560.n3.nabble.com/Hung-spark-executors-don-t-count-toward-worker-memory-limit-tp16083.html)
-40. [Exception in thread "DAGScheduler" java.lang.OutOfMemoryError: GC overhead limit exceeded](http://apache-spark-user-list.1001560.n3.nabble.com/Exception-in-thread-DAGScheduler-java-lang-OutOfMemoryError-GC-overhead-limit-exceeded-tp833.html)
-41. [Basic question on RDD caching](http://apache-spark-user-list.1001560.n3.nabble.com/Basic-question-on-RDD-caching-tp1805.html)
-42. [What does Spark cache() actually do?](http://apache-spark-user-list.1001560.n3.nabble.com/What-does-Spark-cache-actually-do-tp5778.html)
-43. [Spark streaming on load run - How to increase single node capacity?](http://apache-spark-user-list.1001560.n3.nabble.com/Spark-streaming-on-load-run-How-to-increase-single-node-capacity-tp6953.html)
+
+	Symptom: A ~1GB array seems to be blowing up beyond the size of the driver machine's memory when it's pickled. I've tried to get around this by broadcasting smaller chunks of it one at a time.   
+	Root cause: Unknown  
+	Pattern: Unknown  
+	Reproducible: No  
+	Source code : No
+
 44. [spark streaming rate limiting from kafka](http://apache-spark-user-list.1001560.n3.nabble.com/spark-streaming-rate-limiting-from-kafka-tp8590.html)
+
+	Symptom: accumulate a lot on kafka topic-partitions.   
+	Root cause: Unknown  
+	Pattern: Unknown  
+	Reproducible: No  
+	Source code : No
+	
 45. [RDD join: composite keys](http://apache-spark-user-list.1001560.n3.nabble.com/RDD-join-composite-keys-tp8696.html)
+
+	Symptom: accumulate a lot on kafka topic-partitions.   
+	Root cause: Unknown  
+	Pattern: Unknown  
+	Reproducible: No  
+	Source code : No
+	
 46. [AppMaster OOME on YARN](http://apache-spark-user-list.1001560.n3.nabble.com/AppMaster-OOME-on-YARN-tp12612.html)
-47. [Where to save intermediate results?](http://apache-spark-user-list.1001560.n3.nabble.com/Where-to-save-intermediate-results-tp13062.html)
+	
+	Symptom: groupBy() .mapValues().fold()   
+	Root cause: Unknown  
+	Pattern: Unknown  
+	Reproducible: No  
+	Source code : No
+	
+
 48. [Yarn Driver OOME (Java heap space) when executors request map output locations](http://apache-spark-user-list.1001560.n3.nabble.com/Yarn-Driver-OOME-Java-heap-space-when-executors-request-map-output-locations-tp13827.html)
-49. [MLLib ALS question](http://apache-spark-user-list.1001560.n3.nabble.com/MLLib-ALS-question-tp15420.html)
-50. [Accumulator question](http://apache-spark-user-list.1001560.n3.nabble.com/Accumulator-question-tp15715.html)
+	
+	Symptom: the driver appears to be making 500 (5gb of data) copies of this data to send out and running out of memory.  
+	Root cause: Dirver generates large dataset  
+	Pattern: Unknown  
+	Reproducible: No  
+	Source code : No
+	
+49. [MLLib ALS question](http://apache-spark-user-list.1001560.n3.nabble.com/MLLib-ALS-question-tp15420.html) (Further study)
+
+	Symptom: The current ALS 
+implementation constructs all subproblems in memory. With rank=10, 
+that means (6.5M + 2.5M) * 10^2 / 2 * 8 bytes = 3.5GB. The ratings 
+need 2GB, not counting the overhead.   ALS still needs to load and deserialize the in/out blocks (one by one) 
+from disk and then construct least squares subproblems. All happen in 
+RAM. The final model is also stored in memory.  
+	Root cause: Large data loaded into memory, intermediate computing results. 
+	Pattern: Unknown  
+	Reproducible: No  
+	Source code : No
+	
+50. [Accumulator question](http://apache-spark-user-list.1001560.n3.nabble.com/Accumulator-question-tp15715.html) (Further study)
+
+	Symptom: we're gathering data from repeated queries using some relatively sizable accumulators; at the moment, we're creating one per query, and running out of memory after far too few queries.
+	Root cause: Large accumulated results in Accumulators.  
+	Pattern: Unknown  
+	Reproducible: No  
+	Source code : No
+	
 51. [Lag function equivalent in an RDD](http://apache-spark-user-list.1001560.n3.nabble.com/Lag-function-equivalent-in-an-RDD-tp16448.html)
-52. [Can we make EdgeRDD and VertexRDD storage level to MEMORY_AND_DISK?](http://apache-spark-user-list.1001560.n3.nabble.com/Can-we-make-EdgeRDD-and-VertexRDD-storage-level-to-MEMORY-AND-DISK-tp19307.html)
+
+	Symptom: I have tried reduceByKey and then splitting the List of position in 
+tuples.   
+	Root cause: Hotspot key, one vehicle has a huge amount of data that could fail. 
+	Pattern: Unknown  
+	Reproducible: No  
+	Source code : No
+
 53. [JVM Memory Woes](http://apache-spark-user-list.1001560.n3.nabble.com/JVM-Memory-Woes-tp19496.html)
-54. [Limit Tasks within an executor - mesos](http://apache-spark-user-list.1001560.n3.nabble.com/Limit-Tasks-within-an-executor-mesos-tp22234.html)
-55. [Failed to remove RDD error](http://apache-spark-user-list.1001560.n3.nabble.com/Failed-to-remove-RDD-error-tp6612.html)
+	
+	Symptom: It is a filter job that creates the error above, not the reduceByKey.  	Root cause: probably reduceByKey(), although authors claim the causes exist in filter()  
+	Pattern: Unknown  
+	Reproducible: No  
+	Source code : No
+
+
 56. [Memory allocation in the driver](http://apache-spark-user-list.1001560.n3.nabble.com/Memory-allocation-in-the-driver-tp8406.html)
+
+	
+	Symptom: call to "b.first" will cause the spark driver to allocate a VERY large piece of memory. The first item of the first partition is very small (less than 200 bytes). However, the size of the entire first partition was about 380 MB.  
+	Root cause: large data collected() by driver, although each partition is small.
+	Pattern: Unknown  
+	Reproducible: No  
+	Source code : No
+	
 57. [GC issues](http://apache-spark-user-list.1001560.n3.nabble.com/GC-issues-tp1422.html)
-58. [Akka error with largish job (works fine for smaller versions)](http://apache-spark-user-list.1001560.n3.nabble.com/Akka-error-with-largish-job-works-fine-for-smaller-versions-tp3097.html)
-59. [Spark limitations question](http://apache-spark-user-list.1001560.n3.nabble.com/Spark-limitations-question-tp3296.html)
+	
+	Symptom: OOM  
+	Pattern: Unknown  
+	Reproducible: No  
+	Source code : No
+	
+
+59. [Spark limitations question](http://apache-spark-user-list.1001560.n3.nabble.com/Spark-limitations-question-tp3296.html) (Further study)
+
+	Symptom:  join Base to Skewed, works well on all but one of the nodes on the cluster 
+	Pattern: Skewed data  
+	Reproducible: No  
+	Source code : No
+
 60. [Kyro serialization slow and runs OOM](http://apache-spark-user-list.1001560.n3.nabble.com/Kyro-serialization-slow-and-runs-OOM-tp1073.html)
-61. [Memory vs. disk - how to spill data into disk](http://apache-spark-user-list.1001560.n3.nabble.com/Memory-vs-disk-how-to-spill-data-into-disk-tp1383.html)
-62. [Using local[N] gets "Too many open files"](http://apache-spark-user-list.1001560.n3.nabble.com/Using-local-N-gets-Too-many-open-files-tp1592.html)
-63. [Using local[N] gets "Too many open files"?](http://apache-spark-user-list.1001560.n3.nabble.com/Using-local-N-gets-Too-many-open-files-tp1594.html)
-64. [What's the lifecycle of an rdd? Can I control it?](http://apache-spark-user-list.1001560.n3.nabble.com/What-s-the-lifecycle-of-an-rdd-Can-I-control-it-tp2857.html)
+
+	
+	Symptom: I load my dataset, transform it with some one to one transformations, and try to cache the eventual RDD - it runs really slow and then runs out of memory.   
+	Pattern: Large data cached  
+	Reproducible: No  
+	Source code : No
+
 65. [Pyspark Memory Woes](http://apache-spark-user-list.1001560.n3.nabble.com/Pyspark-Memory-Woes-tp2538.html)
+
+	Symptom: Discussion    
+	Pattern: Unknown  
+	Reproducible: No  
+	Source code : No
 66. [Doubts regarding Shark](http://apache-spark-user-list.1001560.n3.nabble.com/Doubts-regarding-Shark-tp5756.html)
+
+	Symptom: Discussion    
+	Pattern: Unknown  
+	Reproducible: No  
+	Source code : No
+	
 67. [advice on maintaining a production spark cluster?](http://apache-spark-user-list.1001560.n3.nabble.com/advice-on-maintaining-a-production-spark-cluster-tp5848.html)
-68. [Spark stalling during shuffle (maybe a memory issue)](http://apache-spark-user-list.1001560.n3.nabble.com/Spark-stalling-during-shuffle-maybe-a-memory-issue-tp6067.html)
+
+	Symptom: Running out of memory on the driver side (esp. with large broadcast variables)   
+	Pattern: Driver is going to broadcast large dataset  
+	Reproducible: No  
+	Source code : No
+
 69. [pyspark join crash](http://apache-spark-user-list.1001560.n3.nabble.com/pyspark-join-crash-tp6938.html)
-70. [FileNotFoundException when using persist(DISK_ONLY)](http://apache-spark-user-list.1001560.n3.nabble.com/FileNotFoundException-when-using-persist-DISK-ONLY-tp7291.html)
-71. [join operation is taking too much time](http://apache-spark-user-list.1001560.n3.nabble.com/join-operation-is-taking-too-much-time-tp7727.html)
+
+	I think the problem is that once unpacked in Python, the objects take considerably more space, as they are stored as Python objects in a Python dictionary. Take a look at python/pyspark/join.py and combineByKey in python/pyspark/rdd.py. We should probably try to store these in serialized form.
+	
 72. ["Spilling in-memory..." messages in log even with MEMORY_ONLY](http://apache-spark-user-list.1001560.n3.nabble.com/Spilling-in-memory-messages-in-log-even-with-MEMORY-ONLY-tp10723.html)
-73. [Understanding RDD.GroupBy OutOfMemory Exceptions](http://apache-spark-user-list.1001560.n3.nabble.com/Understanding-RDD-GroupBy-OutOfMemory-Exceptions-tp11427.html)
-74. [SparkR: split, apply, combine strategy for dataframes?](http://apache-spark-user-list.1001560.n3.nabble.com/SparkR-split-apply-combine-strategy-for-dataframes-tp12151.html)
+
+	These messages are actually not about spilling the RDD, they're about spilling intermediate state in a reduceByKey, groupBy or other operation whose state doesn't fit in memory. We have to do that in these cases to avoid going out of memory. You can minimize spilling by having more reduce tasks though, which will mean less data per task. 
+	
+73. [Understanding RDD.GroupBy OutOfMemory Exceptions](http://apache-spark-user-list.1001560.n3.nabble.com/Understanding-RDD-GroupBy-OutOfMemory-Exceptions-tp11427.html) (Further study, groupByKey())
+	
+	Symptom: OOM in groupByKey() but no error in reduceByKey()
+	Pattern:  large input record, 
+	Reproducible: No  
+	Source code : No
+	
+	The groupBy operator in Spark is not an aggregation operator (e.g. in SQL where you do select sum(salary) group by age...) - there are separate more efficient operators for aggregations. Currently groupBy requires that all of the values for one key can fit in memory. In your case, it's possible you have a single key with a very large number of values, given that your count seems to be failing on a single task.
+
 75. [Question regarding spark data partition and coalesce. Need info on my use case.](http://apache-spark-user-list.1001560.n3.nabble.com/Question-regarding-spark-data-partition-and-coalesce-Need-info-on-my-use-case-tp12214.html)
+
+		
+	Symptom: Without using coalesce() or repartition() on the input data spark executes really slow and fails with out of memory exception.  
+	Pattern:  Unknown
+	Reproducible: No  
+	Source code : No
+	
 76. [pyspark/yarn and inconsistent number of executors](http://apache-spark-user-list.1001560.n3.nabble.com/pyspark-yarn-and-inconsistent-number-of-executors-tp12406.html)
-77. [Bulk-load to HBase](http://apache-spark-user-list.1001560.n3.nabble.com/Bulk-load-to-HBase-tp14667.html)
-78. [Setup an huge Unserializable Object in a mapper](http://apache-spark-user-list.1001560.n3.nabble.com/Setup-an-huge-Unserializable-Object-in-a-mapper-tp14817.html)
+
+	Pattern:  Unknown  
+	Reproducible: No  
+	Source code : No
+	
+77. [Bulk-load to HBase](http://apache-spark-user-list.1001560.n3.nabble.com/Bulk-load-to-HBase-tp14667.html) (Further study)
+
+	Symptom: OOM on mapPartitionsWithIndex() for splitKeys, I have to merge the byte[]s that have the same key. 
+	Pattern:  Large accumulated results
+	Reproducible: No  
+	Source code : No
+	
+	
+	The problem is that you will first collect and allocate many small byte[] in memory, and then merge them. If the total size of the byte[]s is very large, you run out of memory, 
+
+78. [Setup an huge Unserializable Object in a mapper](http://apache-spark-user-list.1001560.n3.nabble.com/Setup-an-huge-Unserializable-Object-in-a-mapper-tp14817.html) (Further study)
+			
+	Symptom: getTree function in each iterator of map()  
+	Pattern:  Unknown
+	Reproducible: No  
+	Source code : No
+	
 79. [driver memory management](http://apache-spark-user-list.1001560.n3.nabble.com/driver-memory-management-tp15305.html)
-80. [Spark Streaming: No parallelism in writing to database (MySQL)](http://apache-spark-user-list.1001560.n3.nabble.com/Spark-Streaming-No-parallelism-in-writing-to-database-MySQL-tp15174.html)
+
+	Symptom: driver OOM  
+	Pattern:  Unknown  
+	Reproducible: No  
+	Source code : No
+	
 81. [something about rdd.collect](http://apache-spark-user-list.1001560.n3.nabble.com/something-about-rdd-collect-tp16451.html)
-82. [rdd caching and use thereof](http://apache-spark-user-list.1001560.n3.nabble.com/rdd-caching-and-use-thereof-tp16660.html)
+
+	Symptom: driver OOM  
+	Pattern:  Unknown  
+	Reproducible: No  
+	Source code : No
+	
 83. [MLLib /ALS : java.lang.OutOfMemoryError: Java heap space](http://apache-spark-user-list.1001560.n3.nabble.com/MLLib-ALS-java-lang-OutOfMemoryError-Java-heap-space-tp20584.html)
-84. [java.lang.OutOfMemoryError (java.lang.OutOfMemoryError: GC overhead limit exceeded)](http://apache-spark-user-list.1001560.n3.nabble.com/java-lang-OutOfMemoryError-java-lang-OutOfMemoryError-GC-overhead-limit-exceeded-tp9036.html)
-85. [JVM memory in local threading (SparkLR example)](http://apache-spark-user-list.1001560.n3.nabble.com/JVM-memory-in-local-threading-SparkLR-example-tp2653.html)
-86. [??: What's the lifecycle of an rdd? Can I control it?](http://apache-spark-user-list.1001560.n3.nabble.com/What-s-the-lifecycle-of-an-rdd-Can-I-control-it-tp2911.html)
-87. [Question about Transforming huge files from Local to HDFS](http://apache-spark-user-list.1001560.n3.nabble.com/Question-about-Transforming-huge-files-from-Local-to-HDFS-tp4867.html)
-88. [Any advice for using big spark.cleaner.delay value in Spark Streaming?](http://apache-spark-user-list.1001560.n3.nabble.com/Any-advice-for-using-big-spark-cleaner-delay-value-in-Spark-Streaming-tp4895.html)
+	
+	Symptom: shuffle buffer + storage buffer > limit 
+	Pattern:  Unknown  
+	Reproducible: No  
+	Source code : No
+
 89. [Spark Processing Large Data Stuck](http://apache-spark-user-list.1001560.n3.nabble.com/Spark-Processing-Large-Data-Stuck-tp8075.html)
+		
+	Symptom: Java.deserialization.buffer + ExeternalAppendOnlyMap  
+	Pattern:  Large buffer
+	Reproducible: No  
+	Source code : No
+
+	
 90. [memory leak query](http://apache-spark-user-list.1001560.n3.nabble.com/memory-leak-query-tp8961.html)
-91. [JVM Error while building spark](http://apache-spark-user-list.1001560.n3.nabble.com/JVM-Error-while-building-spark-tp11665.html)
-92. [how to choose right DStream batch interval](http://apache-spark-user-list.1001560.n3.nabble.com/how-to-choose-right-DStream-batch-interval-tp13578.html)
-93. [Setting up Spark 1.1 on Windows 7](http://apache-spark-user-list.1001560.n3.nabble.com/Setting-up-Spark-1-1-on-Windows-7-tp14759.html)
-94. [Strategies for reading large numbers of files](http://apache-spark-user-list.1001560.n3.nabble.com/Strategies-for-reading-large-numbers-of-files-tp15644.html)
-95. [Writing wide parquet file in Spark SQL](http://apache-spark-user-list.1001560.n3.nabble.com/Writing-wide-parquet-file-in-Spark-SQL-tp21995.html)
-96. [OOM with groupBy + saveAsTextFile](http://apache-spark-user-list.1001560.n3.nabble.com/OOM-with-groupBy-saveAsTextFile-tp17891.html)
+			
+	Symptom: Loop of rdd.count()  
+	Pattern:  Unknown  
+	Reproducible: No  
+	Source code : No
+
+
+96. [OOM with groupBy + saveAsTextFile](http://apache-spark-user-list.1001560.n3.nabble.com/OOM-with-groupBy-saveAsTextFile-tp17891.html) (Further study)
+			
+	Symptom: GroupBy + saveAsTextFile, The value after groupBy() is too large  
+	Pattern:  Unknown  
+	Reproducible: No  
+	Source code : No
+
+	
 97. [trouble with "join" on large RDDs](http://apache-spark-user-list.1001560.n3.nabble.com/trouble-with-join-on-large-RDDs-tp3864.html)
+
+	Pattern:  Unknown  
+	Reproducible: No  
+	Source code : No
+	
 98. [What should happen if we try to cache more data than the cluster can hold in memory?](http://apache-spark-user-list.1001560.n3.nabble.com/What-should-happen-if-we-try-to-cache-more-data-than-the-cluster-can-hold-in-memory-tp11175.html)
+	
+	Symptom: Individual partitions were too big to fit in memory.  
+	Pattern:  Improper data partition
+	Reproducible: No  
+	Source code : No
+
 99. [Spark app throwing java.lang.OutOfMemoryError: GC overhead limit exceeded](http://apache-spark-user-list.1001560.n3.nabble.com/Spark-app-throwing-java-lang-OutOfMemoryError-GC-overhead-limit-exceeded-tp11350.html)
-100. [memory issue on standalone master](http://apache-spark-user-list.1001560.n3.nabble.com/memory-issue-on-standalone-master-tp11610.html)
+
+	Pattern:  Unknown  
+	Reproducible: No  
+	Source code : No
+	
 101. [java.lang.OutOfMemoryError: Requested array size exceeds VM limit](http://apache-spark-user-list.1001560.n3.nabble.com/java-lang-OutOfMemoryError-Requested-array-size-exceeds-VM-limit-tp12993.html)
+
+	Pattern:  Unknown  
+	Reproducible: No  
+	Source code : No
+	
 102. [processing large number of files](http://apache-spark-user-list.1001560.n3.nabble.com/processing-large-number-of-files-tp15429.html)
+	
+	Symptom: large array/model in the driver 
+	Pattern:  Large data generated in the driver
+	Reproducible: No  
+	Source code : No
+	
 103. [RowMatrix PCA out of heap space error](http://apache-spark-user-list.1001560.n3.nabble.com/RowMatrix-PCA-out-of-heap-space-error-tp16305.html)
-104. [Lost executors](http://apache-spark-user-list.1001560.n3.nabble.com/Lost-executors-tp19224.html)
+
+	
+	Pattern:  Large matrix in the driver 
+	Reproducible: No  
+	Source code : No
+	
 105. [Problems with broadcast large datastructure](http://apache-spark-user-list.1001560.n3.nabble.com/Problems-with-broadcast-large-datastructure-tp331.html)
-106. [OOM - Help Optimizing Local Job](http://apache-spark-user-list.1001560.n3.nabble.com/OOM-Help-Optimizing-Local-Job-tp643.html)
-107. [Spark streaming questions](http://apache-spark-user-list.1001560.n3.nabble.com/Spark-streaming-questions-tp1494.html)
+
+	Symptom: Broadcast large data
+	Pattern:  Large data cached in memory
+	Reproducible: No  
+	Source code : No
+	
+106. [OOM - Help Optimizing Local Job](http://apache-spark-user-list.1001560.n3.nabble.com/OOM-Help-Optimizing-Local-Job-tp643.html) (Further study)
+	
+	Symptom: combineValuesByKey()
+	Pattern:  Large data cached in memory
+	Reproducible: No  
+	Source code : No
+	
+107. [Spark streaming questions](http://apache-spark-user-list.1001560.n3.nabble.com/Spark-streaming-questions-tp1494.html) (Further study)
+
+	Symptom: DStream.persist() constantly  
+	Pattern:  Large data cached in memory
+	Reproducible: No  
+	Source code : No
+	
 108. [shuffle memory requirements](http://apache-spark-user-list.1001560.n3.nabble.com/shuffle-memory-requirements-tp4048.html)
-109. [SQLCtx cacheTable](http://apache-spark-user-list.1001560.n3.nabble.com/SQLCtx-cacheTable-tp11046.html)
-110. [Data loss - Spark streaming and network receiver](http://apache-spark-user-list.1001560.n3.nabble.com/Data-loss-Spark-streaming-and-network-receiver-tp12337.html)
+
+	Symptom: partitionBy()
+	Pattern:  Unknown
+	Reproducible: No  
+	Source code : No
+	
+
 111. [OutofMemoryError when generating output](http://apache-spark-user-list.1001560.n3.nabble.com/OutofMemoryError-when-generating-output-tp12847.html)
-112. [Understanding spark operation pipeline and block storage](http://apache-spark-user-list.1001560.n3.nabble.com/Understanding-spark-operation-pipeline-and-block-storage-tp18201.html)
-113. [Getting java.lang.OutOfMemoryError when calling mkString on a parition](http://apache-spark-user-list.1001560.n3.nabble.com/Getting-java-lang-OutOfMemoryError-when-calling-mkString-on-a-parition-tp19527.html)
+
+	Symptom: distinct().countByKey()  
+	Pattern:  Unknown
+	Reproducible: No  
+	Source code : No
+	
+
+113. [Getting java.lang.OutOfMemoryError when calling mkString on a parition](http://apache-spark-user-list.1001560.n3.nabble.com/Getting-java-lang-OutOfMemoryError-when-calling-mkString-on-a-parition-tp19527.html) (Further study)
+		
+	Symptom: constant ++ sampleItem, partitionedHeader(header, index) ++ rows
+	Pattern:  Unknown
+	Reproducible: No  
+	Source code : No
+	
 114. [newbie : java.lang.OutOfMemoryError: Java heap space](http://apache-spark-user-list.1001560.n3.nabble.com/newbie-java-lang-OutOfMemoryError-Java-heap-space-tp365.html)
 115. [HBase row count](http://apache-spark-user-list.1001560.n3.nabble.com/HBase-row-count-tp2023.html)
 116. [Fwd: Spark - ready for prime time?](http://apache-spark-user-list.1001560.n3.nabble.com/Fwd-Spark-ready-for-prime-time-tp4064.html)
