@@ -5,41 +5,105 @@ IDs: 9, 71, 151, 152, 190, 291, 307, 350, 402, 410, 523, 749, 777, 805, 806
 
 9. [java.lang.OutOfMemoryError: Direct buffer memory](http://hadoop.6.n7.nabble.com/java-lang-OutOfMemoryError-Direct-buffer-memory-tp6947.html)
 
+	Symptoms:  only stack trace  
+	Pattern:  Unknown  
+	Reproducible: No  
+	Source code : No  
+	
 
 71. [OOME only with large datasets](http://hadoop.6.n7.nabble.com/OOME-only-with-large-datasets-tp7656.html)
 
+	Symptoms:  only stack trace  
+	Pattern:  Unknown  
+	Reproducible: No  
+	Source code : No  
 
 151. [OutOfMemory Error](http://hadoop.6.n7.nabble.com/OutOfMemory-Error-tp5428.html)
 
-
+	Symptoms:  The key is of the form "ID :DenseVector Representation in mahout with dimensionality size = 160k",  typical size of the key  of the mapper output can be 160K*6
+	Pattern:  Large single key  
+	Reproducible: No  
+	Source code : No  
+	
 152. [reducer outofmemoryerror](http://hadoop.6.n7.nabble.com/reducer-outofmemoryerror-tp2083.html)
 
+	Symptoms:  only stack trace  
+	Pattern:  Unknown  
+	Reproducible: No  
+	Source code : No  
 
 190. [Nor "OOM Java Heap Space" neither "GC OverHead Limit Exeeceded"](http://hadoop.6.n7.nabble.com/Nor-OOM-Java-Heap-Space-neither-GC-OverHead-Limit-Exeeceded-tp11337.html)
 
+	Symptoms:  only stack trace of client  
+	Pattern:  Unknown  
+	Reproducible: No  
+	Source code : No  
+	
 291. [Yarn container out of memory when using large memory mapped file](http://hadoop-common.472056.n3.nabble.com/Yarn-container-out-of-memory-when-using-large-memory-mapped-file-tp4069092.html)
 
+	Symptoms:  only stack trace   
+	Pattern:  Unknown  
+	Reproducible: No  
+	Source code : No  
+	
 307. [Out of heap space errors on TTs](http://hadoop-common.472056.n3.nabble.com/Out-of-heap-space-errors-on-TTs-tp3348456.html)
 
+	Symptoms:  Large map buffer     
+	Pattern:  Unknown  
+	Reproducible: No  
+	Source code : No  
+	
 350. [OutOfMemoryError of PIG job (UDF loads big file)](http://hadoop-common.472056.n3.nabble.com/OutOfMemoryError-of-PIG-job-UDF-loads-big-file-tp327956.html)
 
+	Symptoms:  Data load + String split + Pattern compile in Pig  
+	Pattern:  Large intermediate/accumulated results in UDF    
+	Reproducible: No  
+	Source code : No  
+	
 402. [Hashing two relations](http://hadoop-common.472056.n3.nabble.com/Hashing-two-relations-tp940202.html)
 
+	Symptoms:  Reduce join  (hash join), I want to get a partition from each 
+hash-table and build an in-memory hash table for one and probing the partition 
+from other table against it   
+	Pattern:  Large intermediate/accumulated results in UDF    
+	Reproducible: No  
+	Source code : No  
+	
 410. [OOM Error Map output copy.](http://hadoop-common.472056.n3.nabble.com/OOM-Error-Map-output-copy-tp3568293.html)
 
+	Symptoms: OOM in shuffle phase, large data partition    
+	Pattern: Improper data partition, small reduce number      
+	Reproducible: No  
+	Source code : No  
 
-523. [OutOfMemory during Plain Java MapReduce](http://hadoop-common.472056.n3.nabble.com/OutOfMemory-during-Plain-Java-MapReduce-tp4010736.html)
+523. [OutOfMemory during Plain Java MapReduce](http://hadoop-common.472056.n3.nabble.com/OutOfMemory-during-Plain-Java-MapReduce-tp4010736.html) (Further study)
 
+	Symptoms: Distinct keys are cached in data structure      
+	Pattern: Large accumulated results        
+	Reproducible: No  
+	Source code : No  
+	
 749. [ReducerTask OOM failure](http://hadoop-common.472056.n3.nabble.com/ReducerTask-OOM-failure-tp22794.html)
+	
+	Symptoms: Copy map outputs       
+	Pattern: Unknown        
+	Reproducible: No  
+	Source code : No  
+	
+777. [how to solve reducer memory problem?](http://hadoop-common.472056.n3.nabble.com/how-to-solve-reducer-memory-problem-tp4037710.html) (Further study)
 
-777. [how to solve reducer memory problem?](http://hadoop-common.472056.n3.nabble.com/how-to-solve-reducer-memory-problem-tp4037710.html)
+	Symptoms: each TrainingWeights as a very large double[], addWeights(result, weights);        
+	Pattern: Large accumulated results        
+	Reproducible: No  
+	Source code : No  
+	
 
-
-805. [Exception in Jobtracker (java.lang.OutOfMemoryError: Java heap space)](http://hadoop-common.472056.n3.nabble.com/Exception-in-Jobtracker-java-lang-OutOfMemoryError-Java-heap-space-tp4038501.html)
-
-
-806. [memoryjava.lang.OutOfMemoryError related with number of reducer?](http://hadoop-common.472056.n3.nabble.com/memoryjava-lang-OutOfMemoryError-related-with-number-of-reducer-tp4038743.html)
-
+806. [memoryjava.lang.OutOfMemoryError related with number of reducer?](http://hadoop-common.472056.n3.nabble.com/memoryjava-lang-OutOfMemoryError-related-with-number-of-reducer-tp4038743.html) (Further study)
+	
+	Symptoms: count(distinct)
+	Pattern: Large accumulated results in combine()      
+	Reproducible: No  
+	Source code : No  
 
 ## Cases
 1. [Reducer Out of Memory](http://hadoop.6.n7.nabble.com/Reducer-Out-of-Memory-tp7792.html)
