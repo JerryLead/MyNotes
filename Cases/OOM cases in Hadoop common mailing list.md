@@ -1,87 +1,91 @@
 ## OOM cases in Hadoop common mailing list
 
-IDs: 9, 71, 151, 152, 190, 291, 307, 350, 402, 410, 523, 749, 777, 805, 806  
-
-
-9. [java.lang.OutOfMemoryError: Direct buffer memory](http://hadoop.6.n7.nabble.com/java-lang-OutOfMemoryError-Direct-buffer-memory-tp6947.html)
-
-	Symptoms:  only stack trace  
-	Pattern:  Unknown  
-	Reproducible: No  
-	Source code : No  
-	
-
-71. [OOME only with large datasets](http://hadoop.6.n7.nabble.com/OOME-only-with-large-datasets-tp7656.html)
-
-	Symptoms:  only stack trace  
-	Pattern:  Unknown  
-	Reproducible: No  
-	Source code : No  
+### OOM analysis
 
 151. [OutOfMemory Error](http://hadoop.6.n7.nabble.com/OutOfMemory-Error-tp5428.html)
 
-	Symptoms:  The key is of the form "ID :DenseVector Representation in mahout with dimensionality size = 160k",  typical size of the key  of the mapper output can be 160K*6
-	Pattern:  Large single key  
+	Symptoms:  The key is of the form "ID :DenseVector Representation in mahout with dimensionality size = 160k",  typical size of the key of the mapper output can be 160K*6
+	Pattern:  Large single <K, V> record  
 	Reproducible: No  
-	Source code : No  
-	
-152. [reducer outofmemoryerror](http://hadoop.6.n7.nabble.com/reducer-outofmemoryerror-tp2083.html)
-
-	Symptoms:  only stack trace  
-	Pattern:  Unknown  
-	Reproducible: No  
-	Source code : No  
-
-190. [Nor "OOM Java Heap Space" neither "GC OverHead Limit Exeeceded"](http://hadoop.6.n7.nabble.com/Nor-OOM-Java-Heap-Space-neither-GC-OverHead-Limit-Exeeceded-tp11337.html)
-
-	Symptoms:  only stack trace of client  
-	Pattern:  Unknown  
-	Reproducible: No  
-	Source code : No  
-	
-291. [Yarn container out of memory when using large memory mapped file](http://hadoop-common.472056.n3.nabble.com/Yarn-container-out-of-memory-when-using-large-memory-mapped-file-tp4069092.html)
-
-	Symptoms:  only stack trace   
-	Pattern:  Unknown  
-	Reproducible: No  
-	Source code : No  
 	
 307. [Out of heap space errors on TTs](http://hadoop-common.472056.n3.nabble.com/Out-of-heap-space-errors-on-TTs-tp3348456.html)
 
 	Symptoms:  Large map buffer     
 	Pattern:  Unknown  
-	Reproducible: No  
-	Source code : No  
+	Reproducible: Yes  
+
 	
 350. [OutOfMemoryError of PIG job (UDF loads big file)](http://hadoop-common.472056.n3.nabble.com/OutOfMemoryError-of-PIG-job-UDF-loads-big-file-tp327956.html)
 
 	Symptoms:  Data load + String split + Pattern compile in Pig  
-	Pattern:  Large intermediate/accumulated results in UDF    
+	Pattern:  Large data loaded      
 	Reproducible: No  
-	Source code : No  
+
 	
 402. [Hashing two relations](http://hadoop-common.472056.n3.nabble.com/Hashing-two-relations-tp940202.html)
 
 	Symptoms:  Reduce join  (hash join), I want to get a partition from each 
 hash-table and build an in-memory hash table for one and probing the partition 
 from other table against it   
-	Pattern:  Large intermediate/accumulated results in UDF    
+	Pattern:  Large accumulated results     
 	Reproducible: No  
-	Source code : No  
+
 	
 410. [OOM Error Map output copy.](http://hadoop-common.472056.n3.nabble.com/OOM-Error-Map-output-copy-tp3568293.html)
 
 	Symptoms: OOM in shuffle phase, large data partition    
 	Pattern: Improper data partition, small reduce number      
-	Reproducible: No  
-	Source code : No  
+	Reproducible: Yes  
 
-523. [OutOfMemory during Plain Java MapReduce](http://hadoop-common.472056.n3.nabble.com/OutOfMemory-during-Plain-Java-MapReduce-tp4010736.html) (Further study)
+523. [OutOfMemory during Plain Java MapReduce](http://hadoop-common.472056.n3.nabble.com/OutOfMemory-during-Plain-Java-MapReduce-tp4010736.html) 
 
 	Symptoms: Distinct keys are cached in data structure      
 	Pattern: Large accumulated results        
+	Reproducible: Yes  
+	Source code : Yes  
+	
+777. [how to solve reducer memory problem?](http://hadoop-common.472056.n3.nabble.com/how-to-solve-reducer-memory-problem-tp4037710.html) 
+
+	Symptoms: each TrainingWeights as a very large double[], addWeights(result, weights);        
+	Pattern: Large accumulated results        
 	Reproducible: No  
-	Source code : No  
+ 
+
+806. [memoryjava.lang.OutOfMemoryError related with number of reducer?](http://hadoop-common.472056.n3.nabble.com/memoryjava-lang-OutOfMemoryError-related-with-number-of-reducer-tp4038743.html)
+	
+	Symptoms: count(distinct)
+	Pattern: Large accumulated results in combine()      
+	Reproducible: Yes 
+
+9. [java.lang.OutOfMemoryError: Direct buffer memory](http://hadoop.6.n7.nabble.com/java-lang-OutOfMemoryError-Direct-buffer-memory-tp6947.html)
+
+	Symptoms:  only stack trace  
+	Pattern:  Unknown  
+	Reproducible: No  
+
+71. [OOME only with large datasets](http://hadoop.6.n7.nabble.com/OOME-only-with-large-datasets-tp7656.html)
+
+	Symptoms:  only stack trace  
+	Pattern:  Unknown  
+	Reproducible: No  
+	
+152. [reducer outofmemoryerror](http://hadoop.6.n7.nabble.com/reducer-outofmemoryerror-tp2083.html)
+
+	Symptoms:  only stack trace  
+	Pattern:  Unknown  
+	Reproducible: No  
+	
+190. [Nor "OOM Java Heap Space" neither "GC OverHead Limit Exeeceded"](http://hadoop.6.n7.nabble.com/Nor-OOM-Java-Heap-Space-neither-GC-OverHead-Limit-Exeeceded-tp11337.html)
+
+	Symptoms:  only stack trace of client  
+	Pattern:  Unknown  
+	Reproducible: No  
+	
+291. [Yarn container out of memory when using large memory mapped file](http://hadoop-common.472056.n3.nabble.com/Yarn-container-out-of-memory-when-using-large-memory-mapped-file-tp4069092.html)
+
+	Symptoms:  only stack trace   
+	Pattern:  Unknown  
+	Reproducible: No  
 	
 749. [ReducerTask OOM failure](http://hadoop-common.472056.n3.nabble.com/ReducerTask-OOM-failure-tp22794.html)
 	
@@ -89,32 +93,78 @@ from other table against it
 	Pattern: Unknown        
 	Reproducible: No  
 	Source code : No  
-	
-777. [how to solve reducer memory problem?](http://hadoop-common.472056.n3.nabble.com/how-to-solve-reducer-memory-problem-tp4037710.html) (Further study)
 
-	Symptoms: each TrainingWeights as a very large double[], addWeights(result, weights);        
-	Pattern: Large accumulated results        
-	Reproducible: No  
-	Source code : No  
-	
 
-806. [memoryjava.lang.OutOfMemoryError related with number of reducer?](http://hadoop-common.472056.n3.nabble.com/memoryjava-lang-OutOfMemoryError-related-with-number-of-reducer-tp4038743.html) (Further study)
-	
-	Symptoms: count(distinct)
-	Pattern: Large accumulated results in combine()      
-	Reproducible: No  
-	Source code : No  
-
-## Cases
+## OOM cases
 1. [Reducer Out of Memory](http://hadoop.6.n7.nabble.com/Reducer-Out-of-Memory-tp7792.html)
 2. [out of memory error](http://hadoop.6.n7.nabble.com/out-of-memory-error-tp6171.html)
 3. [RE: out of memory running examples](http://hadoop.6.n7.nabble.com/RE-out-of-memory-running-examples-tp67033.html)
 4. [Reduce tasks running out of memory on small hadoop cluster](http://hadoop.6.n7.nabble.com/Reduce-tasks-running-out-of-memory-on-small-hadoop-cluster-tp5724.html)
-5. [hdfs fuse mount and namenode out of memory conditions.](http://hadoop.6.n7.nabble.com/hdfs-fuse-mount-and-namenode-out-of-memory-conditions-tp6835.html)
-6. [Map Task is failing with out of memory issue](http://hadoop.6.n7.nabble.com/Map-Task-is-failing-with-out-of-memory-issue-tp4996.html)
+5. [Map Task is failing with out of memory issue](http://hadoop.6.n7.nabble.com/Map-Task-is-failing-with-out-of-memory-issue-tp4996.html)
 7. [Out of Memory error in reduce shuffling phase when compression is turned on](http://hadoop.6.n7.nabble.com/Out-of-Memory-error-in-reduce-shuffling-phase-when-compression-is-turned-on-tp5467.html)
-8. [DataNode/TaskTracker memory constraints.](http://hadoop.6.n7.nabble.com/DataNode-TaskTracker-memory-constraints-tp7026.html)
 9. [java.lang.OutOfMemoryError: Direct buffer memory](http://hadoop.6.n7.nabble.com/java-lang-OutOfMemoryError-Direct-buffer-memory-tp6947.html)
+25. [OOM error with large # of map tasks](http://hadoop.6.n7.nabble.com/OOM-error-with-large-of-map-tasks-tp3133.html)
+26. [OutOfMemory error processing large amounts of gz files](http://hadoop.6.n7.nabble.com/OutOfMemory-error-processing-large-amounts-of-gz-files-tp262.html)
+27. [OutofMemory Error, inspite of large amounts provided](http://hadoop.6.n7.nabble.com/OutofMemory-Error-inspite-of-large-amounts-provided-tp7560.html)
+
+55. [OutOfMemoryError with map jobs](http://hadoop.6.n7.nabble.com/OutOfMemoryError-with-map-jobs-tp5378.html)
+
+62. [Caused by: java.lang.OutOfMemoryError: Java heap space - Copy Phase](http://hadoop.6.n7.nabble.com/Caused-by-java-lang-OutOfMemoryError-Java-heap-space-Copy-Phase-tp72990.html)
+
+71. [OOME only with large datasets](http://hadoop.6.n7.nabble.com/OOME-only-with-large-datasets-tp7656.html)
+72. [Mapper OutOfMemoryError Revisited !!](http://hadoop.6.n7.nabble.com/Mapper-OutOfMemoryError-Revisited-tp1203.html)
+151. [OutOfMemory Error](http://hadoop.6.n7.nabble.com/OutOfMemory-Error-tp5428.html)
+
+152. [reducer outofmemoryerror](http://hadoop.6.n7.nabble.com/reducer-outofmemoryerror-tp2083.html)
+282. [reducer out of memory?](http://hadoop-common.472056.n3.nabble.com/reducer-out-of-memory-tp3975034.html)
+
+283. [out of memory running examples](http://hadoop-common.472056.n3.nabble.com/out-of-memory-running-examples-tp3722034.html)
+
+287. [Out of memory in identity mapper?](http://hadoop-common.472056.n3.nabble.com/Out-of-memory-in-identity-mapper-tp3995422.html)
+288. [Canopy generation out of memory troubleshooting](http://hadoop-common.472056.n3.nabble.com/Canopy-generation-out-of-memory-troubleshooting-tp4030210.html)
+289. [out of memory for Reducer possible?](http://hadoop-common.472056.n3.nabble.com/out-of-memory-for-Reducer-possible-tp3994269.html)
+290. [Java heap size increase caused MORE out of memory exceptions.](http://hadoop-common.472056.n3.nabble.com/Java-heap-size-increase-caused-MORE-out-of-memory-exceptions-tp32504.html)
+291. [Yarn container out of memory when using large memory mapped file](http://hadoop-common.472056.n3.nabble.com/Yarn-container-out-of-memory-when-using-large-memory-mapped-file-tp4069092.html)
+
+293. [Has anyone else seen out of memory errors at the start of combiner tasks?](http://hadoop-common.472056.n3.nabble.com/Has-anyone-else-seen-out-of-memory-errors-at-the-start-of-combiner-tasks-tp2994606.html)
+294. [Hadoop 1.2.1 corrupt after restart from out of heap memory exception](http://hadoop-common.472056.n3.nabble.com/Hadoop-1-2-1-corrupt-after-restart-from-out-of-heap-memory-exception-tp4028439.html)
+
+
+297. [Out of Java heap space](http://hadoop-common.472056.n3.nabble.com/Out-of-Java-heap-space-tp70994.html)
+307. [Out of heap space errors on TTs](http://hadoop-common.472056.n3.nabble.com/Out-of-heap-space-errors-on-TTs-tp3348456.html)
+350. [OutOfMemoryError of PIG job (UDF loads big file)](http://hadoop-common.472056.n3.nabble.com/OutOfMemoryError-of-PIG-job-UDF-loads-big-file-tp327956.html)
+319. [OutOfMemoryError: Cannot create GC thread. Out of system resources](http://hadoop-common.472056.n3.nabble.com/OutOfMemoryError-Cannot-create-GC-thread-Out-of-system-resources-tp689116.html)
+
+312. [Shuffle In Memory OutOfMemoryError](http://hadoop-common.472056.n3.nabble.com/Shuffle-In-Memory-OutOfMemoryError-tp433197.html)
+402. [Hashing two relations](http://hadoop-common.472056.n3.nabble.com/Hashing-two-relations-tp940202.html)
+410. [OOM Error Map output copy.](http://hadoop-common.472056.n3.nabble.com/OOM-Error-Map-output-copy-tp3568293.html)
+415. [OutOfMemoryError during reduce shuffle](http://hadoop-common.472056.n3.nabble.com/OutOfMemoryError-during-reduce-shuffle-tp4009145.html)
+416. [Caused by: java.lang.OutOfMemoryError: Java heap space - Copy Phase](http://hadoop-common.472056.n3.nabble.com/Caused-by-java-lang-OutOfMemoryError-Java-heap-space-Copy-Phase-tp4047903.html)
+
+503. [java.lang.OutOfMemoryError: Java heap space](http://hadoop-common.472056.n3.nabble.com/java-lang-OutOfMemoryError-Java-heap-space-tp4034286.html)
+
+523. [OutOfMemory during Plain Java MapReduce](http://hadoop-common.472056.n3.nabble.com/OutOfMemory-during-Plain-Java-MapReduce-tp4010736.html)
+536. [OutOfMemoryError: unable to create new native thread](http://hadoop-common.472056.n3.nabble.com/OutOfMemoryError-unable-to-create-new-native-thread-tp3801808.html)
+589. [Reduce java.lang.OutOfMemoryError](http://hadoop-common.472056.n3.nabble.com/Reduce-java-lang-OutOfMemoryError-tp2510002.html)
+
+743. [OutOfMemory in ReduceTask$ReduceCopier$MapOutputCopier.shuffleInMemory](http://hadoop-common.472056.n3.nabble.com/OutOfMemory-in-ReduceTask-ReduceCopier-MapOutputCopier-shuffleInMemory-tp4004539.html)
+749. [ReducerTask OOM failure](http://hadoop-common.472056.n3.nabble.com/ReducerTask-OOM-failure-tp22794.html)
+
+754. [OOM error and then system hangs](http://hadoop-common.472056.n3.nabble.com/OOM-error-and-then-system-hangs-tp4031074.html)
+756. [how to prevent JAVA HEAP OOM happen in shuffle process in a MR job?](http://hadoop-common.472056.n3.nabble.com/how-to-prevent-JAVA-HEAP-OOM-happen-in-shuffle-process-in-a-MR-job-tp4030192.html)
+777. [how to solve reducer memory problem?](http://hadoop-common.472056.n3.nabble.com/how-to-solve-reducer-memory-problem-tp4037710.html)
+778. [java.lang.OutOfMemoryError: Java heap space](http://hadoop-common.472056.n3.nabble.com/java-lang-OutOfMemoryError-Java-heap-space-tp956710.html)
+784. [java.lang.OutOfMemoryError: GC overhead limit exceeded](http://hadoop-common.472056.n3.nabble.com/java-lang-OutOfMemoryError-GC-overhead-limit-exceeded-tp1582638.html)
+
+806. [memoryjava.lang.OutOfMemoryError related with number of reducer?](http://hadoop-common.472056.n3.nabble.com/memoryjava-lang-OutOfMemoryError-related-with-number-of-reducer-tp4038743.html)
+
+## Cases
+
+
+
+
+8. [DataNode/TaskTracker memory constraints.](http://hadoop.6.n7.nabble.com/DataNode-TaskTracker-memory-constraints-tp7026.html)
+
 10. [Huge DataNode Virtual Memory Usage](http://hadoop.6.n7.nabble.com/Huge-DataNode-Virtual-Memory-Usage-tp10547.html)
 11. [utility to get block locations for a HDFS file](http://hadoop.6.n7.nabble.com/utility-to-get-block-locations-for-a-HDFS-file-tp5631.html)
 12. [Realtime Map Reduce = Supercomputing for the Masses?](http://hadoop.6.n7.nabble.com/Realtime-Map-Reduce-Supercomputing-for-the-Masses-tp3987.html)
@@ -130,9 +180,9 @@ from other table against it
 22. [Cannot run program "bash": java.io.IOException: error=12, Cannot allocate memory](http://hadoop.6.n7.nabble.com/Cannot-run-program-bash-java-io-IOException-error-12-Cannot-allocate-memory-tp6361.html)
 23. [Block reports: memory vs. file system, and Dividing offerService into 2 threads](http://hadoop.6.n7.nabble.com/Block-reports-memory-vs-file-system-and-Dividing-offerService-into-2-threads-tp2886.html)
 24. [A Scale-Out RDF Store for Distributed Processing on Map/Reduce](http://hadoop.6.n7.nabble.com/A-Scale-Out-RDF-Store-for-Distributed-Processing-on-Map-Reduce-tp5847.html)
-25. [OOM error with large # of map tasks](http://hadoop.6.n7.nabble.com/OOM-error-with-large-of-map-tasks-tp3133.html)
-26. [OutOfMemory error processing large amounts of gz files](http://hadoop.6.n7.nabble.com/OutOfMemory-error-processing-large-amounts-of-gz-files-tp262.html)
-27. [OutofMemory Error, inspite of large amounts provided](http://hadoop.6.n7.nabble.com/OutofMemory-Error-inspite-of-large-amounts-provided-tp7560.html)
+
+
+
 28. [How to do load control of MapReduce](http://hadoop.6.n7.nabble.com/How-to-do-load-control-of-MapReduce-tp10096.html)
 29. [Release of HiBench 2.2 (a Hadoop benchmark suite)](http://hadoop.6.n7.nabble.com/Release-of-HiBench-2-2-a-Hadoop-benchmark-suite-tp66884.html)
 30. [The Case of a Long Running Hadoop System](http://hadoop.6.n7.nabble.com/The-Case-of-a-Long-Running-Hadoop-System-tp6672.html)
@@ -152,7 +202,7 @@ from other table against it
 44. [Changing the maximum tasks per node on a per job basis](http://hadoop.6.n7.nabble.com/Changing-the-maximum-tasks-per-node-on-a-per-job-basis-tp68846.html)
 45. [Question on DFS block placement and 'what is a rack' wrt DFS block placement](http://hadoop.6.n7.nabble.com/Question-on-DFS-block-placement-and-what-is-a-rack-wrt-DFS-block-placement-tp1031.html)
 46. [about the exception in mapreduce program?](http://hadoop.6.n7.nabble.com/about-the-exception-in-mapreduce-program-tp612.html)
-47. [HELP: Namenode Startup Failed with an OutofMemoryError](http://hadoop.6.n7.nabble.com/HELP-Namenode-Startup-Failed-with-an-OutofMemoryError-tp6438.html)
+
 48. [Concatenating PDF files](http://hadoop.6.n7.nabble.com/Concatenating-PDF-files-tp7517.html)
 49. [Smallest file size limit for hadoop to work faster than other application](http://hadoop.6.n7.nabble.com/Smallest-file-size-limit-for-hadoop-to-work-faster-than-other-application-tp2580.html)
 50. [Distributed Hadoop available on an OpenSolaris-based Live CD](http://hadoop.6.n7.nabble.com/Distributed-Hadoop-available-on-an-OpenSolaris-based-Live-CD-tp4577.html)
@@ -160,14 +210,14 @@ from other table against it
 52. [Ec2 instability](http://hadoop.6.n7.nabble.com/Ec2-instability-tp9766.html)
 53. [scaling issue, please help](http://hadoop.6.n7.nabble.com/scaling-issue-please-help-tp3894.html)
 54. [Setting thread stack size for child JVM](http://hadoop.6.n7.nabble.com/Setting-thread-stack-size-for-child-JVM-tp10076.html)
-55. [OutOfMemoryError with map jobs](http://hadoop.6.n7.nabble.com/OutOfMemoryError-with-map-jobs-tp5378.html)
+
 56. [Backing up hbase (or maybe "making a check-point")](http://hadoop.6.n7.nabble.com/Backing-up-hbase-or-maybe-making-a-check-point-tp814.html)
 57. [Heads up: branch-2.1-beta](http://hadoop.6.n7.nabble.com/Heads-up-branch-2-1-beta-tp69043.html)
 58. [Hadoop I/O buffer size](http://hadoop.6.n7.nabble.com/Hadoop-I-O-buffer-size-tp67324.html)
 59. [Gigablast.com search engine- 10BILLION PAGES!](http://hadoop.6.n7.nabble.com/Gigablast-com-search-engine-10BILLION-PAGES-tp3421.html)
 60. [intermediate results not getting compressed](http://hadoop.6.n7.nabble.com/intermediate-results-not-getting-compressed-tp7635.html)
 61. [sort failing, help?](http://hadoop.6.n7.nabble.com/sort-failing-help-tp4397.html)
-62. [Caused by: java.lang.OutOfMemoryError: Java heap space - Copy Phase](http://hadoop.6.n7.nabble.com/Caused-by-java-lang-OutOfMemoryError-Java-heap-space-Copy-Phase-tp72990.html)
+
 63. [Hadoop performance on EC2?](http://hadoop.6.n7.nabble.com/Hadoop-performance-on-EC2-tp1291.html)
 64. [HDFS handle creates local files?](http://hadoop.6.n7.nabble.com/HDFS-handle-creates-local-files-tp9023.html)
 65. [joining two large files in hadoop](http://hadoop.6.n7.nabble.com/joining-two-large-files-in-hadoop-tp8872.html)
@@ -176,11 +226,10 @@ from other table against it
 68. [DataNode gets 'stuck', ends up with two DataNode processes](http://hadoop.6.n7.nabble.com/DataNode-gets-stuck-ends-up-with-two-DataNode-processes-tp1614.html)
 69. [Typical hardware configurations](http://hadoop.6.n7.nabble.com/Typical-hardware-configurations-tp8401.html)
 70. [HDFS: Forcing Master to Leave Safemode](http://hadoop.6.n7.nabble.com/HDFS-Forcing-Master-to-Leave-Safemode-tp3343.html)
-71. [OOME only with large datasets](http://hadoop.6.n7.nabble.com/OOME-only-with-large-datasets-tp7656.html)
-72. [Mapper OutOfMemoryError Revisited !!](http://hadoop.6.n7.nabble.com/Mapper-OutOfMemoryError-Revisited-tp1203.html)
+
 73. [Optimal job design?](http://hadoop.6.n7.nabble.com/Optimal-job-design-tp178.html)
 74. [Fwd: SVN commit restored [READ ONLY AGAIN]](http://hadoop.6.n7.nabble.com/Fwd-SVN-commit-restored-READ-ONLY-AGAIN-tp17819.html)
-75. [test-patch.sh physical OOM errors](http://hadoop.6.n7.nabble.com/test-patch-sh-physical-OOM-errors-tp71172.html)
+
 76. [virtualization with hadoop](http://hadoop.6.n7.nabble.com/virtualization-with-hadoop-tp9317.html)
 77. [Sharing an object across mappers](http://hadoop.6.n7.nabble.com/Sharing-an-object-across-mappers-tp5681.html)
 78. [hadoop hardware configuration](http://hadoop.6.n7.nabble.com/hadoop-hardware-configuration-tp9905.html)
@@ -241,7 +290,7 @@ from other table against it
 133. [Using MapReduce to do table comparing.](http://hadoop.6.n7.nabble.com/Using-MapReduce-to-do-table-comparing-tp3788.html)
 134. [Removing JMM issues](http://hadoop.6.n7.nabble.com/Removing-JMM-issues-tp38033.html)
 135. [performance](http://hadoop.6.n7.nabble.com/performance-tp1374.html)
-136. [Hadoop streaming - No room for reduce task error](http://hadoop.6.n7.nabble.com/Hadoop-streaming-No-room-for-reduce-task-error-tp10329.html)
+
 137. [Need Help hdfs -How to minimize access Time](http://hadoop.6.n7.nabble.com/Need-Help-hdfs-How-to-minimize-access-Time-tp7364.html)
 138. [Which hardware to choose](http://hadoop.6.n7.nabble.com/Which-hardware-to-choose-tp66515.html)
 139. [0.16.4 DataNode problem...](http://hadoop.6.n7.nabble.com/0-16-4-DataNode-problem-tp3684.html)
@@ -256,12 +305,11 @@ from other table against it
 148. [No output when more than one reduce task](http://hadoop.6.n7.nabble.com/No-output-when-more-than-one-reduce-task-tp682.html)
 149. [ClassNotFoundException from Jython](http://hadoop.6.n7.nabble.com/ClassNotFoundException-from-Jython-tp5204.html)
 150. ["Too many open files" in 0.18.3](http://hadoop.6.n7.nabble.com/Too-many-open-files-in-0-18-3-tp8209.html)
-151. [OutOfMemory Error](http://hadoop.6.n7.nabble.com/OutOfMemory-Error-tp5428.html)
-152. [reducer outofmemoryerror](http://hadoop.6.n7.nabble.com/reducer-outofmemoryerror-tp2083.html)
+
 153. [Why is scaling HBase much simpler then scaling a relational db?](http://hadoop.6.n7.nabble.com/Why-is-scaling-HBase-much-simpler-then-scaling-a-relational-db-tp4929.html)
 154. [wordcount getting slower with more mappers and reducers?](http://hadoop.6.n7.nabble.com/wordcount-getting-slower-with-more-mappers-and-reducers-tp9031.html)
 155. [map/reduce driver as daemon](http://hadoop.6.n7.nabble.com/map-reduce-driver-as-daemon-tp6053.html)
-156. [JobTracker Faiing to respond with OutOfMemory error](http://hadoop.6.n7.nabble.com/JobTracker-Faiing-to-respond-with-OutOfMemory-error-tp5207.html)
+
 157. [Questions about Hadoop](http://hadoop.6.n7.nabble.com/Questions-about-Hadoop-tp5713.html)
 158. [too many open files? Isn't 4K enough???](http://hadoop.6.n7.nabble.com/too-many-open-files-Isn-t-4K-enough-tp6776.html)
 159. [Can I share datas for several map tasks?](http://hadoop.6.n7.nabble.com/Can-I-share-datas-for-several-map-tasks-tp11325.html)
@@ -281,7 +329,7 @@ from other table against it
 173. [How to chain multiple hadoop jobs?](http://hadoop.6.n7.nabble.com/How-to-chain-multiple-hadoop-jobs-tp1895.html)
 174. [Generating many small PNGs to Amazon S3 with MapReduce](http://hadoop.6.n7.nabble.com/Generating-many-small-PNGs-to-Amazon-S3-with-MapReduce-tp10019.html)
 175. [TaskTrackers disengaging from JobTracker](http://hadoop.6.n7.nabble.com/TaskTrackers-disengaging-from-JobTracker-tp6230.html)
-176. [test-patch failing with OOM errors in javah](http://hadoop.6.n7.nabble.com/test-patch-failing-with-OOM-errors-in-javah-tp70477.html)
+
 177. [Upgrade to protobuf 2.5.0 for the 2.1.0 release, HADOOP-9845](http://hadoop.6.n7.nabble.com/Upgrade-to-protobuf-2-5-0-for-the-2-1-0-release-HADOOP-9845-tp69684.html)
 178. [concurrent modification of input files](http://hadoop.6.n7.nabble.com/concurrent-modification-of-input-files-tp7797.html)
 179. [Hadoop Summit: Security Design Lounge Session](http://hadoop.6.n7.nabble.com/Hadoop-Summit-Security-Design-Lounge-Session-tp69285.html)
@@ -295,7 +343,7 @@ from other table against it
 187. [Build failed in Jenkins: Hadoop-Common-0.23-Build #1009](http://hadoop.6.n7.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-0-23-Build-1009-tp72469.html)
 188. [Build failed in Jenkins: Hadoop-Common-trunk #1380](http://hadoop.6.n7.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-1380-tp74488.html)
 189. [Build failed in Jenkins: Hadoop-Common-trunk #1256](http://hadoop.6.n7.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-1256-tp73684.html)
-190. [Nor "OOM Java Heap Space" neither "GC OverHead Limit Exeeceded"](http://hadoop.6.n7.nabble.com/Nor-OOM-Java-Heap-Space-neither-GC-OverHead-Limit-Exeeceded-tp11337.html)
+
 191. [[UPDATE] Upgrade to protobuf 2.5.0 for the 2.1.0 release, HADOOP-9845](http://hadoop.6.n7.nabble.com/UPDATE-Upgrade-to-protobuf-2-5-0-for-the-2-1-0-release-HADOOP-9845-tp69744.html)
 192. [Build failed in Jenkins: Hadoop-Common-trunk #1341](http://hadoop.6.n7.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-1341-tp74238.html)
 193. [Build failed in Jenkins: Hadoop-Common-trunk #1148](http://hadoop.6.n7.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-1148-tp72193.html)
@@ -322,10 +370,10 @@ from other table against it
 214. [Build failed in Jenkins: Hadoop-Common-trunk #963](http://hadoop.6.n7.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-963-tp70646.html)
 215. [Build failed in Jenkins: Hadoop-common-trunk-Java8 #125](http://hadoop.6.n7.nabble.com/Build-failed-in-Jenkins-Hadoop-common-trunk-Java8-125-tp74910.html)
 216. [Build failed in Jenkins: Hadoop-Common-trunk #1267](http://hadoop.6.n7.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-1267-tp73737.html)
-217. [raw files become zero bytes when mapreduce job hit outofmemory error](http://hadoop.6.n7.nabble.com/raw-files-become-zero-bytes-when-mapreduce-job-hit-outofmemory-error-tp7321.html)
+
 218. [streaming problem](http://hadoop.6.n7.nabble.com/streaming-problem-tp4301.html)
 219. [java.io.IOException: Could not get block locations. Aborting...](http://hadoop.6.n7.nabble.com/java-io-IOException-Could-not-get-block-locations-Aborting-tp4737.html)
-220. [OOM in JUnit in result processing](http://hadoop.6.n7.nabble.com/OOM-in-JUnit-in-result-processing-tp27828.html)
+
 221. [[VOTE] push back the release back to 9/19](http://hadoop.6.n7.nabble.com/VOTE-push-back-the-release-back-to-9-19-tp29257.html)
 222. [[VOTE] Freeze date for Common, HDFS, and MapReduce 0.21](http://hadoop.6.n7.nabble.com/VOTE-Freeze-date-for-Common-HDFS-and-MapReduce-0-21-tp46194.html)
 223. [HBase as new subproject](http://hadoop.6.n7.nabble.com/HBase-as-new-subproject-tp587.html)
@@ -387,22 +435,11 @@ from other table against it
 279. [Build failed in Hudson: Hadoop-trunk #691](http://hadoop.6.n7.nabble.com/Build-failed-in-Hudson-Hadoop-trunk-691-tp50012.html)
 280. [Branching 2.5](http://hadoop.6.n7.nabble.com/Branching-2-5-tp72367.html)
 281. [Build failed in Hudson: Hadoop-trunk #791](http://hadoop.6.n7.nabble.com/Build-failed-in-Hudson-Hadoop-trunk-791-tp47932.html)
-282. [reducer out of memory?](http://hadoop-common.472056.n3.nabble.com/reducer-out-of-memory-tp3975034.html)
-283. [out of memory running examples](http://hadoop-common.472056.n3.nabble.com/out-of-memory-running-examples-tp3722034.html)
-284. [Out of Memory Exception while building hadoop](http://hadoop-common.472056.n3.nabble.com/Out-of-Memory-Exception-while-building-hadoop-tp3308868.html)
-285. [Out of Memory Exception while building hadoop](http://hadoop-common.472056.n3.nabble.com/Out-of-Memory-Exception-while-building-hadoop-tp3308870.html)
-286. [Task Trackers running out of memory](http://hadoop-common.472056.n3.nabble.com/Task-Trackers-running-out-of-memory-tp4011494.html)
-287. [Out of memory in identity mapper?](http://hadoop-common.472056.n3.nabble.com/Out-of-memory-in-identity-mapper-tp3995422.html)
-288. [Canopy generation out of memory troubleshooting](http://hadoop-common.472056.n3.nabble.com/Canopy-generation-out-of-memory-troubleshooting-tp4030210.html)
-289. [out of memory for Reducer possible?](http://hadoop-common.472056.n3.nabble.com/out-of-memory-for-Reducer-possible-tp3994269.html)
-290. [Java heap size increase caused MORE out of memory exceptions.](http://hadoop-common.472056.n3.nabble.com/Java-heap-size-increase-caused-MORE-out-of-memory-exceptions-tp32504.html)
-291. [Yarn container out of memory when using large memory mapped file](http://hadoop-common.472056.n3.nabble.com/Yarn-container-out-of-memory-when-using-large-memory-mapped-file-tp4069092.html)
-292. [Out of memory error by Node Manager, and shut down](http://hadoop-common.472056.n3.nabble.com/Out-of-memory-error-by-Node-Manager-and-shut-down-tp4016865.html)
-293. [Has anyone else seen out of memory errors at the start of combiner tasks?](http://hadoop-common.472056.n3.nabble.com/Has-anyone-else-seen-out-of-memory-errors-at-the-start-of-combiner-tasks-tp2994606.html)
-294. [Hadoop 1.2.1 corrupt after restart from out of heap memory exception](http://hadoop-common.472056.n3.nabble.com/Hadoop-1-2-1-corrupt-after-restart-from-out-of-heap-memory-exception-tp4028439.html)
+
+
 295. [hdfs out of disk space.](http://hadoop-common.472056.n3.nabble.com/hdfs-out-of-disk-space-tp3987893.html)
 296. [MapReduce Memory Utilization](http://hadoop-common.472056.n3.nabble.com/MapReduce-Memory-Utilization-tp4042971.html)
-297. [Out of Java heap space](http://hadoop-common.472056.n3.nabble.com/Out-of-Java-heap-space-tp70994.html)
+
 298. [Mapper Process Duration](http://hadoop-common.472056.n3.nabble.com/Mapper-Process-Duration-tp187718.html)
 299. [virtual memory consumption](http://hadoop-common.472056.n3.nabble.com/virtual-memory-consumption-tp4051572.html)
 300. [Configured Memory Capacity](http://hadoop-common.472056.n3.nabble.com/Configured-Memory-Capacity-tp2861805.html)
@@ -412,19 +449,19 @@ from other table against it
 304. [memory management of capacity scheduling](http://hadoop-common.472056.n3.nabble.com/memory-management-of-capacity-scheduling-tp922306.html)
 305. [Child JVM memory allocation / Usage](http://hadoop-common.472056.n3.nabble.com/Child-JVM-memory-allocation-Usage-tp4012129.html)
 306. [High memory usage in Reducer](http://hadoop-common.472056.n3.nabble.com/High-memory-usage-in-Reducer-tp3440954.html)
-307. [Out of heap space errors on TTs](http://hadoop-common.472056.n3.nabble.com/Out-of-heap-space-errors-on-TTs-tp3348456.html)
+
 308. [Parallel out-of-order Map capability?](http://hadoop-common.472056.n3.nabble.com/Parallel-out-of-order-Map-capability-tp1627763.html)
 309. [Memory config for Hadoop cluster](http://hadoop-common.472056.n3.nabble.com/Memory-config-for-Hadoop-cluster-tp1824445.html)
 310. [running beyond virtual memory limits](http://hadoop-common.472056.n3.nabble.com/running-beyond-virtual-memory-limits-tp4051463.html)
 311. [Hadoop mapred - Out of swap space](http://hadoop-common.472056.n3.nabble.com/Hadoop-mapred-Out-of-swap-space-tp1852135.html)
-312. [Shuffle In Memory OutOfMemoryError](http://hadoop-common.472056.n3.nabble.com/Shuffle-In-Memory-OutOfMemoryError-tp433197.html)
+
 313. [Fwd: Re: large memory tasks](http://hadoop-common.472056.n3.nabble.com/Fwd-Re-large-memory-tasks-tp3074686.html)
 314. [How is the memory usage of containers controlled?](http://hadoop-common.472056.n3.nabble.com/How-is-the-memory-usage-of-containers-controlled-tp4018952.html)
 315. [Hadoop YARN 2.2.0 Streaming Memory Limitation](http://hadoop-common.472056.n3.nabble.com/Hadoop-YARN-2-2-0-Streaming-Memory-Limitation-tp4035127.html)
 316. [Memory tuning for map-reduce jobs](http://hadoop-common.472056.n3.nabble.com/Memory-tuning-for-map-reduce-jobs-tp2604594.html)
 317. [Container beyond virtual memory limits](http://hadoop-common.472056.n3.nabble.com/Container-beyond-virtual-memory-limits-tp4067718.html)
 318. [namenode consume quite a lot of memory with only serveral hundreds of files in it](http://hadoop-common.472056.n3.nabble.com/namenode-consume-quite-a-lot-of-memory-with-only-serveral-hundreds-of-files-in-it-tp1424756.html)
-319. [OutOfMemoryError: Cannot create GC thread. Out of system resources](http://hadoop-common.472056.n3.nabble.com/OutOfMemoryError-Cannot-create-GC-thread-Out-of-system-resources-tp689116.html)
+
 320. [Memory exception in the mapper](http://hadoop-common.472056.n3.nabble.com/Memory-exception-in-the-mapper-tp3988032.html)
 321. [Avoid Killing of YARN container on excess virtual memory usage](http://hadoop-common.472056.n3.nabble.com/Avoid-Killing-of-YARN-container-on-excess-virtual-memory-usage-tp3999850.html)
 322. [EFFICIENTLY USING NAME NODE AND JOB TRACKER MEMORY](http://hadoop-common.472056.n3.nabble.com/EFFICIENTLY-USING-NAME-NODE-AND-JOB-TRACKER-MEMORY-tp3993634.html)
@@ -455,7 +492,7 @@ from other table against it
 347. [Application of MapReduce](http://hadoop-common.472056.n3.nabble.com/Application-of-MapReduce-tp4031576.html)
 348. [Is "heap size allocation" of namenode dynamic or static?](http://hadoop-common.472056.n3.nabble.com/Is-heap-size-allocation-of-namenode-dynamic-or-static-tp953425.html)
 349. [Impact of Tez/Spark to MapReduce](http://hadoop-common.472056.n3.nabble.com/Impact-of-Tez-Spark-to-MapReduce-tp4035813.html)
-350. [OutOfMemoryError of PIG job (UDF loads big file)](http://hadoop-common.472056.n3.nabble.com/OutOfMemoryError-of-PIG-job-UDF-loads-big-file-tp327956.html)
+
 351. [How to find bottlenecks of the cluster ?](http://hadoop-common.472056.n3.nabble.com/How-to-find-bottlenecks-of-the-cluster-tp4065275.html)
 352. [Task process exit with nonzero status of 134](http://hadoop-common.472056.n3.nabble.com/Task-process-exit-with-nonzero-status-of-134-tp3608894.html)
 353. [Streaming value of (200MB) from a SequenceFile](http://hadoop-common.472056.n3.nabble.com/Streaming-value-of-200MB-from-a-SequenceFile-tp4012712.html)
@@ -488,7 +525,7 @@ from other table against it
 380. [Relationship between heap sizes and mapred.child.java.opt configuration](http://hadoop-common.472056.n3.nabble.com/Relationship-between-heap-sizes-and-mapred-child-java-opt-configuration-tp4029899.html)
 381. [namenode format error](http://hadoop-common.472056.n3.nabble.com/namenode-format-error-tp2814107.html)
 382. [Building Hadoop](http://hadoop-common.472056.n3.nabble.com/Building-Hadoop-tp3613304.html)
-383. [ResourceManager webapp code runs OOM](http://hadoop-common.472056.n3.nabble.com/ResourceManager-webapp-code-runs-OOM-tp4028327.html)
+
 384. [Re: Container size configuration](http://hadoop-common.472056.n3.nabble.com/Re-Container-size-configuration-tp4018604.html)
 385. [Cannot start name node after turning on hadoop security](http://hadoop-common.472056.n3.nabble.com/Cannot-start-name-node-after-turning-on-hadoop-security-tp3988823.html)
 386. [org.apache.hadoop.mapred.Merger merge bug](http://hadoop-common.472056.n3.nabble.com/org-apache-hadoop-mapred-Merger-merge-bug-tp3667419.html)
@@ -507,7 +544,7 @@ from other table against it
 399. [hive task fails when left semi join](http://hadoop-common.472056.n3.nabble.com/hive-task-fails-when-left-semi-join-tp4021123.html)
 400. [Hadoop efficient resource isolation](http://hadoop-common.472056.n3.nabble.com/Hadoop-efficient-resource-isolation-tp4009247.html)
 401. [Thread safety issues with JNI/native code from map tasks?](http://hadoop-common.472056.n3.nabble.com/Thread-safety-issues-with-JNI-native-code-from-map-tasks-tp2374910.html)
-402. [Hashing two relations](http://hadoop-common.472056.n3.nabble.com/Hashing-two-relations-tp940202.html)
+
 403. [Machine hangs from time to time](http://hadoop-common.472056.n3.nabble.com/Machine-hangs-from-time-to-time-tp4023773.html)
 404. [only one map or reduce job per time on one node](http://hadoop-common.472056.n3.nabble.com/only-one-map-or-reduce-job-per-time-on-one-node-tp4028926.html)
 405. [Heads up: branch-2.1-beta](http://hadoop-common.472056.n3.nabble.com/Heads-up-branch-2-1-beta-tp4017803.html)
@@ -515,13 +552,13 @@ from other table against it
 407. [Hadoop I/O buffer size](http://hadoop-common.472056.n3.nabble.com/Hadoop-I-O-buffer-size-tp4003867.html)
 408. [Namenode / Cluster scaling issues in AWS environment](http://hadoop-common.472056.n3.nabble.com/Namenode-Cluster-scaling-issues-in-AWS-environment-tp4028840.html)
 409. [New InfoQ article on HBase and Lucene](http://hadoop-common.472056.n3.nabble.com/New-InfoQ-article-on-HBase-and-Lucene-tp3621750.html)
-410. [OOM Error Map output copy.](http://hadoop-common.472056.n3.nabble.com/OOM-Error-Map-output-copy-tp3568293.html)
+
 411. [Estimating disk space requirements](http://hadoop-common.472056.n3.nabble.com/Estimating-disk-space-requirements-tp4006669.html)
 412. [Java Heap space error](http://hadoop-common.472056.n3.nabble.com/Java-Heap-space-error-tp3802445.html)
 413. [CPU utilization](http://hadoop-common.472056.n3.nabble.com/CPU-utilization-tp4051677.html)
 414. [Hadoop scripting when to use dfs -put](http://hadoop-common.472056.n3.nabble.com/Hadoop-scripting-when-to-use-dfs-put-tp3741185.html)
-415. [OutOfMemoryError during reduce shuffle](http://hadoop-common.472056.n3.nabble.com/OutOfMemoryError-during-reduce-shuffle-tp4009145.html)
-416. [Caused by: java.lang.OutOfMemoryError: Java heap space - Copy Phase](http://hadoop-common.472056.n3.nabble.com/Caused-by-java-lang-OutOfMemoryError-Java-heap-space-Copy-Phase-tp4047903.html)
+
+
 417. [Suggestions for swapping issue](http://hadoop-common.472056.n3.nabble.com/Suggestions-for-swapping-issue-tp2928301.html)
 418. [How do I connect Java Visual VM to a remote task?](http://hadoop-common.472056.n3.nabble.com/How-do-I-connect-Java-Visual-VM-to-a-remote-task-tp3429030.html)
 419. [Identifying lines in map()](http://hadoop-common.472056.n3.nabble.com/Identifying-lines-in-map-tp46580.html)
@@ -543,7 +580,7 @@ from other table against it
 435. [Hardware inquiry](http://hadoop-common.472056.n3.nabble.com/Hardware-inquiry-tp188918.html)
 436. [Multinode setup..](http://hadoop-common.472056.n3.nabble.com/Multinode-setup-tp4059548.html)
 437. [Apache Hadoop optimization](http://hadoop-common.472056.n3.nabble.com/Apache-Hadoop-optimization-tp3264120.html)
-438. [How to troubleshoot OutOfMemoryError](http://hadoop-common.472056.n3.nabble.com/How-to-troubleshoot-OutOfMemoryError-tp4004967.html)
+
 439. [Dynamically set mapred.tasktracker.map.tasks.maximum from inside a job.](http://hadoop-common.472056.n3.nabble.com/Dynamically-set-mapred-tasktracker-map-tasks-maximum-from-inside-a-job-tp932773.html)
 440. [Combiner function](http://hadoop-common.472056.n3.nabble.com/Combiner-function-tp1016279.html)
 441. [building from subversion repository](http://hadoop-common.472056.n3.nabble.com/building-from-subversion-repository-tp4008942.html)
@@ -551,7 +588,7 @@ from other table against it
 443. [Passing data via Configuration](http://hadoop-common.472056.n3.nabble.com/Passing-data-via-Configuration-tp4008358.html)
 444. [Space needed to user SequenceFile.Sorter](http://hadoop-common.472056.n3.nabble.com/Space-needed-to-user-SequenceFile-Sorter-tp2876355.html)
 445. [0 tasktrackers in jobtracker but all datanodes present](http://hadoop-common.472056.n3.nabble.com/0-tasktrackers-in-jobtracker-but-all-datanodes-present-tp3654594.html)
-446. [test-patch.sh physical OOM errors](http://hadoop-common.472056.n3.nabble.com/test-patch-sh-physical-OOM-errors-tp4034457.html)
+
 447. [Stuck Job - how should I troubleshoot?](http://hadoop-common.472056.n3.nabble.com/Stuck-Job-how-should-I-troubleshoot-tp4039097.html)
 448. [Containers and CPU](http://hadoop-common.472056.n3.nabble.com/Containers-and-CPU-tp4019927.html)
 449. [Bad datanode error while writing to datanodes](http://hadoop-common.472056.n3.nabble.com/Bad-datanode-error-while-writing-to-datanodes-tp4018309.html)
@@ -608,7 +645,7 @@ from other table against it
 500. [har file globbing problem](http://hadoop-common.472056.n3.nabble.com/har-file-globbing-problem-tp4034630.html)
 501. [har file globbing problem](http://hadoop-common.472056.n3.nabble.com/har-file-globbing-problem-tp4034936.html)
 502. [More cores Vs More Nodes ?](http://hadoop-common.472056.n3.nabble.com/More-cores-Vs-More-Nodes-tp3581446.html)
-503. [java.lang.OutOfMemoryError: Java heap space](http://hadoop-common.472056.n3.nabble.com/java-lang-OutOfMemoryError-Java-heap-space-tp4034286.html)
+
 504. [Downloading a jar to hadoop's lib folder (classpath)](http://hadoop-common.472056.n3.nabble.com/Downloading-a-jar-to-hadoop-s-lib-folder-classpath-tp4044235.html)
 505. [Spill file compression](http://hadoop-common.472056.n3.nabble.com/Spill-file-compression-tp4001441.html)
 506. [Security issue: hadoop fs shell bypass authentication?](http://hadoop-common.472056.n3.nabble.com/Security-issue-hadoop-fs-shell-bypass-authentication-tp431286.html)
@@ -628,7 +665,7 @@ from other table against it
 520. [Insight on why distcp becomes slower when adding nodemanager](http://hadoop-common.472056.n3.nabble.com/Insight-on-why-distcp-becomes-slower-when-adding-nodemanager-tp4000820.html)
 521. [GC overhead limit exceeded](http://hadoop-common.472056.n3.nabble.com/GC-overhead-limit-exceeded-tp4035977.html)
 522. [distributed cache](http://hadoop-common.472056.n3.nabble.com/distributed-cache-tp4004977.html)
-523. [OutOfMemory during Plain Java MapReduce](http://hadoop-common.472056.n3.nabble.com/OutOfMemory-during-Plain-Java-MapReduce-tp4010736.html)
+
 524. [issue about Shuffled Maps in MR job summary](http://hadoop-common.472056.n3.nabble.com/issue-about-Shuffled-Maps-in-MR-job-summary-tp4030853.html)
 525. [maximum number of jobs](http://hadoop-common.472056.n3.nabble.com/maximum-number-of-jobs-tp195394.html)
 526. [Unable to load native-hadoop library](http://hadoop-common.472056.n3.nabble.com/Unable-to-load-native-hadoop-library-tp4070023.html)
@@ -641,7 +678,7 @@ from other table against it
 533. [DNS problem](http://hadoop-common.472056.n3.nabble.com/DNS-problem-tp117298.html)
 534. [hadoop question using VMWARE](http://hadoop-common.472056.n3.nabble.com/hadoop-question-using-VMWARE-tp3375193.html)
 535. [.23 compile times](http://hadoop-common.472056.n3.nabble.com/23-compile-times-tp3747519.html)
-536. [OutOfMemoryError: unable to create new native thread](http://hadoop-common.472056.n3.nabble.com/OutOfMemoryError-unable-to-create-new-native-thread-tp3801808.html)
+
 537. [Unable to build Hadoop from source](http://hadoop-common.472056.n3.nabble.com/Unable-to-build-Hadoop-from-source-tp3997778.html)
 538. [Hadoop maven packaging does not work on JAVA 1.8?](http://hadoop-common.472056.n3.nabble.com/Hadoop-maven-packaging-does-not-work-on-JAVA-1-8-tp4055719.html)
 539. [Incompatibility with Hadoop-2.6.0](http://hadoop-common.472056.n3.nabble.com/Incompatibility-with-Hadoop-2-6-0-tp4070011.html)
@@ -694,7 +731,6 @@ from other table against it
 586. [Streaming data locality](http://hadoop-common.472056.n3.nabble.com/Streaming-data-locality-tp2415685.html)
 587. [Performance Tunning](http://hadoop-common.472056.n3.nabble.com/Performance-Tunning-tp3115059.html)
 588. [Shutdown message while formatting hdfs](http://hadoop-common.472056.n3.nabble.com/Shutdown-message-while-formatting-hdfs-tp4036968.html)
-589. [Reduce java.lang.OutOfMemoryError](http://hadoop-common.472056.n3.nabble.com/Reduce-java-lang-OutOfMemoryError-tp2510002.html)
 590. [mapper java process not exiting](http://hadoop-common.472056.n3.nabble.com/mapper-java-process-not-exiting-tp2933524.html)
 591. [Problems](http://hadoop-common.472056.n3.nabble.com/Problems-tp4006511.html)
 592. [Bug??? Under-Replicated Blocks.](http://hadoop-common.472056.n3.nabble.com/Bug-Under-Replicated-Blocks-tp4053770.html)
@@ -734,187 +770,52 @@ from other table against it
 626. [regarding hadoop](http://hadoop-common.472056.n3.nabble.com/regarding-hadoop-tp4013301.html)
 627. [how to delete logs automatically from hadoop yarn](http://hadoop-common.472056.n3.nabble.com/how-to-delete-logs-automatically-from-hadoop-yarn-tp4070082.html)
 628. [Reducer error/hang on small single file Map input](http://hadoop-common.472056.n3.nabble.com/Reducer-error-hang-on-small-single-file-Map-input-tp2684602.html)
-629. [No Space left on device](http://hadoop-common.472056.n3.nabble.com/No-Space-left-on-device-tp3939220.html)
-630. [communication path for task assignment in hadoop 2.X](http://hadoop-common.472056.n3.nabble.com/communication-path-for-task-assignment-in-hadoop-2-X-tp4013503.html)
-631. [[ANNOUNCE] Intend to build a 0.20.205.1 candidate next Friday 11 Nov.](http://hadoop-common.472056.n3.nabble.com/ANNOUNCE-Intend-to-build-a-0-20-205-1-candidate-next-Friday-11-Nov-tp3481650.html)
-632. [Why they recommend this (CPU) ?](http://hadoop-common.472056.n3.nabble.com/Why-they-recommend-this-CPU-tp3998881.html)
-633. [Ant BuildException error building Hadoop 2.2.0](http://hadoop-common.472056.n3.nabble.com/Ant-BuildException-error-building-Hadoop-2-2-0-tp4030372.html)
-634. [Problems building hadoop 2.2.0 from source](http://hadoop-common.472056.n3.nabble.com/Problems-building-hadoop-2-2-0-from-source-tp4034321.html)
-635. [Timer jobs](http://hadoop-common.472056.n3.nabble.com/Timer-jobs-tp3300717.html)
-636. [Benchmark Failure](http://hadoop-common.472056.n3.nabble.com/Benchmark-Failure-tp4036544.html)
-637. [Start Hadoop, ERROR security.UserGroupInformation: PriviledgedActionException](http://hadoop-common.472056.n3.nabble.com/Start-Hadoop-ERROR-security-UserGroupInformation-PriviledgedActionException-tp4060471.html)
-638. [BLOCK and Split size question](http://hadoop-common.472056.n3.nabble.com/BLOCK-and-Split-size-question-tp4064389.html)
+
+
 639. [Problem running a Hadoop program with external libraries](http://hadoop-common.472056.n3.nabble.com/Problem-running-a-Hadoop-program-with-external-libraries-tp2635464.html)
-640. [Problem with Hadoop](http://hadoop-common.472056.n3.nabble.com/Problem-with-Hadoop-tp31686.html)
-641. [Map task can't execute /bin/ls on solaris](http://hadoop-common.472056.n3.nabble.com/Map-task-can-t-execute-bin-ls-on-solaris-tp3232847.html)
-642. [Task attempt failed after TaskAttemptListenerImpl ping](http://hadoop-common.472056.n3.nabble.com/Task-attempt-failed-after-TaskAttemptListenerImpl-ping-tp4016984.html)
+
 643. [DeDuplication Techniques](http://hadoop-common.472056.n3.nabble.com/DeDuplication-Techniques-tp530673.html)
-644. [YARN Pi example job stuck at 0%(No MR tasks are started by ResourceManager)](http://hadoop-common.472056.n3.nabble.com/YARN-Pi-example-job-stuck-at-0-No-MR-tasks-are-started-by-ResourceManager-tp3991942.html)
-645. [Job config before read fields](http://hadoop-common.472056.n3.nabble.com/Job-config-before-read-fields-tp4025101.html)
+
 646. [Cartesian product in hadoop](http://hadoop-common.472056.n3.nabble.com/Cartesian-product-in-hadoop-tp4014007.html)
 647. [Grouping in Combiners](http://hadoop-common.472056.n3.nabble.com/Grouping-in-Combiners-tp3463252.html)
-648. [backup node question](http://hadoop-common.472056.n3.nabble.com/backup-node-question-tp4013214.html)
-649. [Cluster hard drive ratios](http://hadoop-common.472056.n3.nabble.com/Cluster-hard-drive-ratios-tp2899817.html)
-650. [Best practices to recover from Corrupt Namenode](http://hadoop-common.472056.n3.nabble.com/Best-practices-to-recover-from-Corrupt-Namenode-tp3665321.html)
-651. [ENOENT: No such file or directory](http://hadoop-common.472056.n3.nabble.com/ENOENT-No-such-file-or-directory-tp3752537.html)
-652. [[VOTE] Merge HDFS-4949 to trunk](http://hadoop-common.472056.n3.nabble.com/VOTE-Merge-HDFS-4949-to-trunk-tp4028159.html)
-653. [creating 2.2.0 version in JIRA](http://hadoop-common.472056.n3.nabble.com/creating-2-2-0-version-in-JIRA-tp4019310.html)
-654. [Reduce Failed at Tasktrackers](http://hadoop-common.472056.n3.nabble.com/Reduce-Failed-at-Tasktrackers-tp2038496.html)
+
 655. [Friends of friends with MapReduce](http://hadoop-common.472056.n3.nabble.com/Friends-of-friends-with-MapReduce-tp2118069.html)
-656. [GSoC benefits](http://hadoop-common.472056.n3.nabble.com/GSoC-benefits-tp3840907.html)
-657. [conf.get("dfs.data.dir") return null when hdfs-site.xml doesn't set it explicitly](http://hadoop-common.472056.n3.nabble.com/conf-get-dfs-data-dir-return-null-when-hdfs-site-xml-doesn-t-set-it-explicitly-tp4051226.html)
-658. [How are intermediate key/value pairs materialized between map and reduce?](http://hadoop-common.472056.n3.nabble.com/How-are-intermediate-key-value-pairs-materialized-between-map-and-reduce-tp384497.html)
-659. [Hadoop Training](http://hadoop-common.472056.n3.nabble.com/Hadoop-Training-tp954580.html)
+
 660. [Chaning Multiple Reducers: Reduce -> Reduce -> Reduce](http://hadoop-common.472056.n3.nabble.com/Chaning-Multiple-Reducers-Reduce-Reduce-Reduce-tp3998275.html)
-661. [Fwd:](http://hadoop-common.472056.n3.nabble.com/Fwd-tp3991997.html)
+
 662. [heap size problem durning mapreduce](http://hadoop-common.472056.n3.nabble.com/heap-size-problem-durning-mapreduce-tp3542023.html)
-663. [JUint test failing in HDFS when building Hadoop from source.](http://hadoop-common.472056.n3.nabble.com/JUint-test-failing-in-HDFS-when-building-Hadoop-from-source-tp4009077.html)
-664. [Build failed in Jenkins: Hadoop-Common-trunk #346](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-346-tp3824820.html)
-665. [Streaming data access in HDFS: Design Feature](http://hadoop-common.472056.n3.nabble.com/Streaming-data-access-in-HDFS-Design-Feature-tp4035734.html)
-666. [updated to 1.2.1, map completed percentage keeps oscillating](http://hadoop-common.472056.n3.nabble.com/updated-to-1-2-1-map-completed-percentage-keeps-oscillating-tp4023678.html)
-667. [HDFS Backup nodes](http://hadoop-common.472056.n3.nabble.com/HDFS-Backup-nodes-tp3566637.html)
-668. [test-patch failing with OOM errors in javah](http://hadoop-common.472056.n3.nabble.com/test-patch-failing-with-OOM-errors-in-javah-tp4028709.html)
-669. [Too many open files Error](http://hadoop-common.472056.n3.nabble.com/Too-many-open-files-Error-tp3690194.html)
-670. [Upgrade to protobuf 2.5.0 for the 2.1.0 release, HADOOP-9845](http://hadoop-common.472056.n3.nabble.com/Upgrade-to-protobuf-2-5-0-for-the-2-1-0-release-HADOOP-9845-tp4023031.html)
-671. [What happens when you have fewer input files than mapper slots?](http://hadoop-common.472056.n3.nabble.com/What-happens-when-you-have-fewer-input-files-than-mapper-slots-tp4011753.html)
+
+
 672. [Efficiently partition broadly distributed keys](http://hadoop-common.472056.n3.nabble.com/Efficiently-partition-broadly-distributed-keys-tp2661954.html)
-673. [Re: regarding hadoop source code](http://hadoop-common.472056.n3.nabble.com/Re-regarding-hadoop-source-code-tp4036118.html)
-674. [build error](http://hadoop-common.472056.n3.nabble.com/build-error-tp4037192.html)
-675. [libhdfs result in JVM crash issue, please help me](http://hadoop-common.472056.n3.nabble.com/libhdfs-result-in-JVM-crash-issue-please-help-me-tp4050218.html)
-676. [Re: Textfile table but some map task try to use SequenceFile reader](http://hadoop-common.472056.n3.nabble.com/Re-Textfile-table-but-some-map-task-try-to-use-SequenceFile-reader-tp4054123.html)
+
 677. [Is Hadoop applicable to this problem.](http://hadoop-common.472056.n3.nabble.com/Is-Hadoop-applicable-to-this-problem-tp851345.html)
-678. [Hadoop Summit: Security Design Lounge Session](http://hadoop-common.472056.n3.nabble.com/Hadoop-Summit-Security-Design-Lounge-Session-tp4019826.html)
-679. [hadoop cluster not working](http://hadoop-common.472056.n3.nabble.com/hadoop-cluster-not-working-tp4010938.html)
-680. [Issues Running Hadoop 1.1.2 on multi-node cluster](http://hadoop-common.472056.n3.nabble.com/Issues-Running-Hadoop-1-1-2-on-multi-node-cluster-tp4020484.html)
-681. [Hadoop imports Fail](http://hadoop-common.472056.n3.nabble.com/Hadoop-imports-Fail-tp4069583.html)
-682. [Configuration for small Cluster](http://hadoop-common.472056.n3.nabble.com/Configuration-for-small-Cluster-tp2875102.html)
+
 683. [Reduce Error](http://hadoop-common.472056.n3.nabble.com/Reduce-Error-tp2039460.html)
-684. [ipc.Client: Retrying connect to server](http://hadoop-common.472056.n3.nabble.com/ipc-Client-Retrying-connect-to-server-tp4069910.html)
-685. [Hadoop 2.2.0-cdh5.0.0-beta-1 - MapReduce Streaming - Failed to run on a larger jobs](http://hadoop-common.472056.n3.nabble.com/Hadoop-2-2-0-cdh5-0-0-beta-1-MapReduce-Streaming-Failed-to-run-on-a-larger-jobs-tp4038260.html)
-686. [IOException when using MultipleSequenceFileOutputFormat](http://hadoop-common.472056.n3.nabble.com/IOException-when-using-MultipleSequenceFileOutputFormat-tp3996553.html)
+
 687. [Any possible to set hdfs block size to a value smaller than 64MB?](http://hadoop-common.472056.n3.nabble.com/Any-possible-to-set-hdfs-block-size-to-a-value-smaller-than-64MB-tp826062.html)
-688. [High IO Usage in Datanodes due to Replication](http://hadoop-common.472056.n3.nabble.com/High-IO-Usage-in-Datanodes-due-to-Replication-tp4014821.html)
-689. [ipc.Client: Retrying connect to server](http://hadoop-common.472056.n3.nabble.com/ipc-Client-Retrying-connect-to-server-tp4037319.html)
-690. [XmlInputFormat Hadoop -Mapreduce](http://hadoop-common.472056.n3.nabble.com/XmlInputFormat-Hadoop-Mapreduce-tp4031220.html)
-691. [Error for Pseudo-distributed Mode](http://hadoop-common.472056.n3.nabble.com/Error-for-Pseudo-distributed-Mode-tp4008569.html)
-692. [NFSv3 Filesystem Connector](http://hadoop-common.472056.n3.nabble.com/NFSv3-Filesystem-Connector-tp4060163.html)
-693. [Hadoop Build](http://hadoop-common.472056.n3.nabble.com/Hadoop-Build-tp4061538.html)
-694. [Building Hadoop from source code](http://hadoop-common.472056.n3.nabble.com/Building-Hadoop-from-source-code-tp4013250.html)
-695. [UI doesn't work](http://hadoop-common.472056.n3.nabble.com/UI-doesn-t-work-tp2154124.html)
+
 696. [Too many fetch-failures - reduce task problem](http://hadoop-common.472056.n3.nabble.com/Too-many-fetch-failures-reduce-task-problem-tp140609.html)
-697. [Build failed in Jenkins: Hadoop-Common-0.23-Build #1009](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-0-23-Build-1009-tp4045239.html)
-698. [Build failed in Jenkins: Hadoop-Common-trunk #1380](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-1380-tp4060544.html)
-699. [why hadoop-daemon.sh stop itself](http://hadoop-common.472056.n3.nabble.com/why-hadoop-daemon-sh-stop-itself-tp4044247.html)
-700. [Compile Just a Subproject](http://hadoop-common.472056.n3.nabble.com/Compile-Just-a-Subproject-tp4019141.html)
 701. [Controlling on which node a reducer will be executed](http://hadoop-common.472056.n3.nabble.com/Controlling-on-which-node-a-reducer-will-be-executed-tp3994422.html)
-702. [Build failed in Jenkins: Hadoop-Common-trunk #189](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-189-tp3399111.html)
-703. [Build failed in Jenkins: Hadoop-Common-trunk #376](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-376-tp3909880.html)
-704. [streaming command [Re: no output written to HDFS]](http://hadoop-common.472056.n3.nabble.com/streaming-command-Re-no-output-written-to-HDFS-tp3994995.html)
-705. [Re: Could not obtain block](http://hadoop-common.472056.n3.nabble.com/Re-Could-not-obtain-block-tp2661552.html)
 706. [How to handle imbalanced data in hadoop ?](http://hadoop-common.472056.n3.nabble.com/How-to-handle-imbalanced-data-in-hadoop-tp34248.html)
-707. [Build failed in Jenkins: Hadoop-Common-trunk #384](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-384-tp3929593.html)
-708. [Build failed in Jenkins: Hadoop-Common-trunk #1256](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-1256-tp4053244.html)
-709. [[UPDATE] Upgrade to protobuf 2.5.0 for the 2.1.0 release, HADOOP-9845](http://hadoop-common.472056.n3.nabble.com/UPDATE-Upgrade-to-protobuf-2-5-0-for-the-2-1-0-release-HADOOP-9845-tp4023574.html)
-710. [Build failed in Jenkins: Hadoop-Common-trunk #1341](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-1341-tp4058164.html)
-711. [Build failed in Jenkins: Hadoop-Common-trunk #1148](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-1148-tp4043432.html)
-712. [Build failed in Jenkins: Hadoop-Common-trunk #1453](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-1453-tp4068836.html)
-713. [Build failed in Jenkins: Hadoop-Common-trunk #317](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-317-tp3739631.html)
-714. [Build failed in Jenkins: Hadoop-Common-trunk #1451](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-1451-tp4068626.html)
-715. [Build failed in Jenkins: Hadoop-Common-0.23-Build #49](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-0-23-Build-49-tp3463081.html)
-716. [Build failed in Jenkins: Hadoop-Common-trunk #796](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-796-tp4018397.html)
-717. [Build failed in Jenkins: Hadoop-common-trunk-Java8 #34](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-common-trunk-Java8-34-tp4057437.html)
-718. [Build failed in Jenkins: Hadoop-common-trunk-Java8 #81](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-common-trunk-Java8-81-tp4060609.html)
-719. [[UPDATE 2] Upgrade to protobuf 2.5.0 for the 2.1.0 release, HADOOP-9845](http://hadoop-common.472056.n3.nabble.com/UPDATE-2-Upgrade-to-protobuf-2-5-0-for-the-2-1-0-release-HADOOP-9845-tp4023730.html)
-720. [Build failed in Jenkins: Hadoop-Common-0.23-Build #173](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-0-23-Build-173-tp3772101.html)
-721. [Unable to build native binaries](http://hadoop-common.472056.n3.nabble.com/Unable-to-build-native-binaries-tp3945943.html)
-722. [Build failed in Jenkins: Hadoop-Common-0.23-Build #276](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-0-23-Build-276-tp3988984.html)
-723. [Build failed in Jenkins: Hadoop-Common-trunk #876](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-876-tp4025019.html)
-724. [solved [Re: streaming command [Re: no output written to HDFS]]](http://hadoop-common.472056.n3.nabble.com/solved-Re-streaming-command-Re-no-output-written-to-HDFS-tp3995002.html)
-725. [Build failed in Jenkins: Hadoop-Common-trunk #1117](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-1117-tp4040141.html)
-726. [Build failed in Jenkins: Hadoop-Common-trunk #1022](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-1022-tp4033361.html)
-727. [class org.apache.hadoop.yarn.proto.YarnProtos$ApplicationIdProto overrides final method getUnknownFields](http://hadoop-common.472056.n3.nabble.com/class-org-apache-hadoop-yarn-proto-YarnProtos-ApplicationIdProto-overrides-final-method-getUnknownFis-tp4035606.html)
-728. [[UPDATE 3] Upgrade to protobuf 2.5.0 for the 2.1.0 release, HADOOP-9845](http://hadoop-common.472056.n3.nabble.com/UPDATE-3-Upgrade-to-protobuf-2-5-0-for-the-2-1-0-release-HADOOP-9845-tp4023743.html)
-729. [Build failed in Jenkins: Hadoop-Common-trunk #629](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-629-tp4004906.html)
-730. [Build failed in Jenkins: Hadoop-common-trunk-Java8 #96](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-common-trunk-Java8-96-tp4062181.html)
-731. [DataNode and Tasttracker communication](http://hadoop-common.472056.n3.nabble.com/DataNode-and-Tasttracker-communication-tp3993072.html)
-732. [jobtracker cannot be started](http://hadoop-common.472056.n3.nabble.com/jobtracker-cannot-be-started-tp3440181.html)
-733. [Build failed in Jenkins: Hadoop-Common-trunk #1093](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-1093-tp4038026.html)
-734. [Build failed in Jenkins: Hadoop-Common-trunk #364](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-364-tp3874943.html)
-735. [Build failed in Jenkins: Hadoop-Common-trunk #371](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-371-tp3896325.html)
-736. [Build failed in Jenkins: Hadoop-Common-trunk #908](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-908-tp4027047.html)
-737. [Build failed in Jenkins: Hadoop-Common-trunk #935](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-935-tp4028622.html)
-738. [Build failed in Jenkins: Hadoop-Common-trunk #950](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-950-tp4029243.html)
-739. [Build failed in Jenkins: Hadoop-Common-trunk #963](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-963-tp4029945.html)
-740. [Build failed in Jenkins: Hadoop-common-trunk-Java8 #125](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-common-trunk-Java8-125-tp4065874.html)
-741. [Build failed in Jenkins: Hadoop-0.20.204-Build #1](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-0-20-204-Build-1-tp3152624.html)
-742. [Build failed in Jenkins: Hadoop-Common-trunk #1267](http://hadoop-common.472056.n3.nabble.com/Build-failed-in-Jenkins-Hadoop-Common-trunk-1267-tp4053775.html)
-743. [OutOfMemory in ReduceTask$ReduceCopier$MapOutputCopier.shuffleInMemory](http://hadoop-common.472056.n3.nabble.com/OutOfMemory-in-ReduceTask-ReduceCopier-MapOutputCopier-shuffleInMemory-tp4004539.html)
-744. [Tasks failing with OutOfMemory after jvm upgrade to 1.6.0_18 or later](http://hadoop-common.472056.n3.nabble.com/Tasks-failing-with-OutOfMemory-after-jvm-upgrade-to-1-6-0-18-or-later-tp2797115.html)
+
 745. [Error with Heap Space.](http://hadoop-common.472056.n3.nabble.com/Error-with-Heap-Space-tp1166246.html)
 746. [Large Text object to String conversion](http://hadoop-common.472056.n3.nabble.com/Large-Text-object-to-String-conversion-tp22688.html)
-747. [map 0% reduce 0%](http://hadoop-common.472056.n3.nabble.com/map-0-reduce-0-tp440282.html)
-748. [Hadoop Jobtracker OOME](http://hadoop-common.472056.n3.nabble.com/Hadoop-Jobtracker-OOME-tp4026049.html)
-749. [ReducerTask OOM failure](http://hadoop-common.472056.n3.nabble.com/ReducerTask-OOM-failure-tp22794.html)
-750. [Exception in hadoop jobtracker OOM](http://hadoop-common.472056.n3.nabble.com/Exception-in-hadoop-jobtracker-OOM-tp4038517.html)
-751. [Hadoop jobtracker OOME fix applied and no OOME but JT hanged](http://hadoop-common.472056.n3.nabble.com/Hadoop-jobtracker-OOME-fix-applied-and-no-OOME-but-JT-hanged-tp4029493.html)
-752. [Hadoop Jobtracker heap size calculation and OOME](http://hadoop-common.472056.n3.nabble.com/Hadoop-Jobtracker-heap-size-calculation-and-OOME-tp4027838.html)
-753. [OOM/crashes due to process number limit](http://hadoop-common.472056.n3.nabble.com/OOM-crashes-due-to-process-number-limit-tp3999874.html)
-754. [OOM error and then system hangs](http://hadoop-common.472056.n3.nabble.com/OOM-error-and-then-system-hangs-tp4031074.html)
-755. [Hadoop Jobtracker cluster summary of heap size and OOME](http://hadoop-common.472056.n3.nabble.com/Hadoop-Jobtracker-cluster-summary-of-heap-size-and-OOME-tp4027815.html)
-756. [how to prevent JAVA HEAP OOM happen in shuffle process in a MR job?](http://hadoop-common.472056.n3.nabble.com/how-to-prevent-JAVA-HEAP-OOM-happen-in-shuffle-process-in-a-MR-job-tp4030192.html)
-757. [Map Reduce slot](http://hadoop-common.472056.n3.nabble.com/Map-Reduce-slot-tp4001053.html)
+
+
+
+
 758. [mapreduce combiner](http://hadoop-common.472056.n3.nabble.com/mapreduce-combiner-tp3613285.html)
-759. [Hadoop core jar class update](http://hadoop-common.472056.n3.nabble.com/Hadoop-core-jar-class-update-tp4028444.html)
-760. [speculative execution](http://hadoop-common.472056.n3.nabble.com/speculative-execution-tp3012316.html)
-761. [ulimit -v changed for child job?](http://hadoop-common.472056.n3.nabble.com/ulimit-v-changed-for-child-job-tp3989500.html)
-762. [[DISCUSSION] Release process](http://hadoop-common.472056.n3.nabble.com/DISCUSSION-Release-process-tp449308.html)
-763. [Hadoop 2.2 Psuedo- Distributed Mode](http://hadoop-common.472056.n3.nabble.com/Hadoop-2-2-Psuedo-Distributed-Mode-tp4031381.html)
-764. [Rolling a Hadoop 0.20.2](http://hadoop-common.472056.n3.nabble.com/Rolling-a-Hadoop-0-20-2-tp139612.html)
-765. [Network problems Hadoop 0.20.2 and Terasort on Debian 2.6.32 kernel](http://hadoop-common.472056.n3.nabble.com/Network-problems-Hadoop-0-20-2-and-Terasort-on-Debian-2-6-32-kernel-tp706403.html)
 766. [Mapreduce program reports child error](http://hadoop-common.472056.n3.nabble.com/Mapreduce-program-reports-child-error-tp2893117.html)
 767. [Reducer granularity and starvation](http://hadoop-common.472056.n3.nabble.com/Reducer-granularity-and-starvation-tp2958768.html)
-768. [Developer meetup after the Hadoop Summit](http://hadoop-common.472056.n3.nabble.com/Developer-meetup-after-the-Hadoop-Summit-tp3035810.html)
-769. [[VOTE] Release Apache Hadoop 2.1.0-beta](http://hadoop-common.472056.n3.nabble.com/VOTE-Release-Apache-Hadoop-2-1-0-beta-tp4019585.html)
-770. [Job end notification does not always work (Hadoop 2.x)](http://hadoop-common.472056.n3.nabble.com/Job-end-notification-does-not-always-work-Hadoop-2-x-tp4019289.html)
-771. ["whoami" can't be executed.](http://hadoop-common.472056.n3.nabble.com/whoami-can-t-be-executed-tp69718.html)
-772. [Getting job information, joining a job in hadoop 0.20.1](http://hadoop-common.472056.n3.nabble.com/Getting-job-information-joining-a-job-in-hadoop-0-20-1-tp845632.html)
-773. [too many map tasks, freezing jobTracker?](http://hadoop-common.472056.n3.nabble.com/too-many-map-tasks-freezing-jobTracker-tp2748885.html)
-774. [Basic setup questions on Ubuntu](http://hadoop-common.472056.n3.nabble.com/Basic-setup-questions-on-Ubuntu-tp3913069.html)
-775. [How to process only input files containing 100% valid rows](http://hadoop-common.472056.n3.nabble.com/How-to-process-only-input-files-containing-100-valid-rows-tp4014054.html)
-776. [Switching to Java 7](http://hadoop-common.472056.n3.nabble.com/Switching-to-Java-7-tp4056864.html)
-777. [how to solve reducer memory problem?](http://hadoop-common.472056.n3.nabble.com/how-to-solve-reducer-memory-problem-tp4037710.html)
-778. [java.lang.OutOfMemoryError: Java heap space](http://hadoop-common.472056.n3.nabble.com/java-lang-OutOfMemoryError-Java-heap-space-tp956710.html)
-779. [namespace error after formatting namenode (psuedo distr mode).](http://hadoop-common.472056.n3.nabble.com/namespace-error-after-formatting-namenode-psuedo-distr-mode-tp3872089.html)
-780. [Problem in reading Map Output file via RecordReader<ImmutableBytesWritable, Put>](http://hadoop-common.472056.n3.nabble.com/Problem-in-reading-Map-Output-file-via-RecordReader-ImmutableBytesWritable-Put-tp4007629.html)
-781. [How to improve performance of this cluster](http://hadoop-common.472056.n3.nabble.com/How-to-improve-performance-of-this-cluster-tp4013904.html)
+
+
 782. [newbie question - error with replication](http://hadoop-common.472056.n3.nabble.com/newbie-question-error-with-replication-tp31410.html)
-783. [Hadoop pipes and custom imput format](http://hadoop-common.472056.n3.nabble.com/Hadoop-pipes-and-custom-imput-format-tp185225.html)
-784. [java.lang.OutOfMemoryError: GC overhead limit exceeded](http://hadoop-common.472056.n3.nabble.com/java-lang-OutOfMemoryError-GC-overhead-limit-exceeded-tp1582638.html)
+
 785. [Heap Size question.](http://hadoop-common.472056.n3.nabble.com/Heap-Size-question-tp3010285.html)
-786. [namenode null pointer](http://hadoop-common.472056.n3.nabble.com/namenode-null-pointer-tp3755910.html)
-787. [What's the basic idea of pseudo-distributed Hadoop ?](http://hadoop-common.472056.n3.nabble.com/What-s-the-basic-idea-of-pseudo-distributed-Hadoop-tp3996260.html)
 788. [a question](http://hadoop-common.472056.n3.nabble.com/a-question-tp4021457.html)
-789. [Apache hadoop - 1.2.1 source compilation through Maven or ant](http://hadoop-common.472056.n3.nabble.com/Apache-hadoop-1-2-1-source-compilation-through-Maven-or-ant-tp4028262.html)
-790. [hadoop fs -text OutOfMemoryError](http://hadoop-common.472056.n3.nabble.com/hadoop-fs-text-OutOfMemoryError-tp4030988.html)
-791. [Doubts: Deployment and Configuration of YARN cluster](http://hadoop-common.472056.n3.nabble.com/Doubts-Deployment-and-Configuration-of-YARN-cluster-tp4032606.html)
-792. [Warning: missing VM type](http://hadoop-common.472056.n3.nabble.com/Warning-missing-VM-type-tp18834.html)
-793. [Datanode will shut down automatically after it starts](http://hadoop-common.472056.n3.nabble.com/Datanode-will-shut-down-automatically-after-it-starts-tp188921.html)
 794. [guessing number of reducers.](http://hadoop-common.472056.n3.nabble.com/guessing-number-of-reducers-tp4002629.html)
-795. [rack awareness in hadoop](http://hadoop-common.472056.n3.nabble.com/rack-awareness-in-hadoop-tp4014221.html)
-796. [Implementing and running an applicationmaster](http://hadoop-common.472056.n3.nabble.com/Implementing-and-running-an-applicationmaster-tp4030171.html)
-797. [Hadoop Jobtracker job and UI hangs - Deadlock detection](http://hadoop-common.472056.n3.nabble.com/Hadoop-Jobtracker-job-and-UI-hangs-Deadlock-detection-tp4031058.html)
-798. [Re: Datanode Throwing NoRouteToHostException](http://hadoop-common.472056.n3.nabble.com/Re-Datanode-Throwing-NoRouteToHostException-tp17617.html)
-799. [Map/Reduce Tutorial: Pseudo-Distributed Operation failed](http://hadoop-common.472056.n3.nabble.com/Map-Reduce-Tutorial-Pseudo-Distributed-Operation-failed-tp19268.html)
-800. [Hadoop not responding on port](http://hadoop-common.472056.n3.nabble.com/Hadoop-not-responding-on-port-tp35672.html)
-801. [Problem when starting jobtracker](http://hadoop-common.472056.n3.nabble.com/Problem-when-starting-jobtracker-tp215933.html)
-802. [Bad connection to FS. command aborted.](http://hadoop-common.472056.n3.nabble.com/Bad-connection-to-FS-command-aborted-tp464435.html)
 803. [a question](http://hadoop-common.472056.n3.nabble.com/a-question-tp4021790.html)
 804. [java.io.IOException: Task process exit with nonzero status of -1](http://hadoop-common.472056.n3.nabble.com/java-io-IOException-Task-process-exit-with-nonzero-status-of-1-tp4023848.html)
-805. [Exception in Jobtracker (java.lang.OutOfMemoryError: Java heap space)](http://hadoop-common.472056.n3.nabble.com/Exception-in-Jobtracker-java-lang-OutOfMemoryError-Java-heap-space-tp4038501.html)
-806. [memoryjava.lang.OutOfMemoryError related with number of reducer?](http://hadoop-common.472056.n3.nabble.com/memoryjava-lang-OutOfMemoryError-related-with-number-of-reducer-tp4038743.html)
-807. [log.tmp does not exist, running hadoop in pseudo distributed](http://hadoop-common.472056.n3.nabble.com/log-tmp-does-not-exist-running-hadoop-in-pseudo-distributed-tp32780.html)
-808. [how to pass arguments to a map reduce job](http://hadoop-common.472056.n3.nabble.com/how-to-pass-arguments-to-a-map-reduce-job-tp198895.html)
-809. [Setting up a Single Node Hadoop Cluster](http://hadoop-common.472056.n3.nabble.com/Setting-up-a-Single-Node-Hadoop-Cluster-tp3088654.html)
-810. [Namenode problem](http://hadoop-common.472056.n3.nabble.com/Namenode-problem-tp435923.html)
-811. [Branching 2.5](http://hadoop-common.472056.n3.nabble.com/Branching-2-5-tp4044353.html)
+
+
 
