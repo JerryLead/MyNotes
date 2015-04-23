@@ -1,5 +1,47 @@
 ## OOM cases in Hadoop common mailing list
 
+IDs: 9, 71, 151, 152, 190, 291, 307, 350, 402, 410, 523, 749, 777, 805, 806  
+
+
+9. [java.lang.OutOfMemoryError: Direct buffer memory](http://hadoop.6.n7.nabble.com/java-lang-OutOfMemoryError-Direct-buffer-memory-tp6947.html)
+
+
+71. [OOME only with large datasets](http://hadoop.6.n7.nabble.com/OOME-only-with-large-datasets-tp7656.html)
+
+
+151. [OutOfMemory Error](http://hadoop.6.n7.nabble.com/OutOfMemory-Error-tp5428.html)
+
+
+152. [reducer outofmemoryerror](http://hadoop.6.n7.nabble.com/reducer-outofmemoryerror-tp2083.html)
+
+
+190. [Nor "OOM Java Heap Space" neither "GC OverHead Limit Exeeceded"](http://hadoop.6.n7.nabble.com/Nor-OOM-Java-Heap-Space-neither-GC-OverHead-Limit-Exeeceded-tp11337.html)
+
+291. [Yarn container out of memory when using large memory mapped file](http://hadoop-common.472056.n3.nabble.com/Yarn-container-out-of-memory-when-using-large-memory-mapped-file-tp4069092.html)
+
+307. [Out of heap space errors on TTs](http://hadoop-common.472056.n3.nabble.com/Out-of-heap-space-errors-on-TTs-tp3348456.html)
+
+350. [OutOfMemoryError of PIG job (UDF loads big file)](http://hadoop-common.472056.n3.nabble.com/OutOfMemoryError-of-PIG-job-UDF-loads-big-file-tp327956.html)
+
+402. [Hashing two relations](http://hadoop-common.472056.n3.nabble.com/Hashing-two-relations-tp940202.html)
+
+410. [OOM Error Map output copy.](http://hadoop-common.472056.n3.nabble.com/OOM-Error-Map-output-copy-tp3568293.html)
+
+
+523. [OutOfMemory during Plain Java MapReduce](http://hadoop-common.472056.n3.nabble.com/OutOfMemory-during-Plain-Java-MapReduce-tp4010736.html)
+
+749. [ReducerTask OOM failure](http://hadoop-common.472056.n3.nabble.com/ReducerTask-OOM-failure-tp22794.html)
+
+777. [how to solve reducer memory problem?](http://hadoop-common.472056.n3.nabble.com/how-to-solve-reducer-memory-problem-tp4037710.html)
+
+
+805. [Exception in Jobtracker (java.lang.OutOfMemoryError: Java heap space)](http://hadoop-common.472056.n3.nabble.com/Exception-in-Jobtracker-java-lang-OutOfMemoryError-Java-heap-space-tp4038501.html)
+
+
+806. [memoryjava.lang.OutOfMemoryError related with number of reducer?](http://hadoop-common.472056.n3.nabble.com/memoryjava-lang-OutOfMemoryError-related-with-number-of-reducer-tp4038743.html)
+
+
+## Cases
 1. [Reducer Out of Memory](http://hadoop.6.n7.nabble.com/Reducer-Out-of-Memory-tp7792.html)
 2. [out of memory error](http://hadoop.6.n7.nabble.com/out-of-memory-error-tp6171.html)
 3. [RE: out of memory running examples](http://hadoop.6.n7.nabble.com/RE-out-of-memory-running-examples-tp67033.html)

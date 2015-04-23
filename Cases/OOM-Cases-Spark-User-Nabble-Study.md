@@ -1089,34 +1089,111 @@ need more memory
 ## Issues found by searching "Out of Memory" in Spark devloper mailing list
 
 1. [Sorting partitions in Java](http://apache-spark-developers-list.1001551.n3.nabble.com/Sorting-partitions-in-Java-tp6715.html)
+
+	Symposium: sortByKey currently requires partitions to fit in memory    
+	Pattern: SortByKey()    
+	Reproducible: No  
+	Source code : No
+	
 2. [Memory config issues](http://apache-spark-developers-list.1001551.n3.nabble.com/Memory-config-issues-tp10183.html)
+
+	Symposium: SQL GROUP BY      
+	Pattern: groupBy    
+	Reproducible: No  
+	Source code : No
+	
 3. [Fwd: Accumulator question](http://apache-spark-developers-list.1001551.n3.nabble.com/Fwd-Accumulator-question-tp8709.html)
+
+	Symposium: I've a case where we're gathering data from repeated queries using some   relatively sizable accumulators; at the moment, we're creating one per query, and running out of memory after far too few queries.     
+	Pattern: gsizable accumulators      
+	Reproducible: No  
+	Source code : No
+	
 4. [OOM when making bins in BinaryClassificationMetrics ?](http://apache-spark-developers-list.1001551.n3.nabble.com/OOM-when-making-bins-in-BinaryClassificationMetrics-tp9061.html)
-5. [Storage of RDDs created via sc.parallelize](http://apache-spark-developers-list.1001551.n3.nabble.com/Storage-of-RDDs-created-via-sc-parallelize-tp11135.html)
-6. [[GitHub] incubator-spark pull request: MLLIB-25: Implicit ALS runs out of m...](http://apache-spark-developers-list.1001551.n3.nabble.com/GitHub-incubator-spark-pull-request-MLLIB-25-Implicit-ALS-runs-out-of-m-tp2404.html)
-7. [[GitHub] spark pull request: [WIP] [SPARK-1132] Persisting Web UI through r...](http://apache-spark-developers-list.1001551.n3.nabble.com/GitHub-spark-pull-request-WIP-SPARK-1132-Persisting-Web-UI-through-r-tp3173.html)
-8. [Maximum size of vector that reduce can handle](http://apache-spark-developers-list.1001551.n3.nabble.com/Maximum-size-of-vector-that-reduce-can-handle-tp10256.html)
-9. [[Graphx] some problem about using SVDPlusPlus](http://apache-spark-developers-list.1001551.n3.nabble.com/Graphx-some-problem-about-using-SVDPlusPlus-tp7896.html)
-10. [TorrentBroadcast slow performance](http://apache-spark-developers-list.1001551.n3.nabble.com/TorrentBroadcast-slow-performance-tp8669.html)
+
+	Symposium: using 
+BinaryClassificationMetrics to build an AUC curve for a classifier 
+over a reasonably large number of points (~12M).  The computation does some operations by key, and this ran out of 
+memory    
+	Pattern: a key has many distinct values     
+	Reproducible: No  
+	Source code : No
+
+6. [[GitHub] incubator-spark pull request: MLLIB-25: Implicit ALS runs out of m...](http://apache-spark-developers-list.1001551.n3.nabble.com/GitHub-incubator-spark-pull-request-MLLIB-25-Implicit-ALS-runs-out-of-m-tp2404.html) (Further study)
+
+	Symposium: It's computed as the sum of matrices; an f x f matrix is created for each of n user/item rows in a partition.     
+	Pattern: Large intermedaite results  + large accumulated results     
+	Reproducible: No  
+	Source code : No
+	
+
+8. [Maximum size of vector that reduce can handle](http://apache-spark-developers-list.1001551.n3.nabble.com/Maximum-size-of-vector-that-reduce-can-handle-tp10256.html) (Further study)
+
+	Symposium: reduce() generates large taskResults, collected by the driver.     
+	Pattern: Large results collected by the driver     
+	Reproducible: No  
+	Source code : No
+	
+
+9. [[Graphx] some problem about using SVDPlusPlus](http://apache-spark-developers-list.1001551.n3.nabble.com/Graphx-some-problem-about-using-SVDPlusPlus-tp7896.html) (Further study)
+
+	Symposium: which will also be cached to memory. However, as the iteration goes on, more and more graph will be cached and out of memory happens.    
+	Pattern: RDD cached in memory as the iteration goes       
+	Reproducible: No  
+	Source code : No
+
 11. [sparkSQL thread safe?](http://apache-spark-developers-list.1001551.n3.nabble.com/sparkSQL-thread-safe-tp7263.html)
-12. [Low Level Kafka Consumer for Spark](http://apache-spark-developers-list.1001551.n3.nabble.com/Low-Level-Kafka-Consumer-for-Spark-tp7644.html)
+
+
+	Symposium: I was getting out of memory doing a bunch of ops against medium(~1TB 
+compressed) input sizes with simple things that should spill nicely 
+(distinct, reduceByKey(_ + _) ). 
+	Pattern: Too many buffers / large buffers
+	Reproducible: No  
+	Source code : No
+
 13. [MLlib - logistic regression with GD vs LBFGS, sparse vs dense benchmark result](http://apache-spark-developers-list.1001551.n3.nabble.com/MLlib-logistic-regression-with-GD-vs-LBFGS-sparse-vs-dense-benchmark-result-tp6386.html)
+
+	Pattern: Unknown  
+	Reproducible: No  
+	Source code : No
+	
 14. [Too big data Spark SQL on Hive table on version 1.0.2 has some strange output](http://apache-spark-developers-list.1001551.n3.nabble.com/Too-big-data-Spark-SQL-on-Hive-table-on-version-1-0-2-has-some-strange-output-tp8662.html)
-15. [test suite results in OOME](http://apache-spark-developers-list.1001551.n3.nabble.com/test-suite-results-in-OOME-tp40.html)
+
+	Symposium: SELECT => GroupBY  
+	Pattern: Unknown  
+	Reproducible: No  
+	Source code : No
+
 16. [oome from large map output status](http://apache-spark-developers-list.1001551.n3.nabble.com/oome-from-large-map-output-status-tp1851.html)
-17. [Troubleshooting JVM OOM during Spark Unit Tests](http://apache-spark-developers-list.1001551.n3.nabble.com/Troubleshooting-JVM-OOM-during-Spark-Unit-Tests-tp9480.html)
-18. [Spark master OOMs with exception stack trace stored in JobProgressListener (SPARK-4906)](http://apache-spark-developers-list.1001551.n3.nabble.com/Spark-master-OOMs-with-exception-stack-trace-stored-in-JobProgressListener-SPARK-4906-tp9857.html)
+
+	Symposium: 70 of these 50mb byte[]s in RAM    
+	Pattern: massive small buffers    
+	Reproducible: No  
+	Source code : No
+	
+
 19. [take() reads every partition if the first one is empty](http://apache-spark-developers-list.1001551.n3.nabble.com/take-reads-every-partition-if-the-first-one-is-empty-tp7956.html)
-20. [spark 1.3 sbt build seems to be broken](http://apache-spark-developers-list.1001551.n3.nabble.com/spark-1-3-sbt-build-seems-to-be-broken-tp10491.html)
-21. [OutOfMemoryError when running sbt/sbt test](http://apache-spark-developers-list.1001551.n3.nabble.com/OutOfMemoryError-when-running-sbt-sbt-test-tp8056.html)
-22. [Using memory mapped file for shuffle](http://apache-spark-developers-list.1001551.n3.nabble.com/Using-memory-mapped-file-for-shuffle-tp11576.html)
-23. [Eliminate copy while sending data : any Akka experts here ?](http://apache-spark-developers-list.1001551.n3.nabble.com/Eliminate-copy-while-sending-data-any-Akka-experts-here-tp7127.html)
-24. [Streaming partitions to driver for use in .toLocalIterator](http://apache-spark-developers-list.1001551.n3.nabble.com/Streaming-partitions-to-driver-for-use-in-toLocalIterator-tp10664.html)
+
+	Symposium: take() reads ALL partitions if the first one (or first k) are empty      
+	Pattern: driver collect()    
+	Reproducible: No  
+	Source code : No
+
+
+23. [Eliminate copy while sending data : any Akka experts here ?](http://apache-spark-developers-list.1001551.n3.nabble.com/Eliminate-copy-while-sending-data-any-Akka-experts-here-tp7127.html) (Further study)
+
+
+	Symposium: about the copy buffer, O(M*R)        
+	Pattern: driver collect()    
+	Reproducible: No  
+	Source code : No
+	
 25. [Apache spark on 27gb wikipedia data](http://apache-spark-developers-list.1001551.n3.nabble.com/Apache-spark-on-27gb-wikipedia-data-tp6487.html)
-26. [[ANNOUNCE] Spark 1.2.0 Release Preview Posted](http://apache-spark-developers-list.1001551.n3.nabble.com/ANNOUNCE-Spark-1-2-0-Release-Preview-Posted-tp9400.html)
-27. [Tests failed after assembling the latest code from github](http://apache-spark-developers-list.1001551.n3.nabble.com/Tests-failed-after-assembling-the-latest-code-from-github-tp6315.html)
-28. [bug using kryo as closure serializer](http://apache-spark-developers-list.1001551.n3.nabble.com/bug-using-kryo-as-closure-serializer-tp6473.html)
-29. [[VOTE] Release Apache Spark 1.3.1](http://apache-spark-developers-list.1001551.n3.nabble.com/VOTE-Release-Apache-Spark-1-3-1-tp11399.html)
-30. [[RESULT] [VOTE] Release Apache Spark 1.3.1](http://apache-spark-developers-list.1001551.n3.nabble.com/RESULT-VOTE-Release-Apache-Spark-1-3-1-tp11470.html)
-31. [[GitHub] spark pull request: Patch for SPARK-942](http://apache-spark-developers-list.1001551.n3.nabble.com/GitHub-spark-pull-request-Patch-for-SPARK-942-tp3311.html)
-32. [[GitHub] spark pull request: [SPARK-1186] : Enrich the Spark Shell to suppo...](http://apache-spark-developers-list.1001551.n3.nabble.com/GitHub-spark-pull-request-SPARK-1186-Enrich-the-Spark-Shell-to-suppo-tp4000.html)
+
+	Symposium: Process Wikipedia     
+	Pattern: unknown    
+	Reproducible: No  
+	Source code : No
+	
+	
