@@ -1,7 +1,5 @@
 ## Issues that contain "Out of Memory" or "OOM" or "OutOfMemory" in Spark user mailing list
 
-
-
 2. [Running out of memory Naive Bayes](http://apache-spark-user-list.1001560.n3.nabble.com/Running-out-of-memory-Naive-Bayes-tp4866.html)
 
 	Symptom: Too many features stored in the driver  
@@ -80,12 +78,6 @@ tuples.  one vehicle has a huge amount of data that could fail.
 	Pattern: Hotspot key  
 	Reproducible:No  
 
-53. [JVM Memory Woes](http://apache-spark-user-list.1001560.n3.nabble.com/JVM-Memory-Woes-tp19496.html)
-	
-	Symptom: It is a filter job that creates the error above, not the reduceByKey.   
-	Root cause: probably reduceByKey(), although authors claim the causes exist in filter()  
-	Pattern: Unknown  
-	Reproducible: No  
 
 56. [Memory allocation in the driver](http://apache-spark-user-list.1001560.n3.nabble.com/Memory-allocation-in-the-driver-tp8406.html)
 
@@ -230,28 +222,28 @@ symmetric so can get away with storing it in ~256MB in driver
 137. [Beginner Question on driver memory issue (OOM).](http://apache-spark-user-list.1001560.n3.nabble.com/Beginner-Question-on-driver-memory-issue-OOM-tp21676.html)
 
 	Symptom: Broadcast large table + select + rows.collect()    
-	Pattern: Large results collected by driver  
-	Reproducible: No  
+	Pattern: Large results collected by driver   
+	Reproducible: No   
 
 	
 143. [OOM when calling cache on RDD with big data](http://apache-spark-user-list.1001560.n3.nabble.com/OOM-when-calling-cache-on-RDD-with-big-data-tp1894.html)
 
-	Symptom: RDD cache + serialization 
-	Pattern: Large cached RDD
+	Symptom: RDD cache + serialization  
+	Pattern: Large cached RDD  
 	Reproducible: No  
 	
 144. [Running Wordcount on large file stucks and throws OOM exception](http://apache-spark-user-list.1001560.n3.nabble.com/Running-Wordcount-on-large-file-stucks-and-throws-OOM-exception-tp12747.html)
 
-	Symptom: WordCount,  reduceByKey().saveAsTextFile()
-	Pattern: driver memory is not large enough to hold the whole result set of saveAsTextFile In-Memory  
+	Symptom: WordCount,  reduceByKey().saveAsTextFile()  
+	Pattern: driver memory is not large enough to hold the whole result set of saveAsTextFile In-Memory   
 	Reproducible: No  
 
 
 150. [OutOfMemory in "cogroup"](http://apache-spark-user-list.1001560.n3.nabble.com/OutOfMemory-in-cogroup-tp17349.html) (Further study)
 
-	Symptom: join() => coGroup()
-	Pattern: Unbalanced partition => inaccurate size estimator (spill is inaccurate) => OOM AND Spilling data to disk helps nothing because cogroup() needs to read all values for a key into memory.
-	Reproducible: No  
+	Symptom: join() => coGroup()  
+	Pattern: Unbalanced partition => inaccurate size estimator (spill is inaccurate) => OOM AND Spilling data to disk helps nothing because cogroup() needs to read all values for a key into memory.  
+	Reproducible: No   
 	
 154. [[0.9.0] MEMORY_AND_DISK_SER not falling back to disk](http://apache-spark-user-list.1001560.n3.nabble.com/0-9-0-MEMORY-AND-DISK-SER-not-falling-back-to-disk-tp1278.html)
 
