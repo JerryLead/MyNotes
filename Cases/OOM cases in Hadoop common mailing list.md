@@ -2,92 +2,95 @@
 
 ### OOM analysis
 
-151. [OutOfMemory Error](http://hadoop.6.n7.nabble.com/OutOfMemory-Error-tp5428.html)
+1. [OutOfMemory Error](http://hadoop.6.n7.nabble.com/OutOfMemory-Error-tp5428.html)
 
 	Symptoms:  The key is of the form "ID :DenseVector Representation in mahout with dimensionality size = 160k",  typical size of the key of the mapper output can be 160K*6
+	
 	Pattern:  Large single <K, V> record  
 	Reproducible: No  
 	
-307. [Out of heap space errors on TTs](http://hadoop-common.472056.n3.nabble.com/Out-of-heap-space-errors-on-TTs-tp3348456.html)
+2. [Out of heap space errors on TTs](http://hadoop-common.472056.n3.nabble.com/Out-of-heap-space-errors-on-TTs-tp3348456.html)
 
 	Symptoms:  Large map buffer     
-	Pattern:  Unknown  
+	Pattern:  Large map buffer    
 	Reproducible: Yes  
 
 	
-350. [OutOfMemoryError of PIG job (UDF loads big file)](http://hadoop-common.472056.n3.nabble.com/OutOfMemoryError-of-PIG-job-UDF-loads-big-file-tp327956.html)
+3. [OutOfMemoryError of PIG job (UDF loads big file)](http://hadoop-common.472056.n3.nabble.com/OutOfMemoryError-of-PIG-job-UDF-loads-big-file-tp327956.html)
 
 	Symptoms:  Data load + String split + Pattern compile in Pig  
-	Pattern:  Large data loaded      
+	Pattern:  Large intermediate results        
 	Reproducible: No  
 
 	
-402. [Hashing two relations](http://hadoop-common.472056.n3.nabble.com/Hashing-two-relations-tp940202.html)
+4. [Hashing two relations](http://hadoop-common.472056.n3.nabble.com/Hashing-two-relations-tp940202.html)
 
 	Symptoms:  Reduce join  (hash join), I want to get a partition from each 
 hash-table and build an in-memory hash table for one and probing the partition 
 from other table against it   
 	Pattern:  Large accumulated results     
-	Reproducible: No  
+	Reproducible: Yes  
 
 	
-410. [OOM Error Map output copy.](http://hadoop-common.472056.n3.nabble.com/OOM-Error-Map-output-copy-tp3568293.html)
+5. [OOM Error Map output copy.](http://hadoop-common.472056.n3.nabble.com/OOM-Error-Map-output-copy-tp3568293.html)
 
 	Symptoms: OOM in shuffle phase, large data partition    
 	Pattern: Improper data partition, small reduce number      
 	Reproducible: Yes  
 
-523. [OutOfMemory during Plain Java MapReduce](http://hadoop-common.472056.n3.nabble.com/OutOfMemory-during-Plain-Java-MapReduce-tp4010736.html) 
+6. [OutOfMemory during Plain Java MapReduce](http://hadoop-common.472056.n3.nabble.com/OutOfMemory-during-Plain-Java-MapReduce-tp4010736.html) 
 
 	Symptoms: Distinct keys are cached in data structure      
 	Pattern: Large accumulated results        
-	Reproducible: Yes  
-	Source code : Yes  
+	Reproducible: Yes   
+	Source code : Yes   
 	
-777. [how to solve reducer memory problem?](http://hadoop-common.472056.n3.nabble.com/how-to-solve-reducer-memory-problem-tp4037710.html) 
+7. [how to solve reducer memory problem?](http://hadoop-common.472056.n3.nabble.com/how-to-solve-reducer-memory-problem-tp4037710.html) 
 
-	Symptoms: each TrainingWeights as a very large double[], addWeights(result, weights);        
+	Symptoms: each TrainingWeights as a very large double[], addWeights(result, weights);          
 	Pattern: Large accumulated results        
 	Reproducible: No  
  
 
-806. [memoryjava.lang.OutOfMemoryError related with number of reducer?](http://hadoop-common.472056.n3.nabble.com/memoryjava-lang-OutOfMemoryError-related-with-number-of-reducer-tp4038743.html)
+8. [memoryjava.lang.OutOfMemoryError related with number of reducer?](http://hadoop-common.472056.n3.nabble.com/memoryjava-lang-OutOfMemoryError-related-with-number-of-reducer-tp4038743.html)
 	
-	Symptoms: count(distinct)
+	Symptoms: count(distinct)  
 	Pattern: Large accumulated results in combine()      
 	Reproducible: Yes 
+	
+## OOM cases whose causes are unknown
 
-9. [java.lang.OutOfMemoryError: Direct buffer memory](http://hadoop.6.n7.nabble.com/java-lang-OutOfMemoryError-Direct-buffer-memory-tp6947.html)
+1. [java.lang.OutOfMemoryError: Direct buffer memory](http://hadoop.6.n7.nabble.com/java-lang-OutOfMemoryError-Direct-buffer-memory-tp6947.html)
 
 	Symptoms:  only stack trace  
 	Pattern:  Unknown  
 	Reproducible: No  
 
-71. [OOME only with large datasets](http://hadoop.6.n7.nabble.com/OOME-only-with-large-datasets-tp7656.html)
+2. [OOME only with large datasets](http://hadoop.6.n7.nabble.com/OOME-only-with-large-datasets-tp7656.html)
 
 	Symptoms:  only stack trace  
 	Pattern:  Unknown  
 	Reproducible: No  
 	
-152. [reducer outofmemoryerror](http://hadoop.6.n7.nabble.com/reducer-outofmemoryerror-tp2083.html)
+3. [reducer outofmemoryerror](http://hadoop.6.n7.nabble.com/reducer-outofmemoryerror-tp2083.html)
 
 	Symptoms:  only stack trace  
 	Pattern:  Unknown  
 	Reproducible: No  
 	
-190. [Nor "OOM Java Heap Space" neither "GC OverHead Limit Exeeceded"](http://hadoop.6.n7.nabble.com/Nor-OOM-Java-Heap-Space-neither-GC-OverHead-Limit-Exeeceded-tp11337.html)
+4. [Nor "OOM Java Heap Space" neither "GC OverHead Limit Exeeceded"](http://hadoop.6.n7.nabble.com/Nor-OOM-Java-Heap-Space-neither-GC-OverHead-Limit-Exeeceded-tp11337.html)
 
 	Symptoms:  only stack trace of client  
 	Pattern:  Unknown  
 	Reproducible: No  
 	
-291. [Yarn container out of memory when using large memory mapped file](http://hadoop-common.472056.n3.nabble.com/Yarn-container-out-of-memory-when-using-large-memory-mapped-file-tp4069092.html)
+5. [Yarn container out of memory when using large memory mapped file](http://hadoop-common.472056.n3.nabble.com/Yarn-container-out-of-memory-when-using-large-memory-mapped-file-tp4069092.html)
 
 	Symptoms:  only stack trace   
 	Pattern:  Unknown  
 	Reproducible: No  
 	
-749. [ReducerTask OOM failure](http://hadoop-common.472056.n3.nabble.com/ReducerTask-OOM-failure-tp22794.html)
+6. [ReducerTask OOM failure](http://hadoop-common.472056.n3.nabble.com/ReducerTask-OOM-failure-tp22794.html)
 	
 	Symptoms: Copy map outputs       
 	Pattern: Unknown        
@@ -95,72 +98,70 @@ from other table against it
 	Source code : No  
 
 
-## OOM cases
-1. [Reducer Out of Memory](http://hadoop.6.n7.nabble.com/Reducer-Out-of-Memory-tp7792.html)
-2. [out of memory error](http://hadoop.6.n7.nabble.com/out-of-memory-error-tp6171.html)
-3. [RE: out of memory running examples](http://hadoop.6.n7.nabble.com/RE-out-of-memory-running-examples-tp67033.html)
-4. [Reduce tasks running out of memory on small hadoop cluster](http://hadoop.6.n7.nabble.com/Reduce-tasks-running-out-of-memory-on-small-hadoop-cluster-tp5724.html)
-5. [Map Task is failing with out of memory issue](http://hadoop.6.n7.nabble.com/Map-Task-is-failing-with-out-of-memory-issue-tp4996.html)
-7. [Out of Memory error in reduce shuffling phase when compression is turned on](http://hadoop.6.n7.nabble.com/Out-of-Memory-error-in-reduce-shuffling-phase-when-compression-is-turned-on-tp5467.html)
-9. [java.lang.OutOfMemoryError: Direct buffer memory](http://hadoop.6.n7.nabble.com/java-lang-OutOfMemoryError-Direct-buffer-memory-tp6947.html)
-25. [OOM error with large # of map tasks](http://hadoop.6.n7.nabble.com/OOM-error-with-large-of-map-tasks-tp3133.html)
-26. [OutOfMemory error processing large amounts of gz files](http://hadoop.6.n7.nabble.com/OutOfMemory-error-processing-large-amounts-of-gz-files-tp262.html)
-27. [OutofMemory Error, inspite of large amounts provided](http://hadoop.6.n7.nabble.com/OutofMemory-Error-inspite-of-large-amounts-provided-tp7560.html)
 
-55. [OutOfMemoryError with map jobs](http://hadoop.6.n7.nabble.com/OutOfMemoryError-with-map-jobs-tp5378.html)
+7. [Reducer Out of Memory](http://hadoop.6.n7.nabble.com/Reducer-Out-of-Memory-tp7792.html)
+8. [out of memory error](http://hadoop.6.n7.nabble.com/out-of-memory-error-tp6171.html)
+9. [RE: out of memory running examples](http://hadoop.6.n7.nabble.com/RE-out-of-memory-running-examples-tp67033.html)
+10. [Reduce tasks running out of memory on small hadoop cluster](http://hadoop.6.n7.nabble.com/Reduce-tasks-running-out-of-memory-on-small-hadoop-cluster-tp5724.html)
+11. [Map Task is failing with out of memory issue](http://hadoop.6.n7.nabble.com/Map-Task-is-failing-with-out-of-memory-issue-tp4996.html)
+12. [Out of Memory error in reduce shuffling phase when compression is turned on](http://hadoop.6.n7.nabble.com/Out-of-Memory-error-in-reduce-shuffling-phase-when-compression-is-turned-on-tp5467.html)
+13. [java.lang.OutOfMemoryError: Direct buffer memory](http://hadoop.6.n7.nabble.com/java-lang-OutOfMemoryError-Direct-buffer-memory-tp6947.html)
+14. [OOM error with large # of map tasks](http://hadoop.6.n7.nabble.com/OOM-error-with-large-of-map-tasks-tp3133.html)
+15. [OutOfMemory error processing large amounts of gz files](http://hadoop.6.n7.nabble.com/OutOfMemory-error-processing-large-amounts-of-gz-files-tp262.html)
+16. [OutofMemory Error, inspite of large amounts provided](http://hadoop.6.n7.nabble.com/OutofMemory-Error-inspite-of-large-amounts-provided-tp7560.html)
 
-62. [Caused by: java.lang.OutOfMemoryError: Java heap space - Copy Phase](http://hadoop.6.n7.nabble.com/Caused-by-java-lang-OutOfMemoryError-Java-heap-space-Copy-Phase-tp72990.html)
+17. [OutOfMemoryError with map jobs](http://hadoop.6.n7.nabble.com/OutOfMemoryError-with-map-jobs-tp5378.html)
 
-71. [OOME only with large datasets](http://hadoop.6.n7.nabble.com/OOME-only-with-large-datasets-tp7656.html)
-72. [Mapper OutOfMemoryError Revisited !!](http://hadoop.6.n7.nabble.com/Mapper-OutOfMemoryError-Revisited-tp1203.html)
-151. [OutOfMemory Error](http://hadoop.6.n7.nabble.com/OutOfMemory-Error-tp5428.html)
+18. [Caused by: java.lang.OutOfMemoryError: Java heap space - Copy Phase](http://hadoop.6.n7.nabble.com/Caused-by-java-lang-OutOfMemoryError-Java-heap-space-Copy-Phase-tp72990.html)
 
-152. [reducer outofmemoryerror](http://hadoop.6.n7.nabble.com/reducer-outofmemoryerror-tp2083.html)
-282. [reducer out of memory?](http://hadoop-common.472056.n3.nabble.com/reducer-out-of-memory-tp3975034.html)
+19. [OOME only with large datasets](http://hadoop.6.n7.nabble.com/OOME-only-with-large-datasets-tp7656.html)
+20. [Mapper OutOfMemoryError Revisited !!](http://hadoop.6.n7.nabble.com/Mapper-OutOfMemoryError-Revisited-tp1203.html)
+21. [OutOfMemory Error](http://hadoop.6.n7.nabble.com/OutOfMemory-Error-tp5428.html)
 
-283. [out of memory running examples](http://hadoop-common.472056.n3.nabble.com/out-of-memory-running-examples-tp3722034.html)
+22. [reducer outofmemoryerror](http://hadoop.6.n7.nabble.com/reducer-outofmemoryerror-tp2083.html)
+23. [reducer out of memory?](http://hadoop-common.472056.n3.nabble.com/reducer-out-of-memory-tp3975034.html)
 
-287. [Out of memory in identity mapper?](http://hadoop-common.472056.n3.nabble.com/Out-of-memory-in-identity-mapper-tp3995422.html)
-288. [Canopy generation out of memory troubleshooting](http://hadoop-common.472056.n3.nabble.com/Canopy-generation-out-of-memory-troubleshooting-tp4030210.html)
-289. [out of memory for Reducer possible?](http://hadoop-common.472056.n3.nabble.com/out-of-memory-for-Reducer-possible-tp3994269.html)
-290. [Java heap size increase caused MORE out of memory exceptions.](http://hadoop-common.472056.n3.nabble.com/Java-heap-size-increase-caused-MORE-out-of-memory-exceptions-tp32504.html)
-291. [Yarn container out of memory when using large memory mapped file](http://hadoop-common.472056.n3.nabble.com/Yarn-container-out-of-memory-when-using-large-memory-mapped-file-tp4069092.html)
+24. [out of memory running examples](http://hadoop-common.472056.n3.nabble.com/out-of-memory-running-examples-tp3722034.html)
 
-293. [Has anyone else seen out of memory errors at the start of combiner tasks?](http://hadoop-common.472056.n3.nabble.com/Has-anyone-else-seen-out-of-memory-errors-at-the-start-of-combiner-tasks-tp2994606.html)
-294. [Hadoop 1.2.1 corrupt after restart from out of heap memory exception](http://hadoop-common.472056.n3.nabble.com/Hadoop-1-2-1-corrupt-after-restart-from-out-of-heap-memory-exception-tp4028439.html)
+25. [Out of memory in identity mapper?](http://hadoop-common.472056.n3.nabble.com/Out-of-memory-in-identity-mapper-tp3995422.html)
+26. [Canopy generation out of memory troubleshooting](http://hadoop-common.472056.n3.nabble.com/Canopy-generation-out-of-memory-troubleshooting-tp4030210.html)
+27. [out of memory for Reducer possible?](http://hadoop-common.472056.n3.nabble.com/out-of-memory-for-Reducer-possible-tp3994269.html)
+28. [Java heap size increase caused MORE out of memory exceptions.](http://hadoop-common.472056.n3.nabble.com/Java-heap-size-increase-caused-MORE-out-of-memory-exceptions-tp32504.html)
+29. [Yarn container out of memory when using large memory mapped file](http://hadoop-common.472056.n3.nabble.com/Yarn-container-out-of-memory-when-using-large-memory-mapped-file-tp4069092.html)
+
+30. [Has anyone else seen out of memory errors at the start of combiner tasks?](http://hadoop-common.472056.n3.nabble.com/Has-anyone-else-seen-out-of-memory-errors-at-the-start-of-combiner-tasks-tp2994606.html)
+31. [Hadoop 1.2.1 corrupt after restart from out of heap memory exception](http://hadoop-common.472056.n3.nabble.com/Hadoop-1-2-1-corrupt-after-restart-from-out-of-heap-memory-exception-tp4028439.html)
 
 
-297. [Out of Java heap space](http://hadoop-common.472056.n3.nabble.com/Out-of-Java-heap-space-tp70994.html)
-307. [Out of heap space errors on TTs](http://hadoop-common.472056.n3.nabble.com/Out-of-heap-space-errors-on-TTs-tp3348456.html)
-350. [OutOfMemoryError of PIG job (UDF loads big file)](http://hadoop-common.472056.n3.nabble.com/OutOfMemoryError-of-PIG-job-UDF-loads-big-file-tp327956.html)
-319. [OutOfMemoryError: Cannot create GC thread. Out of system resources](http://hadoop-common.472056.n3.nabble.com/OutOfMemoryError-Cannot-create-GC-thread-Out-of-system-resources-tp689116.html)
+32. [Out of Java heap space](http://hadoop-common.472056.n3.nabble.com/Out-of-Java-heap-space-tp70994.html)
+33. [Out of heap space errors on TTs](http://hadoop-common.472056.n3.nabble.com/Out-of-heap-space-errors-on-TTs-tp3348456.html)
+34. [OutOfMemoryError of PIG job (UDF loads big file)](http://hadoop-common.472056.n3.nabble.com/OutOfMemoryError-of-PIG-job-UDF-loads-big-file-tp327956.html)
+35. [OutOfMemoryError: Cannot create GC thread. Out of system resources](http://hadoop-common.472056.n3.nabble.com/OutOfMemoryError-Cannot-create-GC-thread-Out-of-system-resources-tp689116.html)
 
-312. [Shuffle In Memory OutOfMemoryError](http://hadoop-common.472056.n3.nabble.com/Shuffle-In-Memory-OutOfMemoryError-tp433197.html)
-402. [Hashing two relations](http://hadoop-common.472056.n3.nabble.com/Hashing-two-relations-tp940202.html)
-410. [OOM Error Map output copy.](http://hadoop-common.472056.n3.nabble.com/OOM-Error-Map-output-copy-tp3568293.html)
-415. [OutOfMemoryError during reduce shuffle](http://hadoop-common.472056.n3.nabble.com/OutOfMemoryError-during-reduce-shuffle-tp4009145.html)
-416. [Caused by: java.lang.OutOfMemoryError: Java heap space - Copy Phase](http://hadoop-common.472056.n3.nabble.com/Caused-by-java-lang-OutOfMemoryError-Java-heap-space-Copy-Phase-tp4047903.html)
+36. [Shuffle In Memory OutOfMemoryError](http://hadoop-common.472056.n3.nabble.com/Shuffle-In-Memory-OutOfMemoryError-tp433197.html)
+37. [Hashing two relations](http://hadoop-common.472056.n3.nabble.com/Hashing-two-relations-tp940202.html)
+38. [OOM Error Map output copy.](http://hadoop-common.472056.n3.nabble.com/OOM-Error-Map-output-copy-tp3568293.html)
+39. [OutOfMemoryError during reduce shuffle](http://hadoop-common.472056.n3.nabble.com/OutOfMemoryError-during-reduce-shuffle-tp4009145.html)
+40. [Caused by: java.lang.OutOfMemoryError: Java heap space - Copy Phase](http://hadoop-common.472056.n3.nabble.com/Caused-by-java-lang-OutOfMemoryError-Java-heap-space-Copy-Phase-tp4047903.html)
 
-503. [java.lang.OutOfMemoryError: Java heap space](http://hadoop-common.472056.n3.nabble.com/java-lang-OutOfMemoryError-Java-heap-space-tp4034286.html)
+41. [java.lang.OutOfMemoryError: Java heap space](http://hadoop-common.472056.n3.nabble.com/java-lang-OutOfMemoryError-Java-heap-space-tp4034286.html)
 
-523. [OutOfMemory during Plain Java MapReduce](http://hadoop-common.472056.n3.nabble.com/OutOfMemory-during-Plain-Java-MapReduce-tp4010736.html)
-536. [OutOfMemoryError: unable to create new native thread](http://hadoop-common.472056.n3.nabble.com/OutOfMemoryError-unable-to-create-new-native-thread-tp3801808.html)
-589. [Reduce java.lang.OutOfMemoryError](http://hadoop-common.472056.n3.nabble.com/Reduce-java-lang-OutOfMemoryError-tp2510002.html)
+42. [OutOfMemory during Plain Java MapReduce](http://hadoop-common.472056.n3.nabble.com/OutOfMemory-during-Plain-Java-MapReduce-tp4010736.html)
+43. [OutOfMemoryError: unable to create new native thread](http://hadoop-common.472056.n3.nabble.com/OutOfMemoryError-unable-to-create-new-native-thread-tp3801808.html)
+44. [Reduce java.lang.OutOfMemoryError](http://hadoop-common.472056.n3.nabble.com/Reduce-java-lang-OutOfMemoryError-tp2510002.html)
 
-743. [OutOfMemory in ReduceTask$ReduceCopier$MapOutputCopier.shuffleInMemory](http://hadoop-common.472056.n3.nabble.com/OutOfMemory-in-ReduceTask-ReduceCopier-MapOutputCopier-shuffleInMemory-tp4004539.html)
-749. [ReducerTask OOM failure](http://hadoop-common.472056.n3.nabble.com/ReducerTask-OOM-failure-tp22794.html)
+45. [OutOfMemory in ReduceTask$ReduceCopier$MapOutputCopier.shuffleInMemory](http://hadoop-common.472056.n3.nabble.com/OutOfMemory-in-ReduceTask-ReduceCopier-MapOutputCopier-shuffleInMemory-tp4004539.html)
+46. [ReducerTask OOM failure](http://hadoop-common.472056.n3.nabble.com/ReducerTask-OOM-failure-tp22794.html)
 
-754. [OOM error and then system hangs](http://hadoop-common.472056.n3.nabble.com/OOM-error-and-then-system-hangs-tp4031074.html)
-756. [how to prevent JAVA HEAP OOM happen in shuffle process in a MR job?](http://hadoop-common.472056.n3.nabble.com/how-to-prevent-JAVA-HEAP-OOM-happen-in-shuffle-process-in-a-MR-job-tp4030192.html)
-777. [how to solve reducer memory problem?](http://hadoop-common.472056.n3.nabble.com/how-to-solve-reducer-memory-problem-tp4037710.html)
-778. [java.lang.OutOfMemoryError: Java heap space](http://hadoop-common.472056.n3.nabble.com/java-lang-OutOfMemoryError-Java-heap-space-tp956710.html)
-784. [java.lang.OutOfMemoryError: GC overhead limit exceeded](http://hadoop-common.472056.n3.nabble.com/java-lang-OutOfMemoryError-GC-overhead-limit-exceeded-tp1582638.html)
+47. [OOM error and then system hangs](http://hadoop-common.472056.n3.nabble.com/OOM-error-and-then-system-hangs-tp4031074.html)
+48. [how to prevent JAVA HEAP OOM happen in shuffle process in a MR job?](http://hadoop-common.472056.n3.nabble.com/how-to-prevent-JAVA-HEAP-OOM-happen-in-shuffle-process-in-a-MR-job-tp4030192.html)
+49. [how to solve reducer memory problem?](http://hadoop-common.472056.n3.nabble.com/how-to-solve-reducer-memory-problem-tp4037710.html)
+50. [java.lang.OutOfMemoryError: Java heap space](http://hadoop-common.472056.n3.nabble.com/java-lang-OutOfMemoryError-Java-heap-space-tp956710.html)
+51. [java.lang.OutOfMemoryError: GC overhead limit exceeded](http://hadoop-common.472056.n3.nabble.com/java-lang-OutOfMemoryError-GC-overhead-limit-exceeded-tp1582638.html)
 
-806. [memoryjava.lang.OutOfMemoryError related with number of reducer?](http://hadoop-common.472056.n3.nabble.com/memoryjava-lang-OutOfMemoryError-related-with-number-of-reducer-tp4038743.html)
+52. [memoryjava.lang.OutOfMemoryError related with number of reducer?](http://hadoop-common.472056.n3.nabble.com/memoryjava-lang-OutOfMemoryError-related-with-number-of-reducer-tp4038743.html)
 
 ## Cases
-
-
 
 
 8. [DataNode/TaskTracker memory constraints.](http://hadoop.6.n7.nabble.com/DataNode-TaskTracker-memory-constraints-tp7026.html)
