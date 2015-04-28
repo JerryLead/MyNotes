@@ -134,17 +134,12 @@ tuples.  one vehicle has a huge amount of data that could fail.
 	
 	The groupBy operator in Spark is not an aggregation operator (e.g. in SQL where you do select sum(salary) group by age...) - there are separate more efficient operators for aggregations. Currently groupBy requires that all of the values for one key can fit in memory. In your case, it's possible you have a single key with a very large number of values, given that your count seems to be failing on a single task.
 
-28. [GroupByKey results in OOM - Any other alternative](http://apache-spark-user-list.1001560.n3.nabble.com/GroupByKey-results-in-OOM-Any-other-alternative-tp7625.html)
-
-	Symptom: groupByKey().map( x => (x_1, x._2.distinct)) ...map(x => (x_1, x._2.distinct.count))   
-	Pattern: Hotspot key   
-	Reproducible: Yes
 
 32. [OutOfMemory in "cogroup"](http://apache-spark-user-list.1001560.n3.nabble.com/OutOfMemory-in-cogroup-tp17349.html)  
 
 	Symptom: join() => coGroup()  
 	Reason: Unbalanced partition => inaccurate size estimator (spill is inaccurate) => OOM AND Spilling data to disk helps nothing because cogroup() needs to read all values for a key into memory.   
-	Pattern: Hotspot key
+	Pattern: Hotspot key  
 	Reproducible: No   
 
 34. [GroupBy Key and then sort values with the group](http://apache-spark-user-list.1001560.n3.nabble.com/GroupBy-Key-and-then-sort-values-with-the-group-tp14455.html)
@@ -174,7 +169,7 @@ over a reasonably large number of points (~12M).  The computation does some oper
 			
 	Symptom: GroupBy + saveAsTextFile, The value after groupBy() (i.e., a single String) is too large,  the value in your key, value pair after group by is too long  
 	
-	Pattern:  Large single outputted <K, V> record  
+	Pattern:  Large single outputted <K, V> record   
 	Reproducible: No  
 	
 43. [OutOfMemory Error](http://apache-spark-user-list.1001560.n3.nabble.com/OutOfMemory-Error-tp12275.html)
@@ -268,7 +263,12 @@ RAM. The final model is also stored in memory.
 	Pattern: Large intermedaite results  + large accumulated results     
 	Reproducible: No  
 
+28. [GroupByKey results in OOM - Any other alternative](http://apache-spark-user-list.1001560.n3.nabble.com/GroupByKey-results-in-OOM-Any-other-alternative-tp7625.html)
 
+	Symptom: groupByKey().map( x => (x_1, x._2.distinct)) ...map(x => (x_1, x._2.distinct.count))   
+	Pattern: Large accumulate results      
+	Reproducible: Yes
+	
 ### Large results generated/collected by driver
 
 1. [Running out of memory Naive Bayes](http://apache-spark-user-list.1001560.n3.nabble.com/Running-out-of-memory-Naive-Bayes-tp4866.html)
