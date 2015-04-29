@@ -392,7 +392,7 @@ symmetric so can get away with storing it in ~256MB in driver
 50. [java.lang.OutOfMemoryError while running SVD MLLib example](http://apache-spark-user-list.1001560.n3.nabble.com/java-lang-OutOfMemoryError-while-running-SVD-MLLib-example-tp14972.html)
 
 	Symptom: Driver generates large matrix
-	Pattern: Large data (dense matrix) generated in driver 
+	Pattern: Large data (dense matrix) generated in driver   
 	Reproducible: No  
 	
 	7000x7000 is not tall-and-skinny matrix. Storing the dense matrix 
