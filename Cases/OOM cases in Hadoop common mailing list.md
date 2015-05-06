@@ -150,7 +150,7 @@ from other table against it
 43. [OutOfMemoryError: unable to create new native thread](http://hadoop-common.472056.n3.nabble.com/OutOfMemoryError-unable-to-create-new-native-thread-tp3801808.html)
 44. [Reduce java.lang.OutOfMemoryError](http://hadoop-common.472056.n3.nabble.com/Reduce-java-lang-OutOfMemoryError-tp2510002.html)
 
-45. [OutOfMemory in ReduceTask$ReduceCopier$MapOutputCopier.shuffleInMemory](http://hadoop-common.472056.n3.nabble.com/OutOfMemory-in-ReduceTask-ReduceCopier-MapOutputCopier-shuffleInMemory-tp4004539.html)
+45. [OutOfMemory in ReduceTaskReduceCopierMapOutputCopier.shuffleInMemory](http://hadoop-common.472056.n3.nabble.com/OutOfMemory-in-ReduceTask-ReduceCopier-MapOutputCopier-shuffleInMemory-tp4004539.html)
 46. [ReducerTask OOM failure](http://hadoop-common.472056.n3.nabble.com/ReducerTask-OOM-failure-tp22794.html)
 
 47. [OOM error and then system hangs](http://hadoop-common.472056.n3.nabble.com/OOM-error-and-then-system-hangs-tp4031074.html)
