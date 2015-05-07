@@ -87,7 +87,7 @@
 2. [Spark limitations question](http://apache-spark-user-list.1001560.n3.nabble.com/Spark-limitations-question-tp3296.html) 
 
 	Symptom:  join "Base" and "Skewed", works well on all but one of the nodes on the cluster runs out of memory quickly  
-	Pattern: Improper data partition  (User)
+	Pattern: Improper data partition  (User)  
 	Reproducible: No  
 	Job type: User-defined (mailing list)    
 	Fix suggestions: no
@@ -147,22 +147,30 @@
 
 	Symptom: Hotspot key (doing unbalanced joins (ie. cardinality of some joined elements much larger than others), join() => cogroup()     
 	
-	Pattern: Hotspot key  
+	Pattern: Hotspot key  (User)  
 	Reproducible: Yes  
+	Job type: User-defined (mailing list)    
+	Fix suggestions: no  
 	
 2. [Lag function equivalent in an RDD](http://apache-spark-user-list.1001560.n3.nabble.com/Lag-function-equivalent-in-an-RDD-tp16448.html)
 
 	Symptom: I have tried reduceByKey and then splitting the List of position in 
 tuples.  one vehicle has a huge amount of data that could fail. 
 
-	Pattern: Hotspot key  
+	Pattern: Hotspot key  (User)
 	Reproducible:No  
+	Job type: User-defined (mailing list)    
+	Fix suggestions: change key, cut down the data associated to a single key.  
 	
 3. [Understanding RDD.GroupBy OutOfMemory Exceptions](http://apache-spark-user-list.1001560.n3.nabble.com/Understanding-RDD-GroupBy-OutOfMemory-Exceptions-tp11427.html)  
 	
 	Symptom: OOM in groupByKey() but no error in reduceByKey()  
-	Pattern:  Hotspot key   
+	Pattern:  Hotspot key  (Expert)
 	Reproducible: No  
+	Job type: User-defined (mailing list)    
+	Fix suggestions: change to reduceByKey(), subdividing any very large groups (appending a hashed value in a small range (1-10) to large keys). aggregating partial values for each group  
+	
+	The best way to work around this depends a bit on what you are trying to do with the data down stream. Typically approaches involve sub-dividing any very large groups, for instance, appending a hashed value in a small range (1-10) to large keys. Then your downstream code has to deal with aggregating partial values for each group. If your goal is just to lay each group out sequentially on disk on one big file, you can call `sortByKey` with a hashed suffix as well. The sort functions are externalized in Spark 1.1 (which is in pre-release).
 	
 	The groupBy operator in Spark is not an aggregation operator (e.g. in SQL where you do select sum(salary) group by age...) - there are separate more efficient operators for aggregations. Currently groupBy requires that all of the values for one key can fit in memory. In your case, it's possible you have a single key with a very large number of values, given that your count seems to be failing on a single task.
 
@@ -171,21 +179,26 @@ tuples.  one vehicle has a huge amount of data that could fail.
 
 	Symptom: join() => coGroup()  
 	Reason: Unbalanced partition => inaccurate size estimator (spill is inaccurate) => OOM AND Spilling data to disk helps nothing because cogroup() needs to read all values for a key into memory.   
-	Pattern: Hotspot key  
-	Reproducible: No   
+	Pattern: Hotspot key  (User)
+	Job type: User-defined (mailing list)    
+	Fix suggestions: no    
+
 
 5. [GroupBy Key and then sort values with the group](http://apache-spark-user-list.1001560.n3.nabble.com/GroupBy-Key-and-then-sort-values-with-the-group-tp14455.html)
 
 	Symptom: I have a lot of data for a group & I cannot materialize the iterable into a List or Seq in memory    
-	Pattern: Hotspot key, Large accumulated results   
-	Reproducible: No  
-	Solution: repartitionAndSortWithinPartitions()
+	Pattern: Hotspot key, Large accumulated results   (us, reproduced)
+	Reproducible: Yes  
+	Job type: User-defined (mailing list)    
+	Fix suggestions: repartitionAndSortWithinPartitions(), secondary sort
 
 6. [Sorting partitions in Java](http://apache-spark-developers-list.1001551.n3.nabble.com/Sorting-partitions-in-Java-tp6715.html)
 
 	Symptom: sortByKey currently requires partitions to fit in memory    
-	Pattern: Hotspot key, large accumulated results     
-	Reproducible: No  
+	Pattern: Hotspot key, large accumulated results  (Expert, reproduced)   
+	Reproducible: Yes    
+	Job type: User-defined (mailing list)    
+	Fix suggestions: use sortByKey()  
 
 7. [OOM when making bins in BinaryClassificationMetrics ?](http://apache-spark-developers-list.1001551.n3.nabble.com/OOM-when-making-bins-in-BinaryClassificationMetrics-tp9061.html)
 
@@ -194,21 +207,26 @@ over a reasonably large number of points (~12M).  The computation does some oper
 
 	Pattern: a key has many distinct values     
 	Reproducible: No  
+	Job type: User-defined (mailing list)    
+	Fix suggestions: no  
 
 
 ### Large single record
 1. [OOM with groupBy + saveAsTextFile](http://apache-spark-user-list.1001560.n3.nabble.com/OOM-with-groupBy-saveAsTextFile-tp17891.html) (Further study)
 			
-	Symptom: GroupBy + saveAsTextFile, The value after groupBy() (i.e., a single String) is too large,  the value in your key, value pair after group by is too long  
+	Symptom: GroupBy + saveAsTextFile, The value after groupBy() (i.e., a single String) is too large,  the value in your key, value pair after group by is too long. Yes, that's the same thing really. You're still writing a huge value as part of one single (key,value) record. The value exists in memory in order to be written to storage.   
 	
-	Pattern:  Large single outputted <K, V> record   
+	Pattern:  Large single outputted <K, V> record  (Expert)  
 	Reproducible: No  
+	Job type: User-defined (mailing list)    
+	Fix suggestions: not try to collect a massive value per key
 	
 2. [OutOfMemory Error](http://apache-spark-user-list.1001560.n3.nabble.com/OutOfMemory-Error-tp12275.html)
 
 	Symptom: a simple Map operation where a record is mapped to a new huge value, resulting in OutOfMemory Error   
-	Pattern: Large record      
-	Reproducible: No  
+	Pattern: Large record   (User)
+	Job type: User-defined (mailing list)    
+	Fix suggestions: increase the partition number, change storage level, lower buffer size
 	
 ### Large intermediate resutls
 1. [MLLib ALS question](http://apache-spark-user-list.1001560.n3.nabble.com/MLLib-ALS-question-tp15420.html) (Further study)
@@ -222,17 +240,25 @@ that means (6.5M + 2.5M) * 10^2 / 2 * 8 bytes = 3.5GB. The ratings
 need 2GB, not counting the overhead.   ALS still needs to load and deserialize the in/out blocks (one by one) 
 from disk and then construct least squares subproblems. All happen in 
 RAM. The final model is also stored in memory.  
+I added the ALS.setIntermediateRDDStorageLevel and it worked well (a little slow, but still did the job and i've made MF and get all the features). ALS still needs to load and deserialize the in/out blocks (one by one) 
+from disk and then construct least squares subproblems. All happen in 
+RAM. The final model is also stored in memory. 
 
-	Pattern: Large intermediate computing results. 
+	Pattern: Large intermediate computing results. (Expert)  
 	Reproducible: No  
+	Job type: MLlib (mailing list)    
+	Fix suggestions: change storage level (so that the intermediate data are stored onto the disk), rdd.compress = true
+
 
 ### Large accumulated results
 1. [Common crawl parsing has high fan out and runs out of memory](http://apache-spark-user-list.1001560.n3.nabble.com/Common-crawl-parsing-has-high-fan-out-and-runs-out-of-memory-tp21708.html) 
 
 
 	Symptom: Large ArrayList in Java flatMap()  
-	Pattern: Large accumulated results  
+	Pattern: Large accumulated results  (User, reproduced)
 	Reproducible: Yes  
+	Job type: User-defined (mailing list)    
+	Fix suggestions: no
 	
 	The code works, but it requires almost 12G of memory per ParseWarc.call, because even though I know how to read one record a time from the gzip, and I can output one record a time, the flatMap api requires that the whole Iterable is created in memory before being returned. 
 	
@@ -254,10 +280,12 @@ RAM. The final model is also stored in memory.
 2. [Bulk-load to HBase](http://apache-spark-user-list.1001560.n3.nabble.com/Bulk-load-to-HBase-tp14667.html) 
 
 	Symptom: OOM on mapPartitionsWithIndex() for splitKeys, I have to merge the byte[]s that have the same key.   
-	Pattern:  Large accumulated results  
+	Pattern:  Large accumulated results  (Expert)  
 	Reproducible: Yes 
+	Job type: User-defined (mailing list)    
+	Fix suggestions: no
 	
-	The problem is that you will first collect and allocate many small byte[] in memory, and then merge them. If the total size of the byte[]s is very large, you run out of memory, 
+	The problem is that you will first collect and allocate many small byte[] in memory, and then merge them. If the total size of the byte[]s is very large, you run out of memory
 	
 3. [Accumulator question](http://apache-spark-user-list.1001560.n3.nabble.com/Accumulator-question-tp15715.html)
 
@@ -269,45 +297,53 @@ RAM. The final model is also stored in memory.
 4. [Help alleviating OOM errors](http://apache-spark-user-list.1001560.n3.nabble.com/Help-alleviating-OOM-errors-tp8534.html)'
 
 	Symptom: (1) partition is too large => unroll the entire partition, (2) application is super memory-intensive (e.g., creates large data structures)  
-	Pattern: Large accumulated results  
+	Pattern: Large accumulated results  (Expert)  
 	Reproducible: No  
+	Job type: User-defined (mailing list)    
+	Fix suggestions: change shuffle to MEMORY+DISK
+	
 5. [Memory footprint of Calliope: Spark -> Cassandra writes](http://apache-spark-user-list.1001560.n3.nabble.com/Memory-footprint-of-Calliope-Spark-Cassandra-writes-tp7674.html) 
 
 	Symptom: Each record generates an Array[]  
 	Pattern: Large accumulated results  
 	Reproducible: No  
+	Job type: User-defined (mailing list)    
+	Fix suggestions: no
+	
 6. [Folding an RDD in order](http://apache-spark-user-list.1001560.n3.nabble.com/Folding-an-RDD-in-order-tp16577.html)
 
 	Symptom: this map can be very large (say you have billions of users), then aggregate may OOM  
-	Pattern: Large accumulated results  
+	Pattern: Large accumulated results  (Expert)  
 	Reproducible: No  
+	Job type: User-defined (mailing list)    
+	Fix suggestions: no
 	
-7. [Fwd: Accumulator question](http://apache-spark-developers-list.1001551.n3.nabble.com/Fwd-Accumulator-question-tp8709.html)
-
-	Symptom: I've a case where we're gathering data from repeated queries using some   relatively sizable accumulators; at the moment, we're creating one per query, and running out of memory after far too few queries.     
-	
-	Pattern: Large accumulated results in Accumulators      
-	Reproducible: No  
 
 8. [[GitHub] incubator-spark pull request: MLLIB-25: Implicit ALS runs out of m...](http://apache-spark-developers-list.1001551.n3.nabble.com/GitHub-incubator-spark-pull-request-MLLIB-25-Implicit-ALS-runs-out-of-m-tp2404.html) 
 
 	Symptom: It's computed as the sum of matrices; an f x f matrix is created for each of n user/item rows in a partition.     
 	Pattern: Large intermedaite results  + large accumulated results     
 	Reproducible: No  
+	Job type: MLlib (mailing list)    
+	Fix suggestions: no
 
 9. [GroupByKey results in OOM - Any other alternative](http://apache-spark-user-list.1001560.n3.nabble.com/GroupByKey-results-in-OOM-Any-other-alternative-tp7625.html)
 
 	Symptom: groupByKey().map( x => (x_1, x._2.distinct)) ...map(x => (x_1, x._2.distinct.count))   
-	Pattern: Large accumulate results      
-	Reproducible: Yes
+	Pattern: Large accumulate results  (Expert)  
+	Reproducible: Yes  
+	Job type: User-defined (mailing list)    
+	Fix suggestions: change storage level, use a hyper log log data structure to distinct count().
 	
 ### Large results generated/collected by driver
 
 1. [Running out of memory Naive Bayes](http://apache-spark-user-list.1001560.n3.nabble.com/Running-out-of-memory-Naive-Bayes-tp4866.html)
 
 	Symptom: Too many features stored in the driver  
-	Pattern: Large data (features: dense matrix) generated in driver  
+	Pattern: Large data (features: dense matrix) generated in driver  (Expert)  
 	Reproducible: Yes  
+	Job type: MLlib (mailing list)    
+	Fix suggestions: change storage level, use a hyper log log data structure to distinct count().  
 
 	Even the features are sparse, the conditional probabilities are stored 
 in a dense matrix. With 200 labels and 2 million features, you need to 
@@ -320,128 +356,168 @@ whether it can help
 
 	Symptom: A ~1GB array seems to be blowing up beyond the size of the driver machine's memory when it's pickled. I've tried to get around this by broadcasting smaller chunks of it one at a time.   
 	
-	Pattern: Large data generated in driver    
+	Pattern: Large data generated in driver  (User) 
 	Reproducible: No  
+	Job type: User-defined (mailing list)    
+	Fix suggestions: no
 3. [Memory allocation in the driver](http://apache-spark-user-list.1001560.n3.nabble.com/Memory-allocation-in-the-driver-tp8406.html)
 
 	Symptom: call to "b.first" will cause the spark driver to allocate a VERY large piece of memory. The first item of the first partition is very small (less than 200 bytes). However, the size of the entire first partition was about 380 MB.  
 	
-	Pattern: large data collected by driver   
-	Reproducible: No  
+	Pattern: large data collected by driver   (User)
+	Reproducible: No   
+	Job type: User-defined (mailing list)    
+	Fix suggestions: shrink size of first partition
+	
 4. [advice on maintaining a production spark cluster?](http://apache-spark-user-list.1001560.n3.nabble.com/advice-on-maintaining-a-production-spark-cluster-tp5848.html)
 
 	Symptom: Running out of memory on the driver side (esp. with large broadcast variables)   
-	Pattern: Driver is going to broadcast large dataset  
+	Pattern: Driver is going to broadcast large dataset  (Expert)  
 	Reproducible: No  
+	Job type: User-defined (mailing list)    
+	Fix suggestions: no 
 	
 5. [something about rdd.collect](http://apache-spark-user-list.1001560.n3.nabble.com/something-about-rdd-collect-tp16451.html)
 
 	Symptom: collect 200 million words. It is a pretty large number and you can run out of memory on your driver  
 	
-	Pattern:  Large results collected by driver   
+	Pattern:  Large results collected by driver   (Expert)  
 	Reproducible: Yes  
+	Job type: User-defined (mailing list)    
+	Fix suggestions: no 
+
 	
-6. [processing large number of files](http://apache-spark-user-list.1001560.n3.nabble.com/processing-large-number-of-files-tp15429.html)
-	
-	Symptom: large array/model in the driver   
-	Pattern: Large data generated in the driver  
-	Reproducible: No  
-	
-7. [RowMatrix PCA out of heap space error](http://apache-spark-user-list.1001560.n3.nabble.com/RowMatrix-PCA-out-of-heap-space-error-tp16305.html)
+6. [RowMatrix PCA out of heap space error](http://apache-spark-user-list.1001560.n3.nabble.com/RowMatrix-PCA-out-of-heap-space-error-tp16305.html)
 	
 	Symptom:  The Gramian is 8000 x 8000, dense, and full of 8-byte doubles. It's 
 symmetric so can get away with storing it in ~256MB in driver   
 
-	Pattern: Large data generated in the driver   
+	Pattern: Large data generated in the driver  (Expert)   
 	Reproducible : No
+	Job type: MLlib (mailing list)    
+	Fix suggestions: no 
 	
-8. [newbie : java.lang.OutOfMemoryError: Java heap space](http://apache-spark-user-list.1001560.n3.nabble.com/newbie-java-lang-OutOfMemoryError-Java-heap-space-tp365.html)
+	
+7. [newbie : java.lang.OutOfMemoryError: Java heap space](http://apache-spark-user-list.1001560.n3.nabble.com/newbie-java-lang-OutOfMemoryError-Java-heap-space-tp365.html)
 
 	Symptom: the driver program is dying trying to serialize and broadcast large data
-	Pattern: Large data generated in memory   
+	Pattern: Large data generated in memory  (Expert)  
 	Reproducible: No  
-9. [Driver OOM while using reduceByKey](http://apache-spark-user-list.1001560.n3.nabble.com/Driver-OOM-while-using-reduceByKey-tp6513.html) 
+	Job type: User-defined (mailing list)    
+	Fix suggestions: no 
+	
+8. [Driver OOM while using reduceByKey](http://apache-spark-user-list.1001560.n3.nabble.com/Driver-OOM-while-using-reduceByKey-tp6513.html) 
 
 	Symptom: Too large MapStatus in the driver  
-	Pattern: Large results collected by driver  
+	Pattern: Large results collected by driver  (User)  
 	Reproducible: No  
-10. [Spark on Mesos cause mesos-master OOM](http://apache-spark-user-list.1001560.n3.nabble.com/Spark-on-Mesos-cause-mesos-master-OOM-tp12631.html)
+	Job type: User-defined (mailing list)   
+	Fix suggestions: fewer tasks (e.g. do reduceByKey(_ + _, 100) to use only 100 tasks)  
+	
+9. [Spark on Mesos cause mesos-master OOM](http://apache-spark-user-list.1001560.n3.nabble.com/Spark-on-Mesos-cause-mesos-master-OOM-tp12631.html)
 
 	Symptom: large TaskStatus collected by driver  
-	Pattern: Large results collected by driver  
+	Pattern: Large results collected by driver  (User)  
 	Reproducible: No  
+	Job type: User-defined (mailing list)   
+	Fix suggestions: no 
 
-11. [Beginner Question on driver memory issue (OOM).](http://apache-spark-user-list.1001560.n3.nabble.com/Beginner-Question-on-driver-memory-issue-OOM-tp21676.html)
+10. [Beginner Question on driver memory issue (OOM).](http://apache-spark-user-list.1001560.n3.nabble.com/Beginner-Question-on-driver-memory-issue-OOM-tp21676.html)
 
 	Symptom: Broadcast large table + select + rows.collect()    
-	Pattern: Large results collected by driver   
+	Pattern: Large results collected by driver  (User)   
 	Reproducible: No   
+	Job type: User-defined (mailing list)   
+	Fix suggestions: no 
 	
-12. [Does foreach operation increase rdd lineage?](http://apache-spark-user-list.1001560.n3.nabble.com/Does-foreach-operation-increase-rdd-lineage-tp879.html)
+11. [Does foreach operation increase rdd lineage?](http://apache-spark-user-list.1001560.n3.nabble.com/Does-foreach-operation-increase-rdd-lineage-tp879.html)
 
 	Symptom: foreach is an action, it will collect all data from workers to driver. You will get OOM complained by JVM  
-	Pattern: Large results collected by driver   
+	Pattern: Large results collected by driver  (Except)  
 	Reproducible: No  
+	Job type: User-defined (mailing list)   
+	Fix suggestions: no 
 	
-13. [RDD with a Map](http://apache-spark-user-list.1001560.n3.nabble.com/RDD-with-a-Map-tp6849.html)
+12. [RDD with a Map](http://apache-spark-user-list.1001560.n3.nabble.com/RDD-with-a-Map-tp6849.html)
 
 	Symptom: Large data collected in diriver   
-	Pattern: Large results collected by driver  
+	Pattern: Large results collected by driver  (Expert)  
 	Reproducible: No  
+	Job type: User-defined (mailing list)   
+	Fix suggestions: no 
 	
-14. [How to efficiently join this two complicated rdds](http://apache-spark-user-list.1001560.n3.nabble.com/How-to-efficiently-join-this-two-complicated-rdds-tp1665.html) 
+13. [How to efficiently join this two complicated rdds](http://apache-spark-user-list.1001560.n3.nabble.com/How-to-efficiently-join-this-two-complicated-rdds-tp1665.html) 
 
 	Symptom: Driver collect() gradually => OOM  
-	Pattern: Large results collected by driver    
+	Pattern: Large results collected by driver   (Except)  
 	Reproducible: No  
+	Job type: User-defined (mailing list)   
+	Fix suggestions: no 
 
-15. [broadcast: OutOfMemoryError](http://apache-spark-user-list.1001560.n3.nabble.com/broadcast-OutOfMemoryError-tp20633.html)
+14. [broadcast: OutOfMemoryError](http://apache-spark-user-list.1001560.n3.nabble.com/broadcast-OutOfMemoryError-tp20633.html)
 
 	Symptom: broadcasting a large array   
-	Pattern: Broadcast large data   
+	Pattern: Broadcast large data  (User)  
 	Reproducible: No  
+	Job type: User-defined (mailing list)   
+	Fix suggestions: no 
 
-16. [java.lang.OutOfMemoryError: GC overhead limit exceeded](http://apache-spark-user-list.1001560.n3.nabble.com/java-lang-OutOfMemoryError-GC-overhead-limit-exceeded-tp10301.html) 
-
-	Symptom: GraphLoad + partitionBy()   
-	Pattern: Broadcast large data  
-	Reproducible: No  
 	
-17. [driver memory](http://apache-spark-user-list.1001560.n3.nabble.com/driver-memory-tp10486.html)
+15. [driver memory](http://apache-spark-user-list.1001560.n3.nabble.com/driver-memory-tp10486.html)
 
 	Symptom: Driver broadcast large data, driver OOM    
-	Pattern: Broadcast large data  
+	Pattern: Broadcast large data  (User)  
 	Reproducible: No  
+	Job type: User-defined (mailing list)   
+	Fix suggestions: no 
 	
-18. [OutOfMemoryError with basic kmeans](http://apache-spark-user-list.1001560.n3.nabble.com/OutOfMemoryError-with-basic-kmeans-tp1651.html) 
+16. [OutOfMemoryError with basic kmeans](http://apache-spark-user-list.1001560.n3.nabble.com/OutOfMemoryError-with-basic-kmeans-tp1651.html) 
 
 	Symptom: Basic Kmeans + cache + serialize, adjust spark.kryoserializer.buffer.mb  
-	Pattern: Large data (feature vector) generated in driver   
+	Pattern: Large data (feature vector) generated in driver   (Expert)  
 	Reproducible: No  
+	Job type: User-defined (mailing list)   
+	Fix suggestions: no 
 
 	Not sure if you resolved this but I had a similar issue and resolved it. In my case, the problem was the ids of my items were of type Long and could be very large (even though there are only a small number of distinct ids... maybe a few hundred of them). KMeans will create a dense vector for the cluster centers so its important that the dimensionality not be huge.
 
-19. [java.lang.OutOfMemoryError while running SVD MLLib example](http://apache-spark-user-list.1001560.n3.nabble.com/java-lang-OutOfMemoryError-while-running-SVD-MLLib-example-tp14972.html)
+17. [java.lang.OutOfMemoryError while running SVD MLLib example](http://apache-spark-user-list.1001560.n3.nabble.com/java-lang-OutOfMemoryError-while-running-SVD-MLLib-example-tp14972.html)
 
 	Symptom: Driver generates large matrix
-	Pattern: Large data (dense matrix) generated in driver   
+	Pattern: Large data (dense matrix) generated in driver   (Expert)  
 	Reproducible: No  
+	Job type: User-defined (mailing list)   
+	Fix suggestions: setting SVD to smaller value (200) its working
+	
 	
 	7000x7000 is not tall-and-skinny matrix. Storing the dense matrix 
 requires 784MB. The driver needs more storage for collecting result 
 from executors as well as making a copy for LAPACK's dgesvd. So you 
 need more memory
 
-20. [Maximum size of vector that reduce can handle](http://apache-spark-developers-list.1001551.n3.nabble.com/Maximum-size-of-vector-that-reduce-can-handle-tp10256.html) 
+18. [Maximum size of vector that reduce can handle](http://apache-spark-developers-list.1001551.n3.nabble.com/Maximum-size-of-vector-that-reduce-can-handle-tp10256.html) 
 
 	Symptom: reduce() generates large taskResults, collected by the driver.     
-	Pattern: Large results collected by the driver     
-	Reproducible: No  
+	Pattern: Large results collected by the driver  (Expert)   
+	Reproducible: No    
+	Job type: User-defined (mailing list)    
+	Fix suggestions: treeReduce()  
 	
-21. [take() reads every partition if the first one is empty](http://apache-spark-developers-list.1001551.n3.nabble.com/take-reads-every-partition-if-the-first-one-is-empty-tp7956.html)
+	
+	
+19. [take() reads every partition if the first one is empty](http://apache-spark-developers-list.1001551.n3.nabble.com/take-reads-every-partition-if-the-first-one-is-empty-tp7956.html)
 
 	Symptom: take() reads ALL partitions if the first one (or first k) are empty      
-	Pattern: driver collect()    
+	Pattern: driver collect()  (User)  
 	Reproducible: No  
+	Job type: User-defined (mailing list)   
+	Fix suggestions: no
 	
+### Cases that their causes are unknown
+		
+6. [processing large number of files](http://apache-spark-user-list.1001560.n3.nabble.com/processing-large-number-of-files-tp15429.html)
+	
+	Symptom: large array/model in the driver   
+	Pattern: Large data generated in the driver  
+	Reproducible: No  
 	
